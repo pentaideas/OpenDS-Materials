@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f8fb">
-<meta name="description" content="Interactive skiplists and binary-tree visualizations based on Pat Morin's Open Data Structures, Chapters 4 and 6.">
+<meta name="description" content="Interactive hash tables, skiplists, and binary-tree visualizations based on Pat Morin's Open Data Structures, Chapters 4–6.">
 <title>OpenDS Materials | Interactive Data Structure Labs</title>
 <style>
 :root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#008a80; --navy:#10253d; --blue:#315bba; }
@@ -53,9 +53,9 @@ footer a { color:var(--blue); }
 <main class="wrap">
   <section class="hero" aria-labelledby="page-title">
     <div>
-      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 4 and 6</div>
+      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 4, 5 and 6</div>
       <h1 id="page-title">Data Structures,<br>Made Visible.</h1>
-      <p class="lead">Explore skiplists, traversal algorithms, and binary search tree operations through interactive, step-by-step animations. No setup required.</p>
+      <p class="lead">Explore hash tables, skiplists, traversal algorithms, and binary search trees through interactive, step-by-step animations. No setup required.</p>
     </div>
     <div class="hero-visual" aria-hidden="true">
       <svg viewBox="0 0 360 270" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,6 +76,18 @@ footer a { color:var(--blue); }
       <div><div class="eyebrow">Choose a lesson</div><h2 id="labs-title">Interactive Labs</h2><p>Each opens a complete standalone HTML learning tool.</p></div>
     </div>
     <div class="cards">
+      <article class="card feature">
+        <span class="tag">Chapter 5 · Sections 5.1–5.3</span>
+        <h3>Hash Tables — Buckets &amp; Probing</h3>
+        <p>Compare separate chaining and linear probing through animated collisions, search paths, deletion markers, and resizing.</p>
+        <ul>
+          <li>ChainedHashTable: bucket lists, duplicate checks, and rehashing</li>
+          <li>LinearHashTable: consecutive probes, wraparound, and tombstones</li>
+          <li>Step-by-step insertion, search, deletion, and load-factor thresholds</li>
+          <li>Highlighted pseudocode with an explanation directly below each line</li>
+        </ul>
+        <a class="cta" href="hash_tables_chapter_5_interactive.html">Open Hash Tables Lab →</a>
+      </article>
       <article class="card feature">
         <span class="tag">Chapter 4 · Sections 4.1–4.4</span>
         <h3>Skiplists — Layer by Layer</h3>
