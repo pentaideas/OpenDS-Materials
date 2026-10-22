@@ -62,6 +62,16 @@ footer a,.note a { text-decoration:underline; }
 #visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
   outline:3px solid #003f3a !important; outline-offset:3px !important;
 }
+
+/* Enhanced (AAA) contrast for links, guided instructions, and data labels. */
+.top a,.header a,.nav a,.links a,.top-links a,.header-links a,.reference,
+#modeHelp strong,#pathText,#conceptTip,.freq,#modeNote,.hash span,
+#hashCalculation,.bucket .idx,.pathstrip > strong,.under-code > b,
+.foot a,#resetBtn,#speed,.order-line .sequence,.slot,#resultBox,#inorder {
+  color:#153b4b !important;
+}
+.pathstrip > strong,.under-code > b,.foot a { font-size:max(.95rem,14px); }
+a:focus-visible { outline:3px solid #003f3a!important;outline-offset:3px!important; }
 </style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 2</div><h1>Array-based lists, visualized.</h1><p class="subtitle">Watch array shifts, bulk copies, wrapped queues, deque strategy choices, half-array balancing, and triangular blocks. The highlighted pseudocode and its plain-English explanation advance together.</p></div><nav class="nav"><a href="index.html">← All labs</a><a href="https://opendatastructures.org/newhtml/ods/latex/arrays.html">Read Chapter 2 ↗</a><a href="linked_lists_chapter_3_interactive.html">Chapter 3 →</a></nav></header>
 <div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace"><details class="prediction"><summary>Think before you animate</summary><p>Predict which side shifts, which physical cells change, and whether resizing will occur.</p></details>
