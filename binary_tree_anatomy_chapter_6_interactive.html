@@ -86,7 +86,7 @@ footer{margin-top:20px;font-size:11px;color:#8c9db0}
 <div><b>Height(u)</b><small>Longest downward path from u to a leaf, in edges. Leaf height = 0.</small></div>
 <div><b>Tree height</b><small>Height of the root, equal to the greatest node depth.</small></div>
 <div><b>Out-degree</b><small>Number of actual children: 0, 1, or 2. Different from undirected graph degree.</small></div></div>
-<p>We use <strong>proper ancestor/descendant</strong> for relationships excluding the node itself. The subtree rooted at u includes u. In Morin’s path-based terminology, a node may also be considered its own ancestor/descendant.</p></section>
+<p>Use the <strong>Full</strong>, <strong>Complete</strong>, and <strong>Perfect</strong> topic buttons to compare whole-tree shapes. We use <strong>proper ancestor/descendant</strong> for relationships excluding the node itself. The subtree rooted at u includes u. In Morin’s path-based terminology, a node may also be considered its own ancestor/descendant.</p></section>
 <section class="panel lesson"><div class="eyebrow">Structure and nil pointers</div><h3>Real nodes vs. external nodes</h3><p>A node stores <code>left</code>, <code>right</code>, and <code>parent</code> references. Missing references are <code>nil</code>. Enable <strong>Show nil / external children</strong> to draw missing child links as small circles.</p>
 <p>For every nonempty binary tree with n real nodes, there are <strong>n − 1</strong> edges between real nodes and <strong>n + 1</strong> missing child links (external placeholders). A leaf is a real node with no real children. A node with at least one real child is internal.</p></section>
 </div><footer>Independent educational companion to <a href="https://opendatastructures.org/newhtml/ods/latex2/binarytrees.html">Pat Morin’s Open Data Structures, Chapter 6</a>. The examples and visual explanations are original and intended for introductory teaching.</footer>
@@ -133,9 +133,12 @@ const TERMS=[
 ["degree","Number of children","A node's out-degree is the number of real children: zero, one, or two."],
 ["edge","Edge","An edge directly connects a parent and one of its children. A nonempty tree of n real nodes has n − 1 real edges."],
 ["path","Path","A path is a sequence of connected nodes; its length is the number of edges, not nodes."],
-["external","Nil / external link","A missing child is represented by a nil pointer. Drawing one external placeholder for each missing child gives n + 1 external nodes."]
+["external","Nil / external link","A missing child is represented by a nil pointer. Drawing one external placeholder for each missing child gives n + 1 external nodes."],
+["full","Full binary tree","A binary tree is full (strict/proper) when every node has either zero or two real children."],
+["complete","Complete binary tree","All levels except possibly the last are filled; nodes on the last level are filled from left to right."],
+["perfect","Perfect binary tree","All internal nodes have exactly two children, and every leaf lies at the same depth."]
 ];
-const DEFAULT={node:"E",root:"A",parent:"E",children:"B",leftRight:"E",sibling:"E",ancestor:"J",descendant:"B",subtree:"C",leaf:"J",internal:"G",depth:"K",level:"H",height:"B",degree:"E",edge:"I",path:"K",external:"E"};
+const DEFAULT={node:"E",root:"A",parent:"E",children:"B",leftRight:"E",sibling:"E",ancestor:"J",descendant:"B",subtree:"C",leaf:"J",internal:"G",depth:"K",level:"H",height:"B",degree:"E",edge:"I",path:"K",external:"E",full:"A",complete:"A",perfect:"A"};
 const indexOfTerm=x=>Math.max(0,TERMS.findIndex(t=>t[0]===x));
 let treeName="general",tree=null,selected="E",term=indexOfTerm("parent"),showNil=false,timer=null,playDelay=1850,quiz=null,quizNumber=0;
 function buildTree(name){
@@ -154,6 +157,16 @@ const height=u=>!u? -1:1+Math.max(height(u.left),height(u.right));
 const longest=u=>{if(!u)return[];let path=[u],cur=u;while(children(cur).length){const nxt=children(cur).sort((a,b)=>height(b)-height(a))[0];path.push(nxt);cur=nxt;}return path};
 const siblings=u=>u&&u.parent?children(u.parent).filter(v=>v!==u):[];
 const isLeaf=u=>children(u).length===0;
+const isFull=t=>t.all.every(u=>children(u).length!==1);
+const isComplete=t=>{
+ const queue=[t.root];let seenGap=false;
+ for(let i=0;i<queue.length;i++)for(const c of [queue[i].left,queue[i].right]){
+  if(!c)seenGap=true;
+  else {if(seenGap)return false;queue.push(c);}
+ }
+ return true;
+};
+const isPerfect=t=>isFull(t)&&new Set(t.all.filter(isLeaf).map(u=>u.depth)).size===1;
 const fmt=(u)=>u?u.id:"nil";
 const fmtMany=(a)=>a.length?a.map(u=>u.id).join(", "):"none";
 function relation(){
@@ -182,6 +195,9 @@ function relation(){
  case "edge":high(u.parent?[u.parent]:kids.slice(0,1));if(u.parent)addDirect(u.parent,u);else if(kids[0])addDirect(u,kids[0]);example=u.parent?"The edge "+u.parent.id+" — "+u.id+" connects parent and child.":"The root has no parent edge; select another node to see its incoming edge.";why="Every non-root node contributes one incoming real edge, hence n − 1 total edges.";code=[3,4,5];break;
  case "path":route(pathTo(u));example="Root-to-"+u.id+" path: "+pathTo(u).map(v=>v.id).join(" → ")+". Its length is "+u.depth+".";why="A path is an ordered list of adjacent vertices; path length counts edges rather than vertices.";code=[8];break;
  case "external":high([u]);example=u.id+" has "+(2-kids.length)+" nil child link(s). Across this nonempty tree there are "+(tree.all.length+1)+" external placeholders.";why="Every real node has two child slots, even when missing. For a nonempty binary tree: total nil child links = n + 1.";code=[3,4];break;
+ case "full":{const good=isFull(tree);high(good?tree.all:tree.all.filter(v=>children(v).length===1));example="This tree is "+(good?"full: every internal node has two children.":"not full: at least one node has exactly one child.");why="Full means every real node has 0 or 2 children. It does not require all leaves to be at equal depths.";code=[3,4];break;}
+ case "complete":{const good=isComplete(tree);high(good?tree.all:[tree.root]);example="This tree is "+(good?"complete: levels fill from left to right.":"not complete: an earlier position is empty before a later real node.");why="Read the tree level by level. Once a missing child position appears, no later node may appear in breadth-first order.";code=[3,4];break;}
+ case "perfect":{const good=isPerfect(tree);high(good?tree.all:tree.all.filter(isLeaf));example="This tree is "+(good?"perfect: all internal nodes have two children and leaves share one depth.":"not perfect: it fails the full or equal-leaf-depth requirement.");why="A perfect tree is both full and has every leaf on the same level. The one-node tree is also perfect.";code=[3,4,9];break;}
  }
  return{u,k,hits,path,links,example,why,code};
 }
