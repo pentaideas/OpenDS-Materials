@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f8fb">
-<meta name="description" content="Interactive hash tables, skiplists, and binary-tree visualizations based on Pat Morin's Open Data Structures, Chapters 4–6.">
+<meta name="description" content="Interactive teaching animations for Chapters 1–6 of Pat Morin's Open Data Structures.">
 <title>OpenDS Materials | Interactive Data Structure Labs</title>
 <style>
 :root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#008a80; --navy:#10253d; --blue:#315bba; }
@@ -53,9 +53,9 @@ footer a { color:var(--blue); }
 <main class="wrap">
   <section class="hero" aria-labelledby="page-title">
     <div>
-      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 4, 5 and 6</div>
+      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 1–6</div>
       <h1 id="page-title">Data Structures,<br>Made Visible.</h1>
-      <p class="lead">Explore hash tables, skiplists, traversal algorithms, and binary search trees through interactive, step-by-step animations. No setup required.</p>
+      <p class="lead">Explore interfaces, array-based lists, linked lists, skiplists, hash tables, and binary trees through interactive, step-by-step animations. No setup required.</p>
     </div>
     <div class="hero-visual" aria-hidden="true">
       <svg viewBox="0 0 360 270" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,43 @@ footer a { color:var(--blue); }
       <div><div class="eyebrow">Choose a lesson</div><h2 id="labs-title">Interactive Labs</h2><p>Each opens a complete standalone HTML learning tool.</p></div>
     </div>
     <div class="cards">
-      <article class="card feature">
+      <article class="card">
+        <span class="tag">Chapter 1 · Introduction</span>
+        <h3>Interfaces &amp; Complexity</h3>
+        <p>Understand what collections promise and how algorithms behave as the input grows.</p>
+        <ul>
+          <li>Stack, Queue, Deque, List, USet and SSet semantics</li>
+          <li>Interactive O(1), O(log n), O(n), O(n log n) and O(n²) comparisons</li>
+          <li>Random coin-flip experiments and correctness invariants</li>
+          <li>Highlighted explanations and step-by-step controls</li>
+        </ul>
+        <a class="cta" href="introduction_chapter_1_interactive.html">Open Foundations Lab →</a>
+      </article>
+      <article class="card">
+        <span class="tag">Chapter 2 · Sections 2.1–2.6</span>
+        <h3>Array-Based Lists</h3>
+        <p>Watch elements shift, arrays resize and circular structures maintain their order.</p>
+        <ul>
+          <li>ArrayStack and FastArrayStack bulk copies</li>
+          <li>ArrayQueue and ArrayDeque circular layouts</li>
+          <li>DualArrayDeque rebalancing and RootishArrayStack blocks</li>
+          <li>Live index, capacity and moved-cell metrics</li>
+        </ul>
+        <a class="cta" href="array_based_lists_chapter_2_interactive.html">Open Arrays Lab →</a>
+      </article>
+      <article class="card">
+        <span class="tag">Chapter 3 · Sections 3.1–3.3</span>
+        <h3>Linked Lists</h3>
+        <p>Trace the references connecting nodes and see how blocks redistribute their contents.</p>
+        <ul>
+          <li>SLList push, pop and FIFO operations</li>
+          <li>DLList sentinel, next and prev updates</li>
+          <li>SEList block insertion, borrowing and removal</li>
+          <li>Pointer walking and explanatory pseudocode</li>
+        </ul>
+        <a class="cta" href="linked_lists_chapter_3_interactive.html">Open Linked Lists Lab →</a>
+      </article>
+      <article class="card">
         <span class="tag">Chapter 4 · Sections 4.1–4.4</span>
         <h3>Skiplists — Layer by Layer</h3>
         <p>Trace search paths through probabilistic levels, then work with both sorted sets and indexable lists.</p>
@@ -88,7 +124,7 @@ footer a { color:var(--blue); }
         </ul>
         <a class="cta" href="skiplist_chapter_4_interactive.html">Open Skiplist Lab →</a>
       </article>
-      <article class="card feature">
+      <article class="card">
         <span class="tag">Chapter 5 · Sections 5.1–5.3</span>
         <h3>Hash Tables — Buckets &amp; Probing</h3>
         <p>Compare separate chaining and linear probing through animated collisions, search paths, deletion markers, and resizing.</p>
@@ -126,7 +162,7 @@ footer a { color:var(--blue); }
       </article>
     </div>
   </section>
-  <aside class="note"><h3>For instructors and students</h3><p>All labs work offline and include playback controls. To keep a local copy, <a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">download the repository ZIP</a>. Read the <a href="README.md">README</a> for details.</p></aside>
+  <aside class="note"><h3>For instructors and students</h3><p>All seven labs work offline and include playback controls. To keep a local copy, <a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">download the repository ZIP</a>. Read the <a href="README.md">README</a> for details.</p></aside>
 </main>
 <footer><div class="wrap">Independent educational visualizations inspired by <a href="https://opendatastructures.org/">Pat Morin's <em>Open Data Structures</em></a>. Not affiliated with the textbook publisher.</div></footer>
 </body>
