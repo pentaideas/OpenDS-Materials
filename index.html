@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f8fb">
-<meta name="description" content="Interactive binary-tree traversal and binary search tree visualizations based on Chapter 6 of Pat Morin's Open Data Structures.">
-<title>OpenDS Materials | Interactive Chapter 6 Labs</title>
+<meta name="description" content="Interactive skiplists and binary-tree visualizations based on Pat Morin's Open Data Structures, Chapters 4 and 6.">
+<title>OpenDS Materials | Interactive Data Structure Labs</title>
 <style>
 :root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#008a80; --navy:#10253d; --blue:#315bba; }
 * {box-sizing:border-box}
@@ -27,6 +27,7 @@ h1 { letter-spacing:-.055em; font-size:clamp(38px,6vw,67px); margin:14px 0 16px;
 .sectionhead { margin:58px 0 20px; display:flex; align-items:end; justify-content:space-between; gap:16px; }
 .sectionhead h2 { margin:0; font-size:27px; letter-spacing:-.04em; } .sectionhead p { margin:4px 0 0; color:var(--muted); }
 .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.card.feature { grid-column:1/-1; }
 .card { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:27px; box-shadow:0 5px 21px #15243a09; }
 .tag { align-self:flex-start; display:inline-block; background:#eaf6f3; color:#08786d; border-radius:100px; padding:4px 12px; font-size:12px; font-weight:700; letter-spacing:.035em; }
 .card h3 { font-size:25px; letter-spacing:-.04em; margin:18px 0 5px; line-height:1.2; }
@@ -40,7 +41,7 @@ h1 { letter-spacing:-.055em; font-size:clamp(38px,6vw,67px); margin:14px 0 16px;
 .note a { color:var(--blue); }
 footer { border-top:1px solid var(--line); padding:25px 0 40px; color:var(--muted); font-size:13px; }
 footer a { color:var(--blue); }
-@media (max-width:700px){.hero{grid-template-columns:1fr}.hero-visual{min-height:190px}.cards{grid-template-columns:1fr}main{padding-top:38px}.sectionhead{margin-top:38px}.links{flex-wrap:wrap;justify-content:flex-end}}
+@media (max-width:700px){.card.feature{grid-column:auto}.hero{grid-template-columns:1fr}.hero-visual{min-height:190px}.cards{grid-template-columns:1fr}main{padding-top:38px}.sectionhead{margin-top:38px}.links{flex-wrap:wrap;justify-content:flex-end}}
 @media (prefers-reduced-motion:no-preference) {.card,.cta{transition:transform .15s ease,box-shadow .15s ease,background .15s ease}.card:hover{transform:translateY(-2px);box-shadow:0 9px 25px #15243a15}}
 </style>
 </head>
@@ -52,9 +53,9 @@ footer a { color:var(--blue); }
 <main class="wrap">
   <section class="hero" aria-labelledby="page-title">
     <div>
-      <div class="eyebrow">Pat Morin · Open Data Structures · Chapter 6</div>
-      <h1 id="page-title">Binary Trees,<br>Made Visible.</h1>
-      <p class="lead">Explore traversal algorithms and binary search tree operations through interactive, step-by-step animations. No setup required.</p>
+      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 4 and 6</div>
+      <h1 id="page-title">Data Structures,<br>Made Visible.</h1>
+      <p class="lead">Explore skiplists, traversal algorithms, and binary search tree operations through interactive, step-by-step animations. No setup required.</p>
     </div>
     <div class="hero-visual" aria-hidden="true">
       <svg viewBox="0 0 360 270" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,6 +76,18 @@ footer a { color:var(--blue); }
       <div><div class="eyebrow">Choose a lesson</div><h2 id="labs-title">Interactive Labs</h2><p>Each opens a complete standalone HTML learning tool.</p></div>
     </div>
     <div class="cards">
+      <article class="card feature">
+        <span class="tag">Chapter 4 · Sections 4.1–4.4</span>
+        <h3>Skiplists — Layer by Layer</h3>
+        <p>Trace search paths through probabilistic levels, then work with both sorted sets and indexable lists.</p>
+        <ul>
+          <li>Basic structure: sentinels, towers, and moving right or down</li>
+          <li>SkiplistSSet: successor search, insertion, removal, and coin-toss heights</li>
+          <li>SkiplistList: indexed get, set, insertion, and removal with span labels</li>
+          <li>Probabilistic heights and expected logarithmic search performance</li>
+        </ul>
+        <a class="cta" href="skiplist_chapter_4_interactive.html">Open Skiplist Lab →</a>
+      </article>
       <article class="card">
         <span class="tag">Section 6.1 · BinaryTree</span>
         <h3>Tree Traversals</h3>
@@ -101,7 +114,7 @@ footer a { color:var(--blue); }
       </article>
     </div>
   </section>
-  <aside class="note"><h3>For instructors and students</h3><p>Both labs work offline and include playback controls. To keep a local copy, <a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">download the repository ZIP</a>. Read the <a href="README.md">README</a> for details.</p></aside>
+  <aside class="note"><h3>For instructors and students</h3><p>All labs work offline and include playback controls. To keep a local copy, <a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">download the repository ZIP</a>. Read the <a href="README.md">README</a> for details.</p></aside>
 </main>
 <footer><div class="wrap">Independent educational visualizations inspired by <a href="https://opendatastructures.org/">Pat Morin's <em>Open Data Structures</em></a>. Not affiliated with the textbook publisher.</div></footer>
 </body>
