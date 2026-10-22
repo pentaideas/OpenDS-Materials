@@ -6,15 +6,15 @@ Interactive, self-contained teaching materials for **Chapters 1–6** of Pat Mor
 
 | Section | Lab | Concepts |
 | --- | --- | --- |
-| **1 — Introduction** | [Interfaces & Complexity](introduction_chapter_1_interactive.html) | Stack/Queue/Deque/List/USet/SSet interfaces; asymptotic growth, coin-flip probability, loop invariants |
-| **2.1–2.6 — Array-Based Lists** | [Interactive Arrays Lab](array_based_lists_chapter_2_interactive.html) | ArrayStack, FastArrayStack, ArrayQueue, ArrayDeque, DualArrayDeque, RootishArrayStack |
-| **3.1–3.3 — Linked Lists** | [Interactive Linked Lists Lab](linked_lists_chapter_3_interactive.html) | SLList, DLList, SEList; next/prev references; head/tail; linked blocks |
-| **4.1–4.4 — Skiplists** | [Interactive Skiplist Lab](skiplist_chapter_4_interactive.html) | Basic towers; SSet find/add/remove; indexed List get/set/add/remove; coin-flip analysis and span labels |
-| **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
-| **6.1 — BinaryTree** | [Tree Traversals](binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
-| **6.2 — BinarySearchTree** | [BST Operations](bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
+| **1 — Introduction** | [Interfaces & Complexity](https://pentaideas.github.io/OpenDS-Materials/introduction_chapter_1_interactive.html) | Stack/Queue/Deque/List/USet/SSet interfaces; asymptotic growth, coin-flip probability, loop invariants |
+| **2.1–2.6 — Array-Based Lists** | [Interactive Arrays Lab](https://pentaideas.github.io/OpenDS-Materials/array_based_lists_chapter_2_interactive.html) | ArrayStack, FastArrayStack, ArrayQueue, ArrayDeque, DualArrayDeque, RootishArrayStack |
+| **3.1–3.3 — Linked Lists** | [Interactive Linked Lists Lab](https://pentaideas.github.io/OpenDS-Materials/linked_lists_chapter_3_interactive.html) | SLList, DLList, SEList; next/prev references; head/tail; linked blocks |
+| **4.1–4.4 — Skiplists** | [Interactive Skiplist Lab](https://pentaideas.github.io/OpenDS-Materials/skiplist_chapter_4_interactive.html) | Basic towers; SSet find/add/remove; indexed List get/set/add/remove; coin-flip analysis and span labels |
+| **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](https://pentaideas.github.io/OpenDS-Materials/hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
+| **6.1 — BinaryTree** | [Tree Traversals](https://pentaideas.github.io/OpenDS-Materials/binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
+| **6.2 — BinarySearchTree** | [BST Operations](https://pentaideas.github.io/OpenDS-Materials/bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
 
-Open [**index.html**](index.html) for a simple landing page linking to all seven labs.
+Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all seven labs.
 
 ### Run locally
 
@@ -94,9 +94,9 @@ Original material and contributions in this repository are offered under [Creati
 
 Accessibility and code revisions dated October 22, 2026 were assisted by OpenAI ChatGPT (GPT-6), with human direction. Automated verification and final human accessibility review are separate activities; no unperformed review is claimed.
 
-## Publish as a website (optional)
+## Live website
 
-If GitHub Pages is enabled for this repository, configure **Settings → Pages → Deploy from a branch**, choose `main` and `/ (root)`. GitHub Pages will then serve `index.html` as the homepage.
+The labs are published at [https://pentaideas.github.io/OpenDS-Materials/](https://pentaideas.github.io/OpenDS-Materials/). Links in the **Launch the labs** table open the live GitHub Pages versions. The source files can still be downloaded and run offline.
 
 ## Reference and attribution
 
