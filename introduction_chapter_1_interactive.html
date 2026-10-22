@@ -1,0 +1,185 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8fb"><title>Introduction & Complexity • OpenDS Chapter 1 Interactive Lab</title><style>
+:root{--bg:#f7f8fb;--ink:#172a40;--muted:#6a7d90;--border:#dfe7ef;--teal:#008d83;--navy:#162c45}*{box-sizing:border-box}[hidden]{display:none!important}
+body{background:var(--bg);margin:0;color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.44;cursor:not-allowed}a{color:#30759b}
+.shell{max-width:1330px;margin:auto;padding:27px 24px 45px}.top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;margin-bottom:19px}.eyebrow{color:var(--teal);font-weight:850;text-transform:uppercase;font-size:10.5px;letter-spacing:.1em}h1{font-size:clamp(29px,3.3vw,42px);letter-spacing:-.053em;line-height:1.12;margin:8px 0}.subtitle{color:var(--muted);font-size:14px;max-width:800px;margin:0}.nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.nav a{text-decoration:none;border:1px solid #d6e1eb;background:white;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:750;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(315px,.8fr);gap:18px}.panel{background:white;border:1px solid var(--border);border-radius:18px;min-width:0;box-shadow:0 4px 17px #15273809}.workspace{overflow:hidden}.tabs{display:flex;flex-wrap:wrap;gap:5px;background:#f0f4f8;border-bottom:1px solid var(--border);padding:13px 16px}.tab{background:transparent;color:#687b8e;border:0;border-radius:9px;padding:9px 11px;font-size:12px;font-weight:780}.tab.active{background:var(--navy);color:#fff}
+.controls{display:flex;flex-wrap:wrap;align-items:end;gap:11px;padding:14px 17px;border-bottom:1px solid var(--border)}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:10px;color:#8393a4;text-transform:uppercase;letter-spacing:.07em;font-weight:850}.field input,.field select{height:38px;border:1px solid #d4e1ec;border-radius:9px;background:white;padding:0 10px;color:#263e55}.field input[type=number]{width:105px}.field input[type=range]{width:180px;accent-color:#008d83}.primary,.soft{height:38px;border-radius:9px;padding:0 15px;font-size:12px;font-weight:790}.primary{background:#008e84;border:1px solid #008e84;color:white}.soft{background:white;border:1px solid #d9e3ed;color:#536d80}
+.help{padding:12px 18px;background:#f9fbfd;color:#557085;border-bottom:1px solid var(--border);font-size:12px}.help strong{color:#167b71}.error{background:#fff4f4;color:#a34a53;padding:8px 17px;font-size:12px}
+.viz-title{display:flex;align-items:center;justify-content:space-between;padding:15px 19px 0;gap:12px}.viz-title strong{font-size:13px}.viz-title small{font-size:11px;color:#91a1ae}.viz{padding:25px 20px;min-height:315px;max-height:515px;overflow:auto}
+.items{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.item{border:2px solid #c2cfda;background:#fff;border-radius:11px;min-width:64px;padding:16px 12px;text-align:center;font:850 18px ui-monospace,Consolas,monospace;color:#345268}.item.active{background:#008f86;border-color:#008f86;color:#fff}.item.ghost{border-style:dashed;border-color:#e2ad75;background:#fff3e2}.item .idx{font-size:10px;color:#91a4b3;display:block;margin-top:4px}.item.active .idx{color:#baf3eb}
+.coinrow{display:flex;gap:7px;flex-wrap:wrap}.coin{width:53px;height:53px;display:grid;place-items:center;border-radius:50%;border:2px solid #9bb7c7;background:#f5fafb;color:#395c70;font:800 17px ui-monospace,monospace}.coin.head{background:#dff8ed;border-color:#3aa58b;color:#07765b}.coin.tail{background:#fff2e1;border-color:#ddaf79;color:#935d23}
+.curvechart{display:grid;grid-template-columns:repeat(5,minmax(70px,1fr));align-items:end;gap:10px;height:270px;max-width:760px;padding-bottom:35px}.barcol{text-align:center;display:flex;flex-direction:column;justify-content:end;align-items:center;height:100%;gap:6px}.bar{width:80%;min-height:5px;background:#a4bdc9;border-radius:9px 9px 0 0;transition:height .2s}.bar.active{background:#008e84}.barname{font-size:10.5px;color:#46637a;font-weight:800;white-space:nowrap}.barval{font:10px ui-monospace,Consolas,monospace;color:#7890a1}
+.gridnote{font-size:12px;color:#607c8f;line-height:1.65;margin-top:20px}.indexnote{font-size:11px;color:#7d91a5;margin-top:10px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #ebf0f4;background:#fcfdfe}.metric{padding:12px 5px;text-align:center}.metric strong{font-size:19px;font-weight:850;display:block;line-height:1.1}.metric span{font-size:10px;color:#889aab;margin-top:5px;display:block}.trace{padding:12px 17px;color:#577386;font-size:12px;border-top:1px solid #ebf0f4}.trace b{display:block;text-transform:uppercase;letter-spacing:.07em;font-size:10px;color:#8da0b0;margin-bottom:5px}.transport{padding:14px 17px;border-top:1px solid #ecf0f5}.actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.navbtn{height:37px;min-width:38px;background:white;color:#2e4960;border:1px solid #dbe4ec;border-radius:9px;font-size:18px;font-weight:830}.play{min-width:88px;background:var(--navy);color:white;border-color:var(--navy);font-size:12px}.speed{margin-left:auto;color:#8597a7;font-size:11px}.speed select{border:1px solid #d9e5ee;border-radius:7px;background:white;padding:6px}.counter{font-size:11px;color:#8a9dac}.progress{accent-color:#008e83;width:100%;margin:15px 0 0}
+.explain{padding:21px;display:flex;flex-direction:column;gap:16px}.explain h2{margin:5px 0;font-size:22px;letter-spacing:-.035em;line-height:1.18}.result{padding:13px;border-radius:11px;background:#f0faf6;border:1px solid #cde7dd;color:#256d63;font-size:12px}.result b{display:block;font-size:10px;text-transform:uppercase;color:#579789;letter-spacing:.07em;margin-bottom:5px}.codehead{display:flex;justify-content:space-between;gap:7px;align-items:center;margin-bottom:10px}.pill{background:#e5f5ef;color:#168575;font-size:10px;border-radius:99px;padding:4px 8px;font-weight:820}.code{background:#14283c;color:#bbccdb;padding:12px 0;border-radius:11px;overflow:auto}.line{font:11.5px/1.68 ui-monospace,Consolas,monospace;white-space:pre;padding:4px 13px}.line.active{background:#294b61;color:#defff5;border-left:3px solid #51cbb6;padding-left:10px}.below{border:1px solid #e0eaf1;background:#f8fbfc;padding:13px;border-radius:11px;margin-top:11px}.below b{font-size:10px;color:#537e90;text-transform:uppercase;letter-spacing:.07em}#why{font-size:13px;font-weight:770;color:#2d4b62;margin:7px 0}#bodyText{font-size:12.5px;color:#647a8b;margin:8px 0 0;padding-top:8px;border-top:1px solid #e5edf2;line-height:1.6}.asidefoot{border-top:1px solid #e6ebf1;padding-top:12px;color:#72879a;font-size:12px;line-height:1.7}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.lesson{padding:20px 21px}.lesson h3{margin:5px 0 7px;font-size:17px;letter-spacing:-.03em}.lesson p{font-size:12.5px;color:#687e8d;line-height:1.65}.legend{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.legend div{background:#f9fbfe;border:1px solid #e3eaf1;border-radius:9px;padding:9px;font-size:11px}footer{color:#899cab;font-size:11px;margin-top:20px}@media(max-width:990px){.layout{grid-template-columns:1fr}.explain{display:grid;grid-template-columns:1fr 1fr}.asidefoot{grid-column:1/-1}}@media(max-width:670px){.shell{padding:17px 10px}.top{display:block}.nav{justify-content:flex-start;margin-top:14px}.tabs{padding:9px}.tab{font-size:10px;padding:8px}.viz{padding:16px 10px}.metrics{grid-template-columns:repeat(2,1fr)}.explain{display:flex;padding:15px}.lower{grid-template-columns:1fr}.speed{margin-left:0}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><div class="shell">
+<header class="top"><div><div class="eyebrow">Interactive foundations lab · Chapter 1</div><h1>Interfaces and complexity, visualized.</h1><p class="subtitle">Explore what data structure interfaces promise, why big-O matters, how randomization behaves, and how loop invariants help prove correctness. Each pseudocode highlight includes a plain-language explanation beneath it.</p></div><nav class="nav"><a href="index.html">← All labs</a><a href="https://opendatastructures.org/newhtml/ods/latex/intro.html">Read Chapter 1 ↗</a><a href="array_based_lists_chapter_2_interactive.html">Chapter 2 →</a></nav></header>
+<div class="layout"><main class="panel workspace">
+<div class="tabs" role="tablist"><button class="tab active" data-mode="interface" role="tab">1.2 · Interfaces</button><button class="tab" data-mode="growth" role="tab">1.1 / 1.3 · Big-O</button><button class="tab" data-mode="random" role="tab">1.3 · Randomization</button><button class="tab" data-mode="invariant" role="tab">1.5 · Correctness</button></div>
+<div class="controls">
+<div class="field" id="interfaceField"><label for="interfaceType">Interface</label><select id="interfaceType"><option value="stack">Stack (LIFO)</option><option value="queue">Queue (FIFO)</option><option value="deque">Deque</option><option value="list">List</option><option value="uset">USet</option><option value="sset">SSet</option></select></div>
+<div class="field" id="operationField"><label for="operation">Operation</label><select id="operation"></select></div>
+<div class="field" id="indexField"><label for="indexInput">Index i</label><input id="indexInput" type="number" value="2" step="1"></div>
+<div class="field" id="valueField"><label for="valueInput" id="valueLabel">Value x</label><input id="valueInput" type="number" value="25" step="1"></div>
+<div class="field" id="sizeField" hidden><label for="sizeInput">Problem size n: <span id="sizeNumber">32</span></label><input id="sizeInput" type="range" min="2" max="1000" step="1" value="32"></div>
+<div class="field" id="growthField" hidden><label for="growthType">Growth function</label><select id="growthType"><option value="constant">O(1)</option><option value="log">O(log n)</option><option value="linear" selected>O(n)</option><option value="nlogn">O(n log n)</option><option value="square">O(n²)</option></select></div>
+<button id="runBtn" class="primary">▶ Animate</button><button id="resetBtn" class="soft">↺ Reset</button>
+</div><div class="error" id="error" hidden role="alert"></div><div class="help" id="modeHelp"></div>
+<div class="viz-title"><strong id="visualTitle">Interface values</strong><small id="visualNote">Operations specify behavior, not memory layout</small></div>
+<div class="viz" id="visual"></div>
+<div class="metrics"><div class="metric"><strong id="metricA">4</strong><span id="labelA">Values</span></div><div class="metric"><strong id="metricB">—</strong><span id="labelB">Interface</span></div><div class="metric"><strong id="metricC">0</strong><span id="labelC">Checks</span></div><div class="metric"><strong id="metricD">—</strong><span id="labelD">Property</span></div></div>
+<div class="trace"><b>State and invariant</b><span id="traceText">Choose an interface.</span></div>
+<div class="transport"><div class="actions"><button id="prevBtn" class="navbtn" title="Previous step" aria-label="Previous step">‹</button><button id="playBtn" class="navbtn play">▶ Play</button><button id="nextBtn" class="navbtn" title="Next step" aria-label="Next step">›</button><button id="restartBtn" class="navbtn" title="Restart" aria-label="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1650">Slow</option><option value="980" selected>Normal</option><option value="430">Fast</option></select></span><span class="counter" id="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
+</main><aside class="panel explain"><div><div id="sectionTitle" class="eyebrow">1.2 · Interfaces</div><h2 id="stepTitle">Choose an operation</h2></div><div class="result"><b>Result</b><span id="resultText">Ready.</span></div><div><div class="codehead"><span class="eyebrow">Illustrative pseudocode</span><span class="pill" id="codePill">Stack</span></div><div class="code" id="codeCard"></div><div class="below" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p id="bodyText"></p></div></div><div class="asidefoot" id="concept"></div></aside></div>
+<div class="lower"><section class="panel lesson"><div class="eyebrow">Chapter 1 distinction</div><h3>Interface ≠ implementation</h3><p>The interface defines operations and expected results. Chapter 2 implements List behavior with arrays; Chapter 3 uses pointers; Chapters 4–6 implement sets with different search structures. The same abstract operation can have different time and space costs.</p></section><section class="panel lesson"><div class="eyebrow">Mathematical background</div><h3>Worst case, expectation, and correctness</h3><p>Big-O describes how a resource grows asymptotically, not exact wall-clock time. Expected time averages over a specified probability distribution. Correctness requires that the implementation maintain its invariants and return values satisfying the interface contract.</p></section></div>
+<footer>Independent teaching visuals based on Pat Morin's <a href="https://opendatastructures.org/newhtml/ods/latex/intro.html">Open Data Structures, Chapter 1</a>. The operation-count growth functions are simplified illustrations, not machine timing measurements.</footer></div>
+<script>
+(()=>{
+"use strict";const $=id=>document.getElementById(id),enc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const OPS={stack:["push","pop"],queue:["add","remove"],deque:["addFirst","addLast","removeFirst","removeLast"],list:["get","set","add","remove"],uset:["find","add","remove"],sset:["find","add","remove"]};
+const P={
+interface:{
+ push:[["place x on top","A Stack uses last-in-first-out (LIFO) semantics."],["return","The new item becomes the next one popped."]],
+ pop:[["if empty: return null","An empty stack has nothing to remove."],["return most recently added element","Pop the last element first (LIFO)."]],
+ add:[["check interface rules","A Queue appends; a List inserts at i; sets first check uniqueness."],["insert x if allowed","Perform the addition while respecting the interface contract."],["return result","Report whether insertion succeeded when required."]],
+ remove:[["identify target position/key","Queue removes front; List removes at i; sets remove matching keys."],["delete target if present","Remove one matching element or return null if absent."],["return old value or status","Return the result dictated by the interface."]],
+ addFirst:[["insert x at the front","Deque can change either end."],["return","The next removeFirst will return x."]],
+ addLast:[["insert x at the back","Deque appends to the other end."],["return","The next removeLast will return x."]],
+ removeFirst:[["if empty: return null","An empty deque has no first value."],["return and remove first element","The front item leaves, preserving the rest."]],
+ removeLast:[["if empty: return null","An empty deque has no last value."],["return and remove last element","The back item leaves."]],
+ get:[["check index i","Index i must be between 0 and n−1."],["return value[i]","The List preserves exact positional order."]],
+ set:[["check index i","Locate the existing element at i."],["old = value[i]; value[i] = x","Replace one value without changing list length."],["return old","Return the previous value."]],
+ find:[["scan candidate values","A USet needs equality; an SSet seeks the least value ≥ x."],["return match or successor","USet and SSet have different find(x) semantics."]]
+},
+growth:[
+ ["choose n","The horizontal input controls the dataset size."],
+ ["compute f(n) for each growth class","Count idealized operations using 1, log₂n, n, n log₂n, and n²."],
+ ["compare relative work","The five example functions separate dramatically as n increases."]
+],
+random:[
+ ["height = 0","Start a sample with a zero-height tower."],
+ ["while flip() is HEAD: height++","Each heads outcome adds one level."],
+ ["on first TAIL: stop","A tails outcome ends the run of heads."],
+ ["record sampled height","One realized sample is complete. Expected height is 1 for fair coins."]
+],
+invariant:[
+ ["i = 0; found = false","Before the loop, no elements have been checked."],
+ ["while i < n:","Continue until the search succeeds or every item is examined."],
+ ["  if a[i] == x: found = true; stop","A matching item proves the target exists."],
+ ["  i++","If not equal, the checked prefix still contains no match."],
+ ["return found","The invariant and termination together establish correctness."]
+]};
+const WHY={interface:"Interfaces specify what values operations return; data structures choose how to implement them.",growth:"Big-O bounds growth for large n. The chart shows exact values of selected toy functions on a logarithmic bar scale.",random:"Independent fair flips produce height k with probability 2^(−k−1). At least k consecutive heads has probability 2^(−k).",invariant:"At the start of each iteration, every index less than i has already been checked and contains no target."};
+const seed=t=>t==="sset"?[4,8,12,16,20]:t==="uset"?[12,4,20,8,16]:[10,20,30,40,50];
+const copy=o=>JSON.parse(JSON.stringify(o));
+let mode="interface",kind="stack",op="push",frames=[],cursor=0,timer=null,delay=980;
+const saved=Object.fromEntries(Object.keys(OPS).map(k=>[k,seed(k)]));
+function frame(fs,state,title,body,line,focus=-1,check=0,result="",extra={}){fs.push({state:copy(state),title,body,line,focus,check,result,extra:copy(extra)})}
+function doInterface(values,kind,op,i,x){
+ const a=values.slice(),fs=[];
+ frame(fs,a,"Start "+op,"The "+kind+" currently contains ["+a.join(", ")+"].",0);
+ const idx=kind==="sset"||kind==="uset"?a.indexOf(x):i;
+ const finish=(title,body,line,focus,result)=>frame(fs,a,title,body,line,focus,1,result);
+ if(op==="push"){a.push(x);frame(fs,a,"Push "+x,"The new top is "+x+".",0,a.length-1);finish("Push complete","Stack pop will remove "+x+" next.",1,a.length-1,"push("+x+")");}
+ else if(op==="pop"){const val=a.pop();finish("Pop top",val===undefined?"The stack was empty.":"Remove "+val+", the most recently added item.",1,Math.max(0,a.length-1),"pop() = "+(val??"null"));}
+ else if(op==="addFirst"||op==="addLast"){if(op==="addFirst")a.unshift(x);else a.push(x);frame(fs,a,"Add "+x,op==="addFirst"?"Insert at the front.":"Insert at the back.",0,op==="addFirst"?0:a.length-1);finish("Deque updated","Both ends remain accessible.",1,op==="addFirst"?0:a.length-1,op+"("+x+")");}
+ else if(op==="removeFirst"||op==="removeLast"){let val=op==="removeFirst"?a.shift():a.pop();finish("Remove deque value","Return "+(val??"null")+" from the chosen end.",1,op==="removeFirst"?0:Math.max(0,a.length-1),op+"() = "+(val??"null"));}
+ else if(op==="get"){finish("Get index "+i,"Read "+a[i]+". No values move.",1,i,"get("+i+") = "+a[i]);}
+ else if(op==="set"){const old=a[i];a[i]=x;frame(fs,a,"Replace index "+i,"Set the item at index "+i+" to "+x+".",1,i);finish("Return old value","The old element was "+old+".",2,i,"set("+i+", "+x+") = "+old);}
+ else if(op==="find"){
+   let found=null,checks=0;
+   for(let j=0;j<a.length;j++){checks++;const qualifies=kind==="sset"?a[j]>=x:a[j]===x;frame(fs,a,"Compare "+a[j],kind==="sset"?"Is "+a[j]+" at least "+x+"?":"Is "+a[j]+" equal to "+x+"?",0,j,checks);if(qualifies){found=a[j];break;}}
+   frame(fs,a,"Find result",found===null?"No qualifying element exists.":kind==="sset"?"Least stored value ≥ "+x+" is "+found+".":"Exact match found: "+found+".",1,found===null?-1:a.indexOf(found),checks,"find("+x+") = "+(found??"null"));
+ }
+ else if(op==="add"){
+   if(kind==="list"){a.splice(i,0,x);frame(fs,a,"Insert at index "+i,"Existing elements at i and later move right in the abstract List sequence.",1,i);finish("Add completed","New length = "+a.length+".",2,i,"add("+i+", "+x+")");}
+   else if(kind==="queue"){a.push(x);frame(fs,a,"Enqueue "+x,"The new value is added at the back.",1,a.length-1);finish("Add completed","The earliest queued item still leaves first.",2,a.length-1,"add("+x+")");}
+   else{if(idx>=0)finish("Reject duplicate",x+" already exists; a set stores unique values.",2,idx,"add("+x+") = false");
+     else{if(kind==="sset"){const loc=a.findIndex(v=>v>x);a.splice(loc<0?a.length:loc,0,x);}else a.push(x);frame(fs,a,"Add unique value","Insert the key once"+(kind==="sset"?" in sorted order.":".") ,1,a.indexOf(x));finish("Add completed","The set is unique.",2,a.indexOf(x),"add("+x+") = true");}
+   }
+ }
+ else if(op==="remove"){
+   if(kind==="list"){const old=a[i];a.splice(i,1);frame(fs,a,"Remove index "+i,"Later List elements shift one position left.",1,i);finish("Return removed value","The old element was "+old+".",2,-1,"remove("+i+") = "+old);}
+   else if(kind==="queue"){const old=a.shift();frame(fs,a,"Dequeue first","The earliest queued value was "+(old??"null")+".",1,0);finish("Queue updated","The next earliest element is now at the front.",2,0,"remove() = "+(old??"null"));}
+   else{if(idx<0)finish("Nothing removed","No key equals "+x+".",2,-1,"remove("+x+") = null");
+     else{a.splice(idx,1);frame(fs,a,"Remove key "+x,"Delete the unique matching element.",1,idx);finish("Removal complete","Remaining set still has unique keys.",2,-1,"remove("+x+") = "+x);}
+   }
+ }
+ return fs;
+}
+function complexity(n,type){return type==="constant"?1:type==="log"?Math.log2(n):type==="linear"?n:type==="nlogn"?n*Math.log2(n):n*n}
+function makeGrowth(n,type){const fs=[];const sizes=[2,4,8,16,32,64,128,256,512,n].filter((v,i,a)=>v<=n&&(i===0||v!==a[i-1]));if(!sizes.includes(n))sizes.push(n);for(let k=0;k<sizes.length;k++){const val=sizes[k];frame(fs,{n:val,type},"Evaluate n = "+val,"At this size, "+type+" uses "+Math.round(complexity(val,type)).toLocaleString()+" units in the selected toy function.",Math.min(k,2),-1,k,"f("+val+") = "+Math.round(complexity(val,type)).toLocaleString(),{n:val,type})}return fs;}
+function makeRandom(){let fs=[],coins=[],heights=[];frame(fs,{coins:[],heights:[]}, "Coin-flip height experiment","For each sample, toss a fair coin until the first tails.",0);for(let sample=1;sample<=8;sample++){let h=0,tosses=[];while(h<7&&Math.random()<.5){h++;tosses.push("H");coins.push("H");frame(fs,{coins:coins.slice(),heights:heights.slice()},"Heads for tower "+sample,"A head raises this tower to height "+h+".",1,h,coins.length,"Heads streak length "+h,{coins:tosses.slice(),heights:heights.slice()})}tosses.push("T");coins.push("T");frame(fs,{coins:coins.slice(),heights:heights.slice()},"Stop at tails","The first tails stops tower "+sample+" at height "+h+".",2,h,coins.length,"Height "+h,{coins:tosses.slice()});heights.push(h);frame(fs,{coins:coins.slice(),heights:heights.slice()},"Record tower "+sample,"Store height "+h+" and begin the next independent trial.",3,sample-1,coins.length,"Tower "+sample+" height = "+h,{heights:heights.slice()});}return fs;}
+function makeInvariant(x){const a=[4,8,12,16,20,24],fs=[],checked=[];frame(fs,{a,checked:[]},"Initialize a search","Invariant: every position before i has been inspected and is not equal to "+x+".",0,-1,0);
+ let success=false;
+ for(let i=0;i<a.length;i++){frame(fs,{a,checked:checked.slice()},"Check loop guard","Since i = "+i+" < n = "+a.length+", inspect a["+i+"].",1,i,checked.length);frame(fs,{a,checked:checked.slice()},"Compare "+a[i],"Is a["+i+"] = "+a[i]+" equal to x = "+x+"?",2,i,checked.length+1);if(a[i]===x){success=true;frame(fs,{a,checked:checked.slice()},"Match found","The element at index "+i+" is equal to x, so the result is true.",2,i,checked.length+1,"find("+x+") = true");break;}checked.push(i);frame(fs,{a,checked:checked.slice()},"Maintain the invariant","Index "+i+" has been checked and contains no match. All positions < "+(i+1)+" have now been ruled out.",3,i,checked.length);}
+ if(!success)frame(fs,{a,checked:checked.slice()},"Correctly return false","Every one of the "+a.length+" entries has been checked. The invariant proves that x is absent.",4,-1,checked.length,"find("+x+") = false");
+ return fs;}
+const help={interface:"<strong>Interface contract:</strong> Stack is LIFO, Queue FIFO, Deque has two ends, List preserves positions, USet stores unique keys, and SSet's find(x) returns the least stored key ≥ x.",growth:"<strong>Big-O:</strong> vary the input size to see why logarithmic, linear, n log n, and quadratic costs diverge. The chart uses log-scaled bar heights.",random:"<strong>Randomization:</strong> independent fair coin flips produce different tower heights. This is the probabilistic idea behind skiplists in Chapter 4.",invariant:"<strong>Correctness:</strong> a loop invariant is true before the first iteration and preserved after every iteration, supporting the final result."};
+function stop(){if(timer)clearInterval(timer);timer=null;$("playBtn").textContent="▶ Play";}
+function options(){const opts=OPS[kind];$("operation").innerHTML=opts.map(k=>'<option value="'+k+'">'+k+'</option>').join("");op=opts[0];$("operation").value=op;}
+function fields(){$("interfaceField").hidden=mode!=="interface";$("operationField").hidden=mode!=="interface";$("sizeField").hidden=mode!=="growth";$("growthField").hidden=mode!=="growth";
+ $("indexField").hidden=mode!=="interface"||kind!=="list";$("valueField").hidden=mode==="growth"||mode==="random"||mode==="interface"&&["pop","removeFirst","removeLast","get"].includes(op)||mode==="interface"&&op==="remove"&&(kind==="queue"||kind==="list")||mode==="interface"&&op==="remove"&&kind==="stack";
+ $("valueLabel").textContent=mode==="invariant"?"Target x":"Value x";$("sizeNumber").textContent=$("sizeInput").value;
+ $("codePill").textContent=mode==="interface"?kind+"."+op+"()":mode==="growth"?"f(n)":mode==="random"?"coin flips":"linearSearch(x)";
+}
+function warn(t){$("error").hidden=!t;$("error").textContent=t||"";}
+function ready(){stop();const s=mode==="interface"?saved[kind].slice():mode==="growth"?{n:Number($("sizeInput").value),type:$("growthType").value}:mode==="random"?{coins:[],heights:[]}:{a:[4,8,12,16,20,24],checked:[]};frames=[];frame(frames,s,"Ready to explore","Choose Animate to trace the selected concept.",0);cursor=0;render();}
+function changeMode(next){if(frames.length&&mode==="interface")saved[kind]=frames[cursor].state.slice();mode=next;document.querySelectorAll(".tab").forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle("active",on);b.setAttribute("aria-selected",String(on))});$("modeHelp").innerHTML=help[mode];$("sectionTitle").textContent=mode==="interface"?"1.2 · Interfaces":mode==="growth"?"1.1 / 1.3 · Complexity":mode==="random"?"1.3 · Probability":"1.5 · Correctness";$("concept").textContent=WHY[mode];fields();ready();}
+function run(){stop();warn("");let raw=$("valueInput").value.trim(),x=Number(raw),i=Number($("indexInput").value);if(mode==="interface"){let arr=frames[cursor].state.slice();
+ if(kind==="list"&&(!Number.isInteger(i)||i<0||i>(op==="add"?arr.length:arr.length-1)))return warn("Index out of range.");
+ if(arr.length===0&&["pop","removeFirst","removeLast"].includes(op))return warn("No values remain.");
+ if(["get","set"].includes(op)&&arr.length===0)return warn("List is empty.");
+ if(!["pop","get","removeFirst","removeLast"].includes(op)&&!(op==="remove"&&(kind==="queue"||kind==="list"))&&(!raw||!Number.isInteger(x)||Math.abs(x)>999))return warn("Enter an integer value between −999 and 999.");
+ if(arr.length>=15&&["push","add","addFirst","addLast"].includes(op))return warn("Visualization limit is 15 values.");
+ frames=doInterface(arr,kind,op,i,x);
+ }else if(mode==="growth")frames=makeGrowth(Number($("sizeInput").value),$("growthType").value);
+ else if(mode==="random")frames=makeRandom();
+ else{if(!raw||!Number.isInteger(x))return warn("Enter an integer target.");frames=makeInvariant(x);}
+ cursor=0;render();
+}
+function cell(v,i,focus,tag=""){return '<div class="item'+(i===focus?" active":"")+'">'+enc(v)+'<span class="idx">'+tag+(tag?" · ":"")+'i='+i+'</span></div>'}
+function visualize(f){
+ let o="",s=f.state;
+ if(mode==="interface"){const arr=s;
+   o='<div class="items">'+arr.map((v,i)=>cell(v,i,f.focus,i===0?"front":i===arr.length-1?"back":"")).join("")+'</div>';
+   o+='<p class="gridnote">Logical order is shown from left to right. '+(kind==="stack"?"Stack pop removes the rightmost value (top).":kind==="queue"?"Queue remove takes the leftmost value (front).":kind==="sset"?"SSet stores keys in order and returns a successor.":"Interface behavior does not prescribe arrays or pointers.")+'</p>';
+ }else if(mode==="growth"){
+   const n=s.n,selected=s.type,names=[["constant","O(1)"],["log","O(log n)"],["linear","O(n)"],["nlogn","O(n log n)"],["square","O(n²)"]];
+   const max=Math.log10(n*n+1),h=185;
+   o='<div class="curvechart">'+names.map(([k,label])=>{const val=complexity(n,k),tall=Math.max(5,Math.log10(val+1)/max*h);return '<div class="barcol"><div class="barval">'+(val>10000?Math.round(val).toLocaleString():val.toFixed(k==="log"?1:0))+'</div><div class="bar'+(k===selected?" active":"")+'" style="height:'+tall+'px" title="'+label+' at n='+n+'"></div><div class="barname">'+label+'</div></div>'}).join("")+'</div><p class="gridnote">Bar heights use log₁₀(1 + work), so even the smallest classes remain visible. The labels show the actual toy operation counts; this is not benchmark timing.</p>';
+ }else if(mode==="random"){
+   o='<div class="coinrow">'+s.coins.map(x=>'<div class="coin '+(x==="H"?"head":"tail")+'">'+x+'</div>').join("")+'</div><p class="gridnote">Sampled tower heights: '+(s.heights.length?s.heights.join(" · "):"none yet")+'. Each consecutive H adds one level; T stops the streak.</p>';
+ }else {
+   const checked=new Set(s.checked);o='<div class="items">'+s.a.map((v,i)=>'<div class="item'+(i===f.focus?" active":"")+(checked.has(i)?" ghost":"")+'">'+v+'<span class="idx">'+(checked.has(i)?"checked":i===f.focus?"current":"unchecked")+'</span></div>').join("")+'</div><p class="gridnote">Invariant: every element in the checked prefix differs from the target. A matching value ends the search immediately.</p>';
+ }
+ $("visual").innerHTML=o;
+}
+function render(){const f=frames[cursor],code=mode==="interface"?P.interface[op]:P[mode],a=f.state;
+ $("stepTitle").textContent=f.title;$("resultText").textContent=f.result||"Advance to watch each decision.";
+ $("codeCard").innerHTML=code.map((z,i)=>'<div class="line'+(i===f.line?" active":"")+'">'+enc(z[0])+'</div>').join("");
+ $("why").textContent=code[f.line]?.[1]||"The operation is complete.";$("bodyText").textContent=f.body;
+ const len=mode==="interface"?a.length:mode==="random"?a.heights.length:mode==="growth"?a.n:a.a.length;
+ $("metricA").textContent=len;$("labelA").textContent=mode==="growth"?"Input n":mode==="random"?"Towers sampled":"Values";
+ $("metricB").textContent=mode==="interface"?kind:mode==="growth"?a.type:mode==="random"?"fair":"scan";$("labelB").textContent=mode==="interface"?"Interface":mode==="growth"?"Selected curve":mode==="random"?"Coin":"Method";
+ $("metricC").textContent=f.check;$("labelC").textContent=mode==="growth"?"Sizes inspected":mode==="random"?"Tosses":"Checks";
+ $("metricD").textContent=mode==="interface"?"Contract":mode==="growth"?"Asymptotic":mode==="random"?"P(H)=½":"Invariant";$("labelD").textContent="Concept";
+ $("traceText").textContent=mode==="interface"?"["+a.join(", ")+"]":mode==="growth"?"n = "+a.n+", selected work ≈ "+Math.round(complexity(a.n,a.type)).toLocaleString():mode==="random"?"Tosses: "+a.coins.join(""):"Indices checked: "+a.checked.join(", ");
+ $("visualTitle").textContent=mode==="interface"?"Values and interface semantics":mode==="growth"?"Operation growth as n changes":mode==="random"?"Fair coin-flip sequence":"Checking a loop invariant";
+ $("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("progress").max=frames.length-1;$("progress").value=cursor;$("prevBtn").disabled=cursor===0;$("nextBtn").disabled=cursor===frames.length-1;
+ if(mode==="interface")saved[kind]=a.slice();visualize(f);
+}
+function seek(i){cursor=Math.max(0,Math.min(frames.length-1,i));render()}
+function play(){if(timer){stop();return}if(cursor>=frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor>=frames.length-1)stop()},delay);$("playBtn").textContent="Ⅱ Pause"}
+$("runBtn").addEventListener("click",()=>{run();if($("error").hidden)play()});$("resetBtn").addEventListener("click",()=>{if(mode==="interface")saved[kind]=seed(kind);warn("");ready()});
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>changeMode(b.dataset.mode)));
+$("interfaceType").addEventListener("change",e=>{if(frames.length&&mode==="interface")saved[kind]=frames[cursor].state.slice();kind=e.target.value;options();fields();ready()});
+$("operation").addEventListener("change",e=>{op=e.target.value;fields();ready()});
+$("sizeInput").addEventListener("input",e=>{$("sizeNumber").textContent=e.target.value;if(mode==="growth"){stop();frames=makeGrowth(Number(e.target.value),$("growthType").value);cursor=frames.length-1;render();}});
+$("growthType").addEventListener("change",()=>{if(mode==="growth")ready()});
+$("playBtn").addEventListener("click",play);$("prevBtn").addEventListener("click",()=>{stop();seek(cursor-1)});$("nextBtn").addEventListener("click",()=>{stop();seek(cursor+1)});$("restartBtn").addEventListener("click",()=>{stop();seek(0)});$("progress").addEventListener("input",e=>{stop();seek(Number(e.target.value))});$("speed").addEventListener("change",e=>{delay=Number(e.target.value);if(timer){stop();play()}});
+document.addEventListener("keydown",e=>{if(["INPUT","SELECT","BUTTON"].includes(document.activeElement.tagName))return;if(e.key==="ArrowRight"){stop();seek(cursor+1)}else if(e.key==="ArrowLeft"){stop();seek(cursor-1)}else if(e.code==="Space"){e.preventDefault();play()}});
+options();changeMode("interface");
+})();
+</script></body></html>
