@@ -68,7 +68,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="error" id="error" role="alert" aria-live="polite"></div>
 <div class="help-strip"><div id="modeRule"><strong>Preorder:</strong> process a node, then walk its left and right subtrees.</div><div class="legend"><span><i class="dot" style="background:#078e85"></i>Current</span><span><i class="dot" style="background:#78c6b6"></i>Recorded</span><span><i class="dot" style="background:#dfa24d"></i>Previous</span></div></div>
 <div class="vis-head"><span class="vis-title" id="treeTitle">General binary tree</span><span class="vis-sub" id="treeMeta">Each node has at most two children</span></div>
-<div class="tree-viewport" id="treeViewport"><svg id="treeSvg" class="tree-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated binary tree"></svg></div>
+<div class="tree-viewport" id="treeViewport"><svg id="treeSvg" class="tree-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated binary tree"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
 <div class="stat-line" aria-live="polite"><div class="metric"><span id="metricNodes" class="val">9</span><span class="name">Total nodes</span></div><div class="metric"><span id="metricHeight" class="val">3</span><span class="name">Height (edges)</span></div><div class="metric"><span id="metricVisits" class="val">0 / 9</span><span class="name">Recorded</span></div><div class="metric"><span id="metricWorking" class="val">0</span><span class="name" id="workingLabel">Stack depth</span></div></div>
 <div class="activity"><div class="activity-row"><span class="activity-name" id="workHeading">Call stack</span><div class="pill-strip" id="workArea"><span class="placeholder">Empty</span></div></div><div class="activity-row"><span class="activity-name">Visit order</span><div class="pill-strip" id="outputArea"><span class="placeholder">No nodes recorded yet</span></div></div><div class="strip-foot" id="stripFoot">Left → right is bottom → top of the call stack</div></div>
 <div class="transport"><div class="transport-top"><button class="icon-btn" id="prevBtn" title="Previous step (←)" aria-label="Previous step">‹</button><button class="icon-btn play-btn" id="playBtn" title="Play / pause (Space)">▶ Play</button><button class="icon-btn" id="nextBtn" title="Next step (→)" aria-label="Next step">›</button><button class="icon-btn" id="restartBtn" title="Restart traversal" aria-label="Restart traversal">↺</button><label class="speed" for="speed">Speed <select id="speed" aria-label="Playback speed"><option value="1700">Slow</option><option value="950" selected>Normal</option><option value="430">Fast</option></select></label><span class="step-counter" id="stepCounter">Step 1 of 1</span></div><input class="progress" id="progress" aria-label="Go to step" type="range" min="0" max="0" value="0" /></div>
@@ -258,6 +258,9 @@ function render(){
  const slider=$('progress');slider.min=0;slider.max=frames.length-1;slider.value=cursor;
  $('prevBtn').disabled=cursor===0;$('nextBtn').disabled=cursor===frames.length-1;
  renderTree(fr);
+  const structure=flatten(root).map(u=>'Node '+u.value+': left '+(u.left?.value??'none')+', right '+(u.right?.value??'none'));
+  $('structureText').textContent=(structure.length?structure.join('. '):'Empty tree')+'. Recorded: '+fr.output.map(u=>u.value).join(', ');
+  $('treeSvg').setAttribute('aria-describedby','structureText animated-diagram-description');
 }
 function seek(i){cursor=Math.max(0,Math.min(i,frames.length-1));render()}
 function next(){if(cursor<frames.length-1)seek(cursor+1);else stop()}
@@ -294,7 +297,7 @@ initFrames();
     text.id = "animated-diagram-description";
     text.className = "sr-only";
     visual.insertAdjacentElement("afterend",text);
-    visual.setAttribute("aria-describedby",text.id);
+    visual.setAttribute("aria-describedby",[visual.getAttribute("aria-describedby"),text.id].filter(Boolean).join(" "));
     if (visual.tagName.toLowerCase() !== "svg") {
       visual.setAttribute("role","region");
       visual.setAttribute("aria-label","Animated data structure");

@@ -115,7 +115,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="examples"><span class="example-label">Try an example</span><span id="exampleButtons"></span></div>
 <div class="help" id="modeHelp">SkiplistSSet stores <strong>unique sorted keys</strong>. Move right while the next key is smaller than x; otherwise move down.</div>
 <div class="vis-head"><strong id="viewTitle">Layered skiplist</strong><div class="legend"><span><i class="dot" style="background:#00564e"></i>Active</span><span><i class="dot" style="background:#e1a550"></i>Changed</span><span><i class="dot" style="background:#9eb6c9"></i>Other</span></div></div>
-<div class="viewport" id="viewport"><svg id="diagram" role="img" aria-label="Animated skiplist with labeled levels and pointers" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="viewport" id="viewport"><svg id="diagram" role="img" aria-label="Animated skiplist with labeled levels and pointers" xmlns="http://www.w3.org/2000/svg"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
 <div class="metrics"><div class="metric"><span class="num" id="mNodes">9</span><span class="desc">Elements</span></div><div class="metric"><span class="num" id="mHeight">3</span><span class="desc">Highest level</span></div><div class="metric"><span class="num" id="mRight">0</span><span class="desc">Right moves</span></div><div class="metric"><span class="num" id="mDown">0</span><span class="desc">Down moves</span></div></div>
 <div class="path"><div class="path-title">Search path / update trace</div><div class="path-text" id="pathText">Ready to explore.</div></div>
 <div class="transport"><div class="buttons">
@@ -412,6 +412,17 @@ function render(){
  $('pathText').textContent=f.trail.length?f.trail.join('  ·  '):'Start from the upper-left sentinel.';
  $('viewTitle').textContent=mode==='list'?'Indexed list · spans show L0 edge lengths':mode==='analysis'?'Coin-flip heights · sample distribution':'Sorted skiplist · arrows follow forward pointers';
  draw(f);frequency(a);if(mode!=="analysis")STORES[mode]=clone(a);
+  const levels=[];
+  for(let r=hmax(a);r>=0;r--){
+    const indexes=[-1,...a.map((node,i)=>node.h>=r?i:null).filter(i=>i!==null)];
+    const parts=['sentinel'];
+    for(let j=1;j<indexes.length;j++){
+      const i=indexes[j];parts.push('position '+i+' value '+a[i].v+' (span '+(indexes[j]-indexes[j-1])+')');
+    }
+    levels.push('Level '+r+': '+parts.join(' to '));
+  }
+  $('structureText').textContent=levels.join('. ')+'. '+f.body;
+  $('diagram').setAttribute('aria-describedby','structureText animated-diagram-description');
 }
 function frequency(a){
  let out='';for(let r=0;r<=Math.min(5,Math.max(3,hmax(a)));r++){const n=a.filter(z=>z.h>=r).length;out+='<span class="freq">L'+r+': '+n+'/'+a.length+' nodes · expected fraction '+(100/Math.pow(2,r)).toFixed(r===0?0:1)+'%</span>'}
@@ -484,7 +495,7 @@ renderOptions();ready();
     text.id = "animated-diagram-description";
     text.className = "sr-only";
     visual.insertAdjacentElement("afterend",text);
-    visual.setAttribute("aria-describedby",text.id);
+    visual.setAttribute("aria-describedby",[visual.getAttribute("aria-describedby"),text.id].filter(Boolean).join(" "));
     if (visual.tagName.toLowerCase() !== "svg") {
       visual.setAttribute("role","region");
       visual.setAttribute("aria-label","Animated data structure");
