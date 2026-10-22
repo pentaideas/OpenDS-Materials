@@ -11,10 +11,11 @@ Interactive, self-contained teaching materials for **Chapters 1–6** of Pat Mor
 | **3.1–3.3 — Linked Lists** | [Interactive Linked Lists Lab](https://pentaideas.github.io/OpenDS-Materials/linked_lists_chapter_3_interactive.html) | SLList, DLList, SEList; next/prev references; head/tail; linked blocks |
 | **4.1–4.4 — Skiplists** | [Interactive Skiplist Lab](https://pentaideas.github.io/OpenDS-Materials/skiplist_chapter_4_interactive.html) | Basic towers; SSet find/add/remove; indexed List get/set/add/remove; coin-flip analysis and span labels |
 | **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](https://pentaideas.github.io/OpenDS-Materials/hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
+| **6 — Binary Tree Anatomy** | [Tree Anatomy & Vocabulary](https://pentaideas.github.io/OpenDS-Materials/binary_tree_anatomy_chapter_6_interactive.html) | Clickable root/parent/child/sibling/ancestor/subtree relationships, depth/height, nil pointers, practice questions |
 | **6.1 — BinaryTree** | [Tree Traversals](https://pentaideas.github.io/OpenDS-Materials/binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
 | **6.2 — BinarySearchTree** | [BST Operations](https://pentaideas.github.io/OpenDS-Materials/bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
 
-Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all seven labs.
+Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all eight labs.
 
 ### Run locally
 
@@ -65,6 +66,14 @@ Each lab is a single HTML file with its CSS and JavaScript embedded. You can als
 - Track the load factor and distinguish `n` (live keys) from `q` (non-null slots including tombstones).
 - Use a clear deterministic `h(x)=x mod m` to make teaching examples repeatable. This is **not** the randomized hashing used in Morin's analysis.
 - Read context-dependent explanations directly below each highlighted code line.
+
+### Lab 6 — Binary tree anatomy and vocabulary
+
+- Click nodes to inspect their `parent`, `left`, and `right` fields.
+- Highlight parents, children, siblings, proper ancestors, descendants, and rooted subtrees.
+- Learn leaves, internal nodes, out-degree, depth, level, height, edges and paths.
+- Switch between example tree shapes and display nil/external child pointers.
+- Use the guided vocabulary tour and interactive click-the-node practice questions.
 
 ### Lab 6.1 — Tree traversals
 
@@ -117,6 +126,7 @@ OpenDS-Materials/
 ├── linked_lists_chapter_3_interactive.html
 ├── skiplist_chapter_4_interactive.html
 ├── hash_tables_chapter_5_interactive.html
+├── binary_tree_anatomy_chapter_6_interactive.html
 ├── binary_tree_traversals_6_1_interactive.html
 └── bst_section_6_2_interactive.html
 ```
