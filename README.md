@@ -80,6 +80,20 @@ Each lab is a single HTML file with its CSS and JavaScript embedded. You can als
 - Explore unbalanced-tree behavior and how height affects running time.
 - Control playback and use examples or custom values.
 
+## Accessibility and quality checks
+
+The labs target **WCAG 2.2 Level AA**, with enhanced contrast, clear focus indicators, keyboard-accessible transport controls, reduced-motion support, and text descriptions supplementing diagrams. AAA criteria are pursued where feasible; a full AAA or AA conformance claim requires manual testing and is **not yet made**. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for known verification work.
+
+Before each animation, an optional **Think before you animate** disclosure invites a prediction. All labs can still be opened directly without a server. The illustrations are teaching models: simulated array movements, pointers, and operation metrics must not be mistaken for measured runtime or a drop-in version of Morin's implementation.
+
+Development-only browser checks can be run using Node 22 or later, `npm install`, `npx playwright install chromium`, and `npm test`. Opening the lab HTML pages requires **none** of these tools.
+
+## License and AI disclosure
+
+Original material and contributions in this repository are offered under [Creative Commons Attribution 4.0](LICENSE.md), subject to the rights of any third-party material. Pat Morin's *Open Data Structures* is independently licensed under Creative Commons Attribution 2.5 Canada; the source is credited and its terms remain applicable. The animation files are not an official edition of the textbook.
+
+Accessibility and code revisions dated October 22, 2026 were assisted by OpenAI ChatGPT (GPT-6), with human direction. Automated verification and final human accessibility review are separate activities; no unperformed review is claimed.
+
 ## Publish as a website (optional)
 
 If GitHub Pages is enabled for this repository, configure **Settings → Pages → Deploy from a branch**, choose `main` and `/ (root)`. GitHub Pages will then serve `index.html` as the homepage.
