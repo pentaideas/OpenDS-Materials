@@ -335,7 +335,7 @@ function run(){
   generated=runList(a,op,i,v);
  }
  if(!generated||!generated.length)return error('Could not build this animation.');
- frames=generated;cursor=0;STORES[mode]=clone(frames[frames.length-1].items);render();
+ frames=generated;cursor=0;render();
 }
 function example(tag){
  if(tag==='sample'){run();play();return}
@@ -364,7 +364,7 @@ function render(){
  $('mNodes').textContent=a.length;$('mHeight').textContent=hmax(a);$('mRight').textContent=f.right;$('mDown').textContent=f.down;
  $('pathText').textContent=f.trail.length?f.trail.join('  ·  '):'Start from the upper-left sentinel.';
  $('viewTitle').textContent=mode==='list'?'Indexed list · spans show L0 edge lengths':mode==='analysis'?'Coin-flip heights · sample distribution':'Sorted skiplist · arrows follow forward pointers';
- draw(f);frequency(a);
+ draw(f);frequency(a);if(mode!=="analysis")STORES[mode]=clone(a);
 }
 function frequency(a){
  let out='';for(let r=0;r<=Math.min(5,Math.max(3,hmax(a)));r++){const n=a.filter(z=>z.h>=r).length;out+='<span class="freq">L'+r+': '+n+'/'+a.length+' nodes · expected fraction '+(100/Math.pow(2,r)).toFixed(r===0?0:1)+'%</span>'}

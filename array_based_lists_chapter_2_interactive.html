@@ -10,7 +10,7 @@
 <div id="error" class="error" hidden role="alert"></div><div class="tips" id="modeTip"></div>
 <div class="viz-title"><strong id="vizTitle">Array memory</strong><small id="vizSubtitle">Indices are physical array cells</small></div>
 <div class="viz" id="visual"></div>
-<div class="metricstrip"><div class="metric"><strong id="metricN">5</strong><span>Elements (n)</span></div><div class="metric"><strong id="metricCap">8</strong><span>Allocated cells</span></div><div class="metric"><strong id="metricCost">0</strong><span>Cells moved</span></div><div class="metric"><strong id="metricHead">0</strong><span>Start / blocks</span></div></div>
+<div class="metricstrip"><div class="metric"><strong id="metricN">5</strong><span>Elements (n)</span></div><div class="metric"><strong id="metricCap">8</strong><span>Displayed capacity</span></div><div class="metric"><strong id="metricCost">0</strong><span>Illustrative moves</span></div><div class="metric"><strong id="metricHead">0</strong><span>Start / blocks</span></div></div>
 <div class="trace"><b>Logical sequence · left to right</b><div id="sequence"></div></div>
 <div class="transport"><div class="buttons"><button class="navbtn" id="prevBtn" title="Previous step" aria-label="Previous step">‹</button><button class="navbtn play" id="playBtn">▶ Play</button><button class="navbtn" id="nextBtn" title="Next step" aria-label="Next step">›</button><button class="navbtn" id="restartBtn" title="Restart" aria-label="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1550">Slow</option><option value="950" selected>Normal</option><option value="410">Fast</option></select></span><span class="counter" id="stepCounter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Current animation step"></div>
 </main><aside class="panel explain"><div><div id="sectionTitle" class="eyebrow">2.1 · ArrayStack</div><h2 id="stepTitle">Select an operation</h2></div><div class="result"><b>Result</b><div id="resultText">Ready.</div></div><div><div class="codehead"><span class="eyebrow">Algorithm outline</span><span class="pill" id="codePill">add(i,x)</span></div><div class="codebox" id="codeCard"></div><div class="under" role="status" aria-live="polite" aria-atomic="true"><b>Why this highlighted line?</b><p id="lineExplain"></p><p id="stepBody"></p></div></div><div class="footnote" id="conceptTip"></div></aside></div>
@@ -122,12 +122,12 @@ function build(base,op,i,x){const t=copy(base),frames=[],m=t.mode,arr=logical(t)
 let mode="stack",operation="add",frames=[],cursor=0,timer=null,speed=950;
 const saved=Object.fromEntries(Object.keys(MODES).map(k=>[k,state(k)]));
 function setOps(){const choices=OP[mode];$("operation").innerHTML=choices.map(o=>'<option value="'+o+'">'+o+'('+((o==="get"||o==="remove")?"i":o==="set"?"i,x":o==="add"?(mode==="queue"?"x":"i,x"):"")+')</option>').join("");operation=choices.includes("add")?"add":choices[0];$("operation").value=operation;updateFields();}
-function updateFields(){$("indexField").hidden=mode==="queue";$("valueField").hidden=operation==="remove"||operation==="get";$("codePill").textContent=operation+"("+((mode==="queue")?"x":"i,x")+")";}
+function updateFields(){$("indexField").hidden=mode==="queue";$("valueField").hidden=operation==="remove"||operation==="get";$("codePill").textContent=operation+"("+(mode==="queue"?(operation==="add"?"x":""):operation==="get"||operation==="remove"?"i":"i,x")+")";}
 function err(msg){$("error").hidden=!msg;$("error").textContent=msg||"";}
 function reset(){stop();saved[mode]=state(mode);ready();}
 function ready(){const t=copy(saved[mode]);frames=[];f(frames,t,"Ready to animate","Select a List operation and step through its pointer or array changes.",0,[],"Ready");cursor=0;render();}
 function run(){stop();err("");let raw=$("valueInput").value.trim(),x=Number(raw),idx=Number($("indexInput").value),t=copy(frames[cursor]?.t||saved[mode]),count=logical(t).length;
- if(!Number.isInteger(idx)||idx<0||idx>(operation==="add"?count:Math.max(0,count-1)))return err("Index must be between 0 and "+(operation==="add"?count:Math.max(0,count-1))+".");
+ if(mode!=="queue"&&(!Number.isInteger(idx)||idx<0||idx>(operation==="add"?count:Math.max(0,count-1))))return err("Index must be between 0 and "+(operation==="add"?count:Math.max(0,count-1))+".");
  if(operation!=="add"&&count===0)return err("Cannot "+operation+" an empty list.");
  if(operation==="add"||operation==="set"){if(!raw||!Number.isInteger(x)||Math.abs(x)>999)return err("Enter a whole-number value between −999 and 999.");}
  if(count>=16&&operation==="add")return err("This demo is limited to 16 elements for readability. Remove an element first.");

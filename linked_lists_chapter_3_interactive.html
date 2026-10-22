@@ -47,7 +47,7 @@ push:[["u = new Node(x)","Allocate a node holding x."],["u.next = head","The new
 pop:[["if n == 0: return null","Check for an empty list."],["old = head.x","Read the first value."],["head = head.next","Advance head to the next node."],["if empty: tail = null; n--","If the last node was removed, clear tail too."]],
 add:[["u = new Node(x)","Create the new tail node."],["if empty: head = u; else: tail.next = u","Link the old tail to u or make u the first node."],["tail = u; n++","Point tail at u and increase n."]],
 remove:[["if empty: return null","Check whether a front node exists."],["old = head.x","Remember the FIFO front value."],["head = head.next","Remove the first node by bypassing it."],["if empty: tail = null; n--","Update tail on the empty-list case."]],
-removeTail:[["u = head; prev = null","Start at the head because singly-linked nodes have no prev pointer."],["while u.next: prev = u; u = u.next","Follow next pointers until the last node is reached."],["if prev: prev.next = null; tail = prev","Disconnect the old tail and update tail to its predecessor."],["else: head = tail = null; n--","If there was only one node, both head and tail become null."]]
+removeTail:[["u = head; prev = null","Start at the head because singly-linked nodes have no prev pointer."],["while u.next: prev = u; u = u.next","Follow next pointers until the last node is reached."],["if prev: prev.next = null; tail = prev","Disconnect the old tail and update tail to its predecessor."],["else: head = tail = null","If there was only one node, both head and tail become null."],["n--; return old","Every successful tail removal decreases the length."]]
 },
 dll:{
 get:[["u = sentinel.next or sentinel.prev","Choose the closer end of the doubly linked list."],["walk next / prev to index i","Follow links until reaching logical index i."],["return u.x","Read the value without changing any pointer."]],
@@ -88,7 +88,7 @@ function build(base,op,i,x){
    if(op==="removeTail"){
     for(let k=0;k<s.nodes.length;k++){s.steps++;emit("Walk to "+s.nodes[k].v,"Follow next from "+(k?s.nodes[k-1].v:"head")+" to "+s.nodes[k].v+".",k===0?0:1,[k]);}
     emit("Identify predecessor","The old tail's predecessor is "+(s.nodes.length>1?s.nodes.at(-2).v:"null")+".",2,[s.nodes.length-1]);
-    s.nodes.pop();emit("Disconnect old tail","The new tail is "+(s.nodes.at(-1)?.v??"null")+".",3,[Math.max(0,s.nodes.length-1)],null,"removeTail() = "+old);
+    s.nodes.pop();emit("Disconnect old tail","The new tail is "+(s.nodes.at(-1)?.v??"null")+".",3,[Math.max(0,s.nodes.length-1)],null,"removeTail() = "+old);emit("Decrease length","Tail removal decrements n for both one and several nodes.",4,[]);
    }else{
     emit("Read head","The value removed is "+old+".",1,[0]);
     s.nodes.shift();emit("Advance head","Set head to oldHead.next. The former head is no longer reachable.",2,[0]);
