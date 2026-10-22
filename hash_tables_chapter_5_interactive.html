@@ -159,7 +159,7 @@ const emptyProbe=m=>({mode:"probe",m,t:Array(m).fill(null)});
 function initial(which,preset="collision"){
   if(which==="chain"){let t=emptyChain(8),seq=preset==="resize"?[0,1,2,3,4,5,6,7]:[2,10,18,6,14];for(const k of seq)t.b[hash(k,t.m)].push(k);return t;}
   let t=emptyProbe(preset==="shrink"?16:8);
-  const seq=preset==="wrap"?[7,15,23]:preset==="resize"?[2,10,18,6]:preset==="tombstone"?[2,18]:preset==="shrink"?[2,18,34]:[2,10,18];
+  const seq=preset==="wrap"?[7,15,23]:preset==="resize"?[2,10,18,6]:preset==="tombstone"?[2,10,18]:preset==="shrink"?[2,18,34]:[2,10,18];
   for(const k of seq){let j=hash(k,t.m);while(t.t[j]!==null)j=(j+1)%t.m;t.t[j]=k;}
   if(preset==="tombstone")t.t[3]=DEL;
   return t;
@@ -243,7 +243,7 @@ function scanProbe(t,x,op,fr,path,checks){
  push(fr,t,op,"Compute home index","h("+x+") = "+j+" modulo "+t.m+". Begin probing here.",0,{pos:j,path,checks,hashKey:x});
  for(let tries=0;tries<t.m;tries++){
   const value=t.t[j];checks++;path.push(j+(value===null?" (null)":value===DEL?" (DEL)":" ("+value+")"));
-  push(fr,t,op,"Inspect slot "+j,value===null?"This slot has never held an entry since initialization or rebuilding. An unsuccessful search can stop here.":value===DEL?"DEL is a deleted marker. It cannot match, but probing must continue beyond it.":value===x?"This live slot contains the exact key "+x+".":"Slot "+j+" contains "+value+", not "+x+". This collision means probing continues.",op==="remove"?1:1,{pos:j,path,checks,hashKey:x});
+  push(fr,t,op,"Inspect slot "+j,value===null?"This slot has never held an entry since initialization or rebuilding. An unsuccessful search can stop here.":value===DEL?"DEL is a deleted marker. It cannot match, but probing must continue beyond it.":value===x?"This live slot contains the exact key "+x+".":"Slot "+j+" contains "+value+", not "+x+". This collision means probing continues.",op==="add"?0:1,{pos:j,path,checks,hashKey:x});
   if(value===null)return{found:false,index:j,checks,path};
   if(value!==DEL&&value===x)return{found:true,index:j,checks,path};
   const from=j;j=(j+1)%t.m;
