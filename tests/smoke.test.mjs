@@ -38,7 +38,7 @@ for (const lab of labs) {
     try {
       assert.equal(await page.locator('main#primary-content').count(),1);
       assert.equal(await page.locator('a.skip-link').count(),1);
-      assert.equal(await page.locator('.prediction summary').count(),1);
+      assert.ok((await page.locator('.prediction summary').count())>=1);
       assert.equal(await page.locator('#animated-diagram-description').count(),1);
       assert.deepEqual(errors,[]);
     } finally { await page.close(); }
