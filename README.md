@@ -6,8 +6,8 @@ Interactive, self-contained teaching materials for **Chapter 4: Skiplists**, **C
 
 | Section | Lab | Concepts |
 | --- | --- | --- |
-| **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
 | **4.1–4.4 — Skiplists** | [Interactive Skiplist Lab](skiplist_chapter_4_interactive.html) | Basic towers; SSet find/add/remove; indexed List get/set/add/remove; coin-flip analysis and span labels |
+| **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
 | **6.1 — BinaryTree** | [Tree Traversals](binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
 | **6.2 — BinarySearchTree** | [BST Operations](bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
 
