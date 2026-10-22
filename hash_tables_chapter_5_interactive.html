@@ -152,6 +152,19 @@ footer a,.note a { text-decoration:underline; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
 }
+
+/* Audit-driven refinements: level AAA contrast targets for fine print and labels. */
+.item .idx,.result > b,.under > b,.below > b,#stepBody,#bodyText,
+.block h3,.example-label,.legend > span,.path-title,#hashFormula,
+#family,#modeRule,.toolbar-status,#teachTip,
+.code-explanation-label,.order-label-text,.hint,.tiny-rule {
+  color:#153b4b !important;
+  font-size:max(.95rem,14px);
+}
+.item.active .idx { color:#fff !important; }
+#visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+}
 </style>
 </head>
 <body><a class="skip-link" href="#primary-content">Skip to main content</a>
@@ -170,7 +183,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="note" id="modeNote">One array index holds an entire bucket (list); collisions share that bucket.</div>
 <div class="hash"><span>Teaching hash function</span><code id="hashFormula">h(x) = ((x % 8) + 8) % 8</code><span id="hashCalculation">For x = 18, h(x) = 2.</span></div>
 <div class="viewhead"><strong id="viewTitle">Buckets (lists)</strong><div class="legend"><span><i class="dot" style="background:#00564e"></i>Inspecting</span><span><i class="dot" style="background:#e1ae73"></i>Changed</span><span><i class="dot" style="background:#becdd9"></i>Other</span></div></div>
-<div class="visual" id="visual" aria-label="Hash table slots"></div>
+<div class="visual" id="visual" tabindex="0" aria-label="Hash table slots"></div>
 <div class="metrics" aria-live="polite"><div class="metric"><strong id="metricN">0</strong><span>Stored keys n</span></div><div class="metric"><strong id="metricM">8</strong><span>Capacity m</span></div><div class="metric"><strong id="metricLoad">0.00</strong><span>Load factor n/m</span></div><div class="metric"><strong id="metricChecks">0</strong><span id="checksLabel">Comparisons</span></div></div>
 <div class="pathstrip"><strong>Inspected positions / probe path</strong><div id="pathText">Select an example or click Animate.</div></div>
 <div class="transport">

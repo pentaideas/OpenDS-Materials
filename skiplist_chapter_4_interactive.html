@@ -91,6 +91,19 @@ footer a,.note a { text-decoration:underline; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
 }
+
+/* Audit-driven refinements: level AAA contrast targets for fine print and labels. */
+.item .idx,.result > b,.under > b,.below > b,#stepBody,#bodyText,
+.block h3,.example-label,.legend > span,.path-title,#hashFormula,
+#family,#modeRule,.toolbar-status,#teachTip,
+.code-explanation-label,.order-label-text,.hint,.tiny-rule {
+  color:#153b4b !important;
+  font-size:max(.95rem,14px);
+}
+.item.active .idx { color:#fff !important; }
+#visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+}
 </style>
 </head>
 <body><a class="skip-link" href="#primary-content">Skip to main content</a>
@@ -115,7 +128,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="examples"><span class="example-label">Try an example</span><span id="exampleButtons"></span></div>
 <div class="help" id="modeHelp">SkiplistSSet stores <strong>unique sorted keys</strong>. Move right while the next key is smaller than x; otherwise move down.</div>
 <div class="vis-head"><strong id="viewTitle">Layered skiplist</strong><div class="legend"><span><i class="dot" style="background:#00564e"></i>Active</span><span><i class="dot" style="background:#e1a550"></i>Changed</span><span><i class="dot" style="background:#9eb6c9"></i>Other</span></div></div>
-<div class="viewport" id="viewport"><svg id="diagram" role="img" aria-label="Animated skiplist with labeled levels and pointers" xmlns="http://www.w3.org/2000/svg"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
+<div class="viewport" id="viewport" tabindex="0" role="region" aria-label="Scrollable skiplist diagram"><svg id="diagram" role="img" aria-label="Animated skiplist with labeled levels and pointers" xmlns="http://www.w3.org/2000/svg"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
 <div class="metrics"><div class="metric"><span class="num" id="mNodes">9</span><span class="desc">Elements</span></div><div class="metric"><span class="num" id="mHeight">3</span><span class="desc">Highest level</span></div><div class="metric"><span class="num" id="mRight">0</span><span class="desc">Right moves</span></div><div class="metric"><span class="num" id="mDown">0</span><span class="desc">Down moves</span></div></div>
 <div class="path"><div class="path-title">Search path / update trace</div><div class="path-text" id="pathText">Ready to explore.</div></div>
 <div class="transport"><div class="buttons">

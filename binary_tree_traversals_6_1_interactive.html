@@ -56,6 +56,19 @@ footer a,.note a { text-decoration:underline; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
 }
+
+/* Audit-driven refinements: level AAA contrast targets for fine print and labels. */
+.item .idx,.result > b,.under > b,.below > b,#stepBody,#bodyText,
+.block h3,.example-label,.legend > span,.path-title,#hashFormula,
+#family,#modeRule,.toolbar-status,#teachTip,
+.code-explanation-label,.order-label-text,.hint,.tiny-rule {
+  color:#153b4b !important;
+  font-size:max(.95rem,14px);
+}
+.item.active .idx { color:#fff !important; }
+#visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+}
 </style>
 </head>
 <body><a class="skip-link" href="#primary-content">Skip to main content</a>

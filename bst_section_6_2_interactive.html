@@ -57,6 +57,19 @@ footer a,.note a { text-decoration:underline; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
 }
+
+/* Audit-driven refinements: level AAA contrast targets for fine print and labels. */
+.item .idx,.result > b,.under > b,.below > b,#stepBody,#bodyText,
+.block h3,.example-label,.legend > span,.path-title,#hashFormula,
+#family,#modeRule,.toolbar-status,#teachTip,
+.code-explanation-label,.order-label-text,.hint,.tiny-rule {
+  color:#153b4b !important;
+  font-size:max(.95rem,14px);
+}
+.item.active .idx { color:#fff !important; }
+#visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+}
 </style>
 </head>
 <body><a class="skip-link" href="#primary-content">Skip to main content</a>
@@ -68,7 +81,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="control-strip"><div class="field"><label for="valueInput">VALUE (x)</label><input id="valueInput" type="number" step="any" value="6" /></div><button class="primary" id="runBtn">▶ Animate search</button><div class="field"><label for="preset">STARTING TREE</label><select id="preset"><option value="classic">Textbook example</option><option value="balanced">Perfectly balanced</option><option value="skewed">Sorted insertion</option><option value="empty">Empty tree</option></select></div><button class="soft-btn" id="resetBtn">↺ Reset</button></div>
 <div class="preset-strip"><span class="strip-label">TRY AN EXAMPLE</span><button class="chip" data-example="found">Find 6</button><button class="chip" data-example="successor">Find 10 (successor)</button><button class="chip" data-example="insert">Insert 8.5</button><button class="chip" data-example="leaf">Delete leaf 6</button><button class="chip" data-example="one">Delete one-child 9</button><button class="chip" data-example="two">Delete two-child 11</button><button class="chip" data-example="chain">Build a chain</button></div>
 <div class="vis-head"><div class="vis-title" id="treeTitle">Binary search tree</div><div class="legend"><span><i class="dot" style="background:#09978c"></i>Current</span><span><i class="dot" style="background:#9eddd4"></i>Visited</span><span><i class="dot" style="background:#9c7dd3"></i>Successor</span></div></div>
-<div class="tree-viewport" id="treeViewport"><svg id="treeSvg" class="tree-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated binary search tree"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
+<div class="tree-viewport" id="treeViewport"><svg id="treeSvg" class="tree-svg" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Interactive binary search tree"></svg></div><details class="prediction"><summary>Text version of this structure</summary><p id="structureText">Structure details appear here.</p></details>
 <div class="stat-line" aria-live="polite"><div class="metric"><span class="val" id="metricNodes">12</span><span class="name">Nodes</span></div><div class="metric"><span class="val" id="metricHeight">3</span><span class="name">Height (edges)</span></div><div class="metric"><span class="val" id="metricComparisons">0</span><span class="name">Comparisons</span></div><div class="metric"><span class="val" id="metricVisits">0</span><span class="name">Visited nodes</span></div></div>
 <div class="transport"><div class="transport-top"><button class="icon-btn" id="prevBtn" title="Previous step" aria-label="Previous step">‹</button><button class="icon-btn play-btn" id="playBtn">▶ Play</button><button class="icon-btn" id="nextBtn" title="Next step" aria-label="Next step">›</button><button class="icon-btn" id="restartBtn" title="Restart operation" aria-label="Restart operation">↺</button><label class="speed" for="speed">Speed <select id="speed" aria-label="Playback speed"><option value="1600">Slow</option><option value="1000" selected>Normal</option><option value="520">Fast</option></select></label><span class="step-counter" id="stepCounter">Step 1 of 1</span></div><input class="progress" id="progress" type="range" min="0" max="0" value="0" aria-label="Animation step" /></div>
 </main>

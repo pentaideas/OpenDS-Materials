@@ -49,6 +49,19 @@ footer a,.note a { text-decoration:underline; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
 }
+
+/* Audit-driven refinements: level AAA contrast targets for fine print and labels. */
+.item .idx,.result > b,.under > b,.below > b,#stepBody,#bodyText,
+.block h3,.example-label,.legend > span,.path-title,#hashFormula,
+#family,#modeRule,.toolbar-status,#teachTip,
+.code-explanation-label,.order-label-text,.hint,.tiny-rule {
+  color:#153b4b !important;
+  font-size:max(.95rem,14px);
+}
+.item.active .idx { color:#fff !important; }
+#visual:focus-visible,#viewport:focus-visible,#codeCard:focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+}
 </style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 2</div><h1>Array-based lists, visualized.</h1><p class="subtitle">Watch array shifts, bulk copies, wrapped queues, deque strategy choices, half-array balancing, and triangular blocks. The highlighted pseudocode and its plain-English explanation advance together.</p></div><nav class="nav"><a href="index.html">← All labs</a><a href="https://opendatastructures.org/newhtml/ods/latex/arrays.html">Read Chapter 2 ↗</a><a href="linked_lists_chapter_3_interactive.html">Chapter 3 →</a></nav></header>
 <div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace"><details class="prediction"><summary>Think before you animate</summary><p>Predict which side shifts, which physical cells change, and whether resizing will occur.</p></details>
@@ -60,7 +73,7 @@ footer a,.note a { text-decoration:underline; }
 <div class="metricstrip"><div class="metric"><strong id="metricN">5</strong><span>Elements (n)</span></div><div class="metric"><strong id="metricCap">8</strong><span>Displayed capacity</span></div><div class="metric"><strong id="metricCost">0</strong><span>Illustrative moves</span></div><div class="metric"><strong id="metricHead">0</strong><span>Start / blocks</span></div></div>
 <div class="trace"><b>Logical sequence · left to right</b><div id="sequence"></div></div>
 <div class="transport"><div class="buttons"><button class="navbtn" id="prevBtn" title="Previous step" aria-label="Previous step">‹</button><button class="navbtn play" id="playBtn">▶ Play</button><button class="navbtn" id="nextBtn" title="Next step" aria-label="Next step">›</button><button class="navbtn" id="restartBtn" title="Restart" aria-label="Restart">↺</button><label class="speed" for="speed">Speed <select id="speed"><option value="1550">Slow</option><option value="950" selected>Normal</option><option value="410">Fast</option></select></label><span class="counter" id="stepCounter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Current animation step"></div>
-</main><aside class="panel explain"><div><div id="sectionTitle" class="eyebrow">2.1 · ArrayStack</div><h2 id="stepTitle">Select an operation</h2></div><div class="result"><b>Result</b><div id="resultText">Ready.</div></div><div><div class="codehead"><span class="eyebrow">Algorithm outline</span><span class="pill" id="codePill">add(i,x)</span></div><div class="codebox" id="codeCard"></div><div class="under" role="status" aria-live="polite" aria-atomic="true"><b>Why this highlighted line?</b><p id="lineExplain"></p><p id="stepBody"></p></div></div><div class="footnote" id="conceptTip"></div></aside></div>
+</main><aside class="panel explain"><div><div id="sectionTitle" class="eyebrow">2.1 · ArrayStack</div><h2 id="stepTitle">Select an operation</h2></div><div class="result"><b>Result</b><div id="resultText">Ready.</div></div><div><div class="codehead"><span class="eyebrow">Algorithm outline</span><span class="pill" id="codePill">add(i,x)</span></div><div class="codebox" id="codeCard" tabindex="0" role="region" aria-label="Scrollable pseudocode"></div><div class="under" role="status" aria-live="polite" aria-atomic="true"><b>Why this highlighted line?</b><p id="lineExplain"></p><p id="stepBody"></p></div></div><div class="footnote" id="conceptTip"></div></aside></div>
 <div class="lower"><section class="panel lesson"><div class="eyebrow">Memory vs. logical order</div><h3>The difference between physical cells and the List interface</h3><p>A List exposes values at indices 0 through n−1. ArrayQueue and ArrayDeque may begin at physical index j ≠ 0. The diagrams show the backing array, while the line beneath reports its logical sequence.</p><div class="concepts"><div class="concept"><strong>ArrayStack</strong><small>O(1) get/set, O(n−i) add/remove</small></div><div class="concept"><strong>ArrayQueue</strong><small>O(1) amortized add/remove at ends</small></div></div></section><section class="panel lesson"><div class="eyebrow">Amortized analysis</div><h3>Why resizing is affordable</h3><p>Doubling on growth and shrinking when substantially underfull cost O(n) for one resize, but not for every operation. Over a sequence of updates, the total copying cost stays linear. A RootishArrayStack uses blocks of sizes 1, 2, …, b, with capacity b(b+1)/2 and O(√n) wasted cells.</p></section></div>
 <footer>Educational adaptation of Pat Morin’s <a href="https://opendatastructures.org/">Open Data Structures</a>, Chapter 2. Operations are simplified where noted; each is accompanied by a trace of its principal algorithmic steps.</footer></div>
 <script>
