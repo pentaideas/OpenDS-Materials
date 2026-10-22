@@ -38,6 +38,7 @@ for(const file of files){
     for(const v of triple.violations) {
       aaa++;
       console.log('  AAA advisory '+v.id+': '+v.nodes.length+' elements');
+      for(const n of v.nodes.slice(0,15)) console.log('    AAA target '+n.target.join(' ')+' '+n.failureSummary?.slice(0,160));
     }
   }
   await inspect('initial');
