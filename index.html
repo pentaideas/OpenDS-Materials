@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive teaching animations for Chapters 1–6 of Pat Morin's Open Data Structures.">
 <title>OpenDS Materials | Interactive Data Structure Labs</title>
 <style>
-:root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#008a80; --navy:#10253d; --blue:#315bba; }
+:root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#00564e; --navy:#10253d; --blue:#315bba; }
 * {box-sizing:border-box}
 body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
 a { color:inherit; } a:focus-visible { outline:3px solid #50aaa3; outline-offset:4px; border-radius:4px; }
@@ -43,14 +43,61 @@ footer { border-top:1px solid var(--line); padding:25px 0 40px; color:var(--mute
 footer a { color:var(--blue); }
 @media (max-width:700px){.card.feature{grid-column:auto}.hero{grid-template-columns:1fr}.hero-visual{min-height:190px}.cards{grid-template-columns:1fr}main{padding-top:38px}.sectionhead{margin-top:38px}.links{flex-wrap:wrap;justify-content:flex-end}}
 @media (prefers-reduced-motion:no-preference) {.card,.cta{transition:transform .15s ease,box-shadow .15s ease,background .15s ease}.card:hover{transform:translateY(-2px);box-shadow:0 9px 25px #15243a15}}
+
+/* Accessibility enhancements: inline to preserve standalone/offline operation. */
+:root { --ink:#142b3e; --muted:#27475b; --teal:#00564e; --blue:#164568; --navy:#102b40; }
+html { scroll-padding-top:1rem; }
+body { font-size:16px; line-height:1.6; }
+a { text-underline-offset:.2em; }
+button, select, input, summary { font-size:1rem; min-height:44px; }
+button, .tab, .chip, .cta, .navbtn, .square, .icon-btn, .iconbtn { min-width:44px; min-height:44px; }
+button, input, select, a, summary, [tabindex] { scroll-margin:1rem; }
+:where(a,button,input,select,summary,[tabindex]):focus-visible {
+  outline:3px solid #003f3a !important; outline-offset:3px !important;
+  box-shadow:0 0 0 6px #ffde6a !important;
+}
+.skip-link { position:absolute;z-index:9999;left:12px;top:-120px;padding:12px 20px;background:#fff;color:#102c40;border:3px solid #003f3a;font-weight:750; }
+.skip-link:focus { top:10px; }
+.sr-only { position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important; }
+.subtitle,.lead,.eyebrow,.kicker,.section-label,.strip-label,.tabsnote,
+.field label,.metric span,.metric .name,.counter,.step-counter,.speed,
+.gridnote,.indexnote,.diagramkey,.diagfoot,.trace,.trace b,.visualnote,.note p,
+.modeNote,.help,.tips,.modeNote strong,.lesson p,.lesson small,.footnote,
+.asidefoot,.concept small,.sectionhead p,.sectionhead small,.viz-title small,
+.barname,.barval,.cell-index,.cell-tag,.node .id,.node .role,.block-title,
+.slotindex,.legendtext,.label,.pill,.tag,.top-links,.links,footer,footer a {
+  color:#233f52 !important;
+}
+.lesson p,.note p,.footnote,.asidefoot,.modeNote,.help,.tips,.gridnote,.diagfoot,.visualnote,.legendtext { font-size:max(.95rem,14px); }
+.field label,.metric span,.metric .name,.eyebrow,.section-label,.counter,.speed,
+.trace b,.diagramkey,.cell-index,.cell-tag,.block-title,.node .role,.node .id,
+.slotindex,.barname,.barval,.tag { font-size:max(.85rem,13px); letter-spacing:normal; }
+.line,.codeline,.code-line,.codebox,.code,.under,.under-code,.below,.code-explanation { font-size:max(.88rem,14px); }
+.tab,.chip,.navbtn,.square,.icon-btn,.iconbtn,.soft,.secondary,.btn.secondary { color:#153447 !important; }
+.tab[aria-pressed="true"],.tab.active { background:#00564e !important;color:#fff !important;border-color:#00564e !important; }
+.primary,.btn.primary,.cta,.navbtn.play,.icon-btn.play-btn,.iconbtn.playbtn,
+.square.play,.playbtn,.play-btn,.btn.play { background:#00564e !important;color:#fff !important;border-color:#00564e !important; }
+.tab[aria-pressed="true"] *,.primary *,.cta * { color:inherit !important; }
+.result,.note,.help,.modeNote,.under,.under-code,.below,.code-explanation { border-color:#7c9aa3; }
+.result,.result *,.notice,.error { color:#173e3d; }
+.progress { min-height:32px; }
+.tabs,.tabstrip { overflow-x:auto;max-width:100%; }
+.prediction { margin:10px 16px 14px;padding:11px 14px;border:1px solid #718b97;border-radius:10px;background:#f8fbfc; }
+.prediction summary { cursor:pointer;font-weight:750;color:#153a48; }
+.prediction p { color:#1d3c4b;margin:.35rem 0 0;font-size:1rem; }
+.visual,.viz,.viewport,.tree-viewport { max-width:100%; }
+footer a,.note a { text-decoration:underline; }
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
+}
 </style>
 </head>
-<body>
+<body><a class="skip-link" href="#primary-content">Skip to main content</a>
 <header><nav class="wrap" aria-label="Main navigation">
   <a class="brand" href="index.html">OpenDS Materials</a>
   <div class="links"><a href="#labs">Interactive labs</a><a href="https://github.com/pentaideas/OpenDS-Materials">GitHub</a><a href="https://opendatastructures.org/">Textbook ↗</a></div>
 </nav></header>
-<main class="wrap">
+<main id="primary-content" tabindex="-1" class="wrap">
   <section class="hero" aria-labelledby="page-title">
     <div>
       <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 1–6</div>
@@ -61,7 +108,7 @@ footer a { color:var(--blue); }
       <svg viewBox="0 0 360 270" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M180 55L96 126M180 55L264 126M96 126L50 204M96 126L139 204M264 126L220 204M264 126L312 204" stroke="#769aab" stroke-width="5" stroke-linecap="round"/>
         <g fill="#fff" stroke="#7999b4" stroke-width="3"><circle cx="96" cy="126" r="29"/><circle cx="264" cy="126" r="29"/><circle cx="50" cy="204" r="27"/><circle cx="139" cy="204" r="27"/><circle cx="220" cy="204" r="27"/><circle cx="312" cy="204" r="27"/></g>
-        <circle cx="180" cy="55" r="36" fill="#008a80" stroke="#007970" stroke-width="3"/>
+        <circle cx="180" cy="55" r="36" fill="#00564e" stroke="#007970" stroke-width="3"/>
         <g font-size="23" font-family="system-ui,sans-serif" font-weight="700" text-anchor="middle" dominant-baseline="central">
           <text x="180" y="55" fill="#fff">8</text>
           <text x="96" y="126" fill="#18364d">4</text><text x="264" y="126" fill="#18364d">12</text>
