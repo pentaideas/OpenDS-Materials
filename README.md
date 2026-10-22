@@ -1,17 +1,20 @@
 # OpenDS Materials
 
-Interactive, self-contained teaching materials for **Chapter 4: Skiplists**, **Chapter 5: Hash Tables**, and **Chapter 6: Binary Trees** of Pat Morin's *Open Data Structures*.
+Interactive, self-contained teaching materials for **Chapters 1–6** of Pat Morin's *Open Data Structures*.
 
 ## Launch the labs
 
 | Section | Lab | Concepts |
 | --- | --- | --- |
+| **1 — Introduction** | [Interfaces & Complexity](introduction_chapter_1_interactive.html) | Stack/Queue/Deque/List/USet/SSet interfaces; asymptotic growth, coin-flip probability, loop invariants |
+| **2.1–2.6 — Array-Based Lists** | [Interactive Arrays Lab](array_based_lists_chapter_2_interactive.html) | ArrayStack, FastArrayStack, ArrayQueue, ArrayDeque, DualArrayDeque, RootishArrayStack |
+| **3.1–3.3 — Linked Lists** | [Interactive Linked Lists Lab](linked_lists_chapter_3_interactive.html) | SLList, DLList, SEList; next/prev references; head/tail; linked blocks |
 | **4.1–4.4 — Skiplists** | [Interactive Skiplist Lab](skiplist_chapter_4_interactive.html) | Basic towers; SSet find/add/remove; indexed List get/set/add/remove; coin-flip analysis and span labels |
 | **5.1–5.3 — Hash Tables** | [Interactive Hash Tables Lab](hash_tables_chapter_5_interactive.html) | Bucket chaining, linear probing, tombstones, collisions, insertion/search/deletion, resizing, and load factors |
 | **6.1 — BinaryTree** | [Tree Traversals](binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
 | **6.2 — BinarySearchTree** | [BST Operations](bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
 
-Open [**index.html**](index.html) for a simple landing page linking to all four labs.
+Open [**index.html**](index.html) for a simple landing page linking to all seven labs.
 
 ### Run locally
 
@@ -20,6 +23,28 @@ Open [**index.html**](index.html) for a simple landing page linking to all four 
 3. Select a lab. No dependencies, installation, server, or internet connection are required.
 
 Each lab is a single HTML file with its CSS and JavaScript embedded. You can also open any HTML file directly.
+
+### Lab 1 — Introduction, interfaces, and complexity
+
+- Practice Stack (LIFO), Queue (FIFO), Deque, List, USet, and SSet contracts.
+- Distinguish exact USet membership from successor-style SSet `find(x)`.
+- Compare illustrative O(1), O(log n), O(n), O(n log n), and O(n²) operation counts.
+- Animate independent coin flips and a loop invariant for linear search.
+
+### Lab 2.1–2.6 — Array-based lists
+
+- Animate shifting and resizing in `ArrayStack`, and bulk copying in `FastArrayStack`.
+- Examine physical vs logical indexing in circular `ArrayQueue` and `ArrayDeque`.
+- Watch `DualArrayDeque` rebalance its two backing arrays.
+- See triangular blocks grow and shrink in `RootishArrayStack`.
+- Compare live capacity, moved cells, and annotated pseudocode.
+
+### Lab 3.1–3.3 — Linked lists
+
+- Animate head/tail updates with `SLList` stack and FIFO operations.
+- Trace `DLList` prev/next references and the dummy sentinel.
+- Insert, remove, and transfer values between bounded blocks in an `SEList` teaching demonstration.
+- Show pointer steps and descriptions below highlighted code.
 
 ### Lab 4.1–4.4 — Skiplists
 
@@ -63,7 +88,7 @@ If GitHub Pages is enabled for this repository, configure **Settings → Pages �
 
 The explanations and visualizations are original teaching materials that follow concepts from:
 
-Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 4–6, including §§4.1–4.4, 5.1–5.3, and 6.1–6.2).
+Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 1–6, including §§2.1–2.6, 3.1–3.3, 4.1–4.4, 5.1–5.3, and 6.1–6.2).
 
 These are supplementary interactive exercises, not an official edition or reproduction of the textbook.
 
@@ -73,6 +98,9 @@ These are supplementary interactive exercises, not an official edition or reprod
 OpenDS-Materials/
 ├── README.md
 ├── index.html
+├── introduction_chapter_1_interactive.html
+├── array_based_lists_chapter_2_interactive.html
+├── linked_lists_chapter_3_interactive.html
 ├── skiplist_chapter_4_interactive.html
 ├── hash_tables_chapter_5_interactive.html
 ├── binary_tree_traversals_6_1_interactive.html
