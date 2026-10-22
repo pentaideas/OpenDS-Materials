@@ -20,3 +20,5 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run browser regression tests
         run: npm test
+      - name: Audit WCAG 2.2 AA across all lab modes (AAA advisory)
+        run: npm run audit:a11y
