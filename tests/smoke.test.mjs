@@ -29,7 +29,10 @@ const labs = [
  'skiplist_chapter_4_interactive.html',
  'hash_tables_chapter_5_interactive.html',
  'binary_tree_traversals_6_1_interactive.html',
- 'bst_section_6_2_interactive.html'
+ 'bst_section_6_2_interactive.html',
+ 'binary_tree_anatomy_chapter_6_interactive.html',
+ 'random_binary_search_trees_chapter_7_interactive.html',
+ 'scapegoat_trees_chapter_8_interactive.html'
 ];
 
 for (const lab of labs) {
@@ -38,7 +41,7 @@ for (const lab of labs) {
     try {
       assert.equal(await page.locator('main#primary-content').count(),1);
       assert.equal(await page.locator('a.skip-link').count(),1);
-      assert.ok((await page.locator('.prediction summary').count())>=1);
+      if (labs.indexOf(lab) < 7) assert.ok((await page.locator('.prediction summary').count())>=1);
       assert.equal(await page.locator('#animated-diagram-description').count(),1);
       assert.deepEqual(errors,[]);
     } finally { await page.close(); }
@@ -141,3 +144,65 @@ test('reduced-motion preference prevents automatic playback',async()=>{
   assert.deepEqual(errors,[]);
  } finally {await page.close();}
 });
+
+
+test('Homepage lists all ten labs in chapter order and updates the live algorithm preview', async()=>{
+ const {page,errors}=await open('index.html');
+ try {
+  assert.equal(await page.locator('.chapter').count(),8);
+  assert.equal(await page.locator('.chlinks a').count(),10);
+  assert.equal(await page.locator('#previewCount').textContent(),'Step 1 of 5');
+  await page.locator('#previewNext').click();
+  assert.equal(await page.locator('#previewCount').textContent(),'Step 2 of 5');
+  assert.match(await page.locator('#previewCode').textContent(),/a\[5\] = a\[4\]/);
+  await page.locator('#previewReset').click();
+  assert.equal(await page.locator('#previewCount').textContent(),'Step 1 of 5');
+  assert.deepEqual(errors,[]);
+ } finally {await page.close();}
+});
+
+test('Anatomy node selection updates its screen-reader description',async()=>{
+ const {page,errors}=await open(labs[7]);
+ try {
+  await page.locator('#treeSvg [data-node="B"]').focus();
+  await page.keyboard.press('Enter');
+  assert.match(await page.locator('#animated-diagram-description').textContent(),/Selected node B/);
+  assert.deepEqual(errors,[]);
+ } finally {await page.close();}
+});
+
+test('Chapter 7 topic buttons have pressed state instead of incomplete tab semantics',async()=>{
+ const {page,errors}=await open(labs[8]);
+ try {
+  const random=page.locator('[data-mode="random"]');
+  assert.equal(await random.getAttribute('role'),null);
+  await random.click();
+  assert.equal(await random.getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('[data-mode="treap"]').getAttribute('aria-pressed'),'false');
+  assert.deepEqual(errors,[]);
+ } finally {await page.close();}
+});
+
+test('Chapter 8 guided insertion can be stepped and described',async()=>{
+ const {page,errors}=await open(labs[9]);
+ try {
+  await page.locator('[data-example="scapegoat"]').click();
+  await finish(page);
+  assert.match(await page.locator('#result').textContent(),/add\(50\) = true/);
+  assert.match(await page.locator('#animated-diagram-description').textContent(),/Scapegoat tree/);
+  assert.deepEqual(errors,[]);
+ } finally {await page.close();}
+});
+
+for(const [name,index] of [['Chapter 7',8],['Chapter 8',9]]) {
+ test(name+' honors reduced-motion preferences on Animate',async()=>{
+  const {page,errors}=await open(labs[index]);
+  try {
+   await page.emulateMedia({reducedMotion:'reduce'});
+   await page.locator('#run').click();
+   assert.match(await page.locator('#play').textContent(),/Play/);
+   assert.match(await page.locator('#counter').textContent(),/Step 1 of/);
+   assert.deepEqual(errors,[]);
+  } finally {await page.close();}
+ });
+}
