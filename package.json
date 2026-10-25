@@ -6,7 +6,9 @@
   "description": "Development-only browser regression tests for the offline teaching animations",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "audit:a11y": "node tests/accessibility-audit.mjs"
+    "audit:a11y": "node tests/accessibility-audit.mjs",
+    "check:styles": "node scripts/sync-workbench-style.mjs",
+    "sync:styles": "node scripts/sync-workbench-style.mjs --write"
   },
   "devDependencies": {
     "playwright": "^1.56.0",
