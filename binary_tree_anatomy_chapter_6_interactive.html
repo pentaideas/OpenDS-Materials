@@ -149,20 +149,21 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
 }
 /* WORKBENCH_STYLE_END */
 </style></head><body>
+<a class="skip-link" href="#primary-content">Skip to main content</a>
 <div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive concept lab · Chapter 6 introduction</div><h1>Anatomy of a binary tree.</h1><p class="subtitle">Learn the vocabulary behind every traversal and BST operation. Choose a relationship, click any node, and see the corresponding connections highlighted. Based on Pat Morin’s <em>Open Data Structures</em>, Chapter 6.</p></div><nav class="topnav" aria-label="Chapter links"><a href="index.html">← All labs</a><a href="binary_tree_traversals_6_1_interactive.html">§6.1 Traversals →</a><a href="bst_section_6_2_interactive.html">§6.2 BST →</a><a href="https://opendatastructures.org/newhtml/ods/latex2/binarytrees.html" target="_blank" rel="noopener noreferrer">Read Chapter 6 ↗</a></nav></header>
 <div class="layout">
-<main class="panel workspace">
+<main id="primary-content" tabindex="-1" class="panel workspace">
 <div class="controls"><div class="field"><label for="treeSelect">Example binary tree</label><select id="treeSelect"><option value="general">Branching tree (11 nodes)</option><option value="balanced">Perfect tree (7 nodes)</option><option value="skewed">Right-leaning chain</option><option value="sparse">Sparse tree</option><option value="single">Single-node tree</option></select></div>
 <label class="checklabel"><input type="checkbox" id="showNil"> Show nil / external children</label>
 <button id="resetBtn" class="ctrlbtn" style="font-size:12px;padding:0 12px" title="Reset to initial example">↺ Reset</button></div>
 <div class="legend"><span><i style="background:#008e83"></i>Selected node</span><span><i style="background:#94d2c4"></i>Related node</span><span><i style="background:#6c9bcc"></i>Illustrated path</span><span>Click a circle or use Tab + Enter</span></div>
 <div class="topics" id="topics" aria-label="Binary tree vocabulary"></div>
 <div class="vishead"><strong id="diagramTitle">Branching binary tree</strong><small id="diagramCaption">A node has at most two child links</small></div>
-<div class="viewport" id="viewport"><svg id="treeSvg" role="group" aria-label="Interactive binary tree with selectable nodes" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="viewport" id="viewport"><svg id="treeSvg" role="group" aria-label="Interactive binary tree with selectable nodes" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="sr-only" id="animated-diagram-description" role="status" aria-live="polite">Tree relationships described here.</p>
 <div class="inspector"><div class="inspector-head"><strong id="inspectorName">Selected node: E</strong><span class="pill" id="inspectorRole">internal node</span></div><div class="nodefacts" id="nodeFacts"></div></div>
 <div class="metrics"><div class="metric"><strong id="metricNodes">11</strong><span>Real nodes (n)</span></div><div class="metric"><strong id="metricEdges">10</strong><span>Edges (n − 1)</span></div><div class="metric"><strong id="metricLeaves">5</strong><span>Leaves</span></div><div class="metric"><strong id="metricHeight">3</strong><span>Tree height (edges)</span></div></div>
-<div class="transport"><div class="transportrow"><button id="prevBtn" class="ctrlbtn" aria-label="Previous vocabulary term" title="Previous term">‹</button><button id="playBtn" class="ctrlbtn play">▶ Guided tour</button><button id="nextBtn" class="ctrlbtn" aria-label="Next vocabulary term" title="Next term">›</button><span class="speed">Speed <select id="speed"><option value="2700">Slow</option><option value="1850" selected>Normal</option><option value="1000">Fast</option></select></span><span class="counter" id="counter">Term 1 / 1</span></div><input class="progress" type="range" id="progress" min="0" max="0" value="0" aria-label="Go to vocabulary term"></div>
+<div class="transport"><div class="transportrow"><button id="prevBtn" class="ctrlbtn" aria-label="Previous vocabulary term" title="Previous term">‹</button><button id="playBtn" class="ctrlbtn play">▶ Guided tour</button><button id="nextBtn" class="ctrlbtn" aria-label="Next vocabulary term" title="Next term">›</button><label class="speed" for="speed">Speed <select id="speed"><option value="2700">Slow</option><option value="1850" selected>Normal</option><option value="1000">Fast</option></select></label><span class="counter" id="counter">Term 1 / 1</span></div><input class="progress" type="range" id="progress" min="0" max="0" value="0" aria-label="Go to vocabulary term"></div>
 </main>
 <aside class="panel explain">
 <div><div class="section-label" id="topicLabel">Binary tree vocabulary</div><h2 id="termTitle">Parent</h2></div>
@@ -372,6 +373,7 @@ function update(){
  ];
  $("nodeFacts").innerHTML=facts.map(([label,v])=>'<div class="fact"><b>'+escapeHtml(v)+'</b><small>'+escapeHtml(label)+'</small></div>').join("");
  $("metricNodes").textContent=tree.all.length;$("metricEdges").textContent=tree.all.length-1;$("metricLeaves").textContent=tree.all.filter(isLeaf).length;$("metricHeight").textContent=height(tree.root);
+ $("animated-diagram-description").textContent="Tree with "+tree.all.length+" nodes, height "+height(tree.root)+" edges. Selected node "+u.id+". "+r.example+" Its parent is "+fmt(u.parent)+", left child "+fmt(u.left)+", right child "+fmt(u.right)+".";
  $("counter").textContent="Term "+(term+1)+" of "+TERMS.length;$("progress").max=TERMS.length-1;$("progress").value=term;
  $("prevBtn").disabled=term===0;$("nextBtn").disabled=term===TERMS.length-1;
  $("diagramTitle").textContent=NAMES[treeName];$("diagramCaption").textContent=showNil?tree.all.length+1+" nil child links shown":"Choose a term or click a node";
