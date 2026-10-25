@@ -1,253 +1,77 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f7f8fb">
-<meta name="description" content="Interactive teaching animations for Chapters 1–8 of Pat Morin's Open Data Structures.">
-<title>OpenDS Materials | Interactive Data Structure Labs</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f8f5"><meta name="description" content="Interactive teaching companions for Chapters 1–8 of Pat Morin's Open Data Structures."><title>OpenDS Materials — Interactive Data Structure Labs</title>
 <style>
-:root { color-scheme: light; --bg:#f7f8fb; --ink:#182a41; --muted:#5f7186; --line:#dde6ee; --card:#fff; --teal:#00564e; --navy:#10253d; --blue:#315bba; }
-* {box-sizing:border-box}
-body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-a { color:inherit; } a:focus-visible { outline:3px solid #50aaa3; outline-offset:4px; border-radius:4px; }
-.wrap { max-width:1100px; margin:auto; padding:0 25px; }
-header { border-bottom:1px solid var(--line); background:#fff; }
-nav { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:16px 0; }
-.brand { font-size:17px; letter-spacing:-.03em; text-decoration:none; font-weight:800; }
-nav .links { display:flex; gap:20px; align-items:center; font-size:14px; color:var(--muted); }
-nav .links a { text-decoration:none; } nav .links a:hover { color:var(--teal); }
-main { padding:55px 0 70px; }
-.hero { display:grid; grid-template-columns: minmax(0,1.5fr) minmax(250px,1fr); gap:30px; align-items:center; }
-.eyebrow { letter-spacing:.1em; text-transform:uppercase; font-size:12px; font-weight:750; color:var(--teal); }
-h1 { letter-spacing:-.055em; font-size:clamp(38px,6vw,67px); margin:14px 0 16px; line-height:1.05; }
-.lead { font-size:18px; color:var(--muted); max-width:640px; }
-.hero-visual { border:1px solid #dce8e7; background:linear-gradient(135deg,#eaf7f4,#ecf2ff); border-radius:24px; padding:14px; min-height:270px; display:grid; place-items:center; }
-.hero-visual svg { width:100%; max-width:360px; height:auto; }
-.sectionhead { margin:58px 0 20px; display:flex; align-items:end; justify-content:space-between; gap:16px; }
-.sectionhead h2 { margin:0; font-size:27px; letter-spacing:-.04em; } .sectionhead p { margin:4px 0 0; color:var(--muted); }
-.cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-.card.feature { grid-column:1/-1; }
-.card { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:27px; box-shadow:0 5px 21px #15243a09; }
-.tag { align-self:flex-start; display:inline-block; background:#eaf6f3; color:#08786d; border-radius:100px; padding:4px 12px; font-size:12px; font-weight:700; letter-spacing:.035em; }
-.card h3 { font-size:25px; letter-spacing:-.04em; margin:18px 0 5px; line-height:1.2; }
-.card p { color:var(--muted); margin:8px 0; }
-.card ul { padding-left:20px; color:#33455b; margin:8px 0 25px; flex:1; }
-.card li { margin-bottom:6px; }
-.cta { display:inline-flex; align-items:center; justify-content:center; background:var(--navy); color:#fff; padding:11px 18px; border-radius:11px; text-decoration:none; font-weight:700; }
-.cta:hover { background:var(--teal); }
-.note { background:#fff; border:1px solid var(--line); border-radius:15px; margin-top:24px; padding:20px 24px; }
-.note h3 { margin:0 0 4px; font-size:16px; }.note p { margin:0; color:var(--muted); }
-.note a { color:var(--blue); }
-footer { border-top:1px solid var(--line); padding:25px 0 40px; color:var(--muted); font-size:13px; }
-footer a { color:var(--blue); }
-@media (max-width:700px){.card.feature{grid-column:auto}.hero{grid-template-columns:1fr}.hero-visual{min-height:190px}.cards{grid-template-columns:1fr}main{padding-top:38px}.sectionhead{margin-top:38px}.links{flex-wrap:wrap;justify-content:flex-end}}
-@media (prefers-reduced-motion:no-preference) {.card,.cta{transition:transform .15s ease,box-shadow .15s ease,background .15s ease}.card:hover{transform:translateY(-2px);box-shadow:0 9px 25px #15243a15}}
-
-/* Accessibility enhancements: inline to preserve standalone/offline operation. */
-:root { --ink:#142b3e; --muted:#27475b; --teal:#00564e; --blue:#164568; --navy:#102b40; }
-html { scroll-padding-top:1rem; }
-body { font-size:16px; line-height:1.6; }
-a { text-underline-offset:.2em; }
-button, select, input, summary { font-size:1rem; min-height:44px; }
-button, .tab, .chip, .cta, .navbtn, .square, .icon-btn, .iconbtn { min-width:44px; min-height:44px; }
-button, input, select, a, summary, [tabindex] { scroll-margin:1rem; }
-:where(a,button,input,select,summary,[tabindex]):focus-visible {
-  outline:3px solid #003f3a !important; outline-offset:3px !important;
-  box-shadow:0 0 0 6px #ffde6a !important;
-}
-.skip-link { position:absolute;z-index:9999;left:12px;top:-120px;padding:12px 20px;background:#fff;color:#102c40;border:3px solid #003f3a;font-weight:750; }
-.skip-link:focus { top:10px; }
-.sr-only { position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important; }
-.subtitle,.lead,.eyebrow,.kicker,.section-label,.strip-label,.tabsnote,
-.field label,.metric span,.metric .name,.counter,.step-counter,.speed,
-.gridnote,.indexnote,.diagramkey,.diagfoot,.trace,.trace b,.visualnote,.note p,
-.modeNote,.help,.tips,.modeNote strong,.lesson p,.lesson small,.footnote,
-.asidefoot,.concept small,.sectionhead p,.sectionhead small,.viz-title small,
-.barname,.barval,.cell-index,.cell-tag,.node .id,.node .role,.block-title,
-.slotindex,.legendtext,.label,.pill,.tag,.top-links,.links,footer,footer a {
-  color:#233f52 !important;
-}
-.lesson p,.note p,.footnote,.asidefoot,.modeNote,.help,.tips,.gridnote,.diagfoot,.visualnote,.legendtext { font-size:max(.95rem,14px); }
-.field label,.metric span,.metric .name,.eyebrow,.section-label,.counter,.speed,
-.trace b,.diagramkey,.cell-index,.cell-tag,.block-title,.node .role,.node .id,
-.slotindex,.barname,.barval,.tag { font-size:max(.85rem,13px); letter-spacing:normal; }
-.line,.codeline,.code-line,.codebox,.code,.under,.under-code,.below,.code-explanation { font-size:max(.88rem,14px); }
-.tab,.chip,.navbtn,.square,.icon-btn,.iconbtn,.soft,.secondary,.btn.secondary { color:#153447 !important; }
-.tab[aria-pressed="true"],.tab.active { background:#00564e !important;color:#fff !important;border-color:#00564e !important; }
-.primary,.btn.primary,.cta,.navbtn.play,.icon-btn.play-btn,.iconbtn.playbtn,
-.square.play,.playbtn,.play-btn,.btn.play { background:#00564e !important;color:#fff !important;border-color:#00564e !important; }
-.tab[aria-pressed="true"] *,.primary *,.cta * { color:inherit !important; }
-.result,.note,.help,.modeNote,.under,.under-code,.below,.code-explanation { border-color:#7c9aa3; }
-.result,.result *,.notice,.error { color:#173e3d; }
-.progress { min-height:32px; }
-.tabs,.tabstrip { overflow-x:auto;max-width:100%; }
-.prediction { margin:10px 16px 14px;padding:11px 14px;border:1px solid #718b97;border-radius:10px;background:#f8fbfc; }
-.prediction summary { cursor:pointer;font-weight:750;color:#153a48; }
-.prediction p { color:#1d3c4b;margin:.35rem 0 0;font-size:1rem; }
-.visual,.viz,.viewport,.tree-viewport { max-width:100%; }
-footer a,.note a { text-decoration:underline; }
-@media (prefers-reduced-motion:reduce) {
-  *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important; }
-}
-</style>
-</head>
-<body><a class="skip-link" href="#primary-content">Skip to main content</a>
-<header><nav class="wrap" aria-label="Main navigation">
-  <a class="brand" href="index.html">OpenDS Materials</a>
-  <div class="links"><a href="#labs">Interactive labs</a><a href="binary_tree_anatomy_chapter_6_interactive.html">Tree anatomy · Ch. 6</a><a href="https://github.com/pentaideas/OpenDS-Materials">GitHub</a><a href="https://opendatastructures.org/">Textbook ↗</a></div>
-</nav></header>
-<main id="primary-content" tabindex="-1" class="wrap">
-  <section class="hero" aria-labelledby="page-title">
-    <div>
-      <div class="eyebrow">Pat Morin · Open Data Structures · Chapters 1–8</div>
-      <h1 id="page-title">Data Structures,<br>Made Visible.</h1>
-      <p class="lead">Explore interfaces, array-based lists, linked lists, skiplists, hash tables, and binary trees through interactive, step-by-step animations. No setup required.</p>
-      <p class="lead" style="font-size:14px;margin-top:13px"><strong>New for Chapter 6:</strong> <a href="binary_tree_anatomy_chapter_6_interactive.html">Anatomy of a Binary Tree — vocabulary, clickable nodes and guided practice →</a></p>
-    </div>
-    <div class="hero-visual" aria-hidden="true">
-      <svg viewBox="0 0 360 270" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M180 55L96 126M180 55L264 126M96 126L50 204M96 126L139 204M264 126L220 204M264 126L312 204" stroke="#769aab" stroke-width="5" stroke-linecap="round"/>
-        <g fill="#fff" stroke="#7999b4" stroke-width="3"><circle cx="96" cy="126" r="29"/><circle cx="264" cy="126" r="29"/><circle cx="50" cy="204" r="27"/><circle cx="139" cy="204" r="27"/><circle cx="220" cy="204" r="27"/><circle cx="312" cy="204" r="27"/></g>
-        <circle cx="180" cy="55" r="36" fill="#00564e" stroke="#007970" stroke-width="3"/>
-        <g font-size="23" font-family="system-ui,sans-serif" font-weight="700" text-anchor="middle" dominant-baseline="central">
-          <text x="180" y="55" fill="#fff">8</text>
-          <text x="96" y="126" fill="#18364d">4</text><text x="264" y="126" fill="#18364d">12</text>
-          <text x="50" y="204" fill="#18364d">2</text><text x="139" y="204" fill="#18364d">6</text>
-          <text x="220" y="204" fill="#18364d">10</text><text x="312" y="204" fill="#18364d">14</text>
-        </g>
-      </svg>
-    </div>
-  </section>
-  <section id="labs" aria-labelledby="labs-title">
-    <div class="sectionhead">
-      <div><div class="eyebrow">Choose a lesson</div><h2 id="labs-title">Interactive Labs</h2><p>Each opens a complete standalone HTML learning tool.</p></div>
-    </div>
-    <div class="cards">
-      <article class="card">
-        <span class="tag">Chapter 1 · Introduction</span>
-        <h3>Interfaces &amp; Complexity</h3>
-        <p>Understand what collections promise and how algorithms behave as the input grows.</p>
-        <ul>
-          <li>Stack, Queue, Deque, List, USet and SSet semantics</li>
-          <li>Interactive O(1), O(log n), O(n), O(n log n) and O(n²) comparisons</li>
-          <li>Random coin-flip experiments and correctness invariants</li>
-          <li>Highlighted explanations and step-by-step controls</li>
-        </ul>
-        <a class="cta" href="introduction_chapter_1_interactive.html">Open Foundations Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 2 · Sections 2.1–2.6</span>
-        <h3>Array-Based Lists</h3>
-        <p>Watch elements shift, arrays resize and circular structures maintain their order.</p>
-        <ul>
-          <li>ArrayStack and FastArrayStack bulk copies</li>
-          <li>ArrayQueue and ArrayDeque circular layouts</li>
-          <li>DualArrayDeque rebalancing and RootishArrayStack blocks</li>
-          <li>Live index, capacity and moved-cell metrics</li>
-        </ul>
-        <a class="cta" href="array_based_lists_chapter_2_interactive.html">Open Arrays Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 3 · Sections 3.1–3.3</span>
-        <h3>Linked Lists</h3>
-        <p>Trace the references connecting nodes and see how blocks redistribute their contents.</p>
-        <ul>
-          <li>SLList push, pop and FIFO operations</li>
-          <li>DLList sentinel, next and prev updates</li>
-          <li>SEList block insertion, borrowing and removal</li>
-          <li>Pointer walking and explanatory pseudocode</li>
-        </ul>
-        <a class="cta" href="linked_lists_chapter_3_interactive.html">Open Linked Lists Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 4 · Sections 4.1–4.4</span>
-        <h3>Skiplists — Layer by Layer</h3>
-        <p>Trace search paths through probabilistic levels, then work with both sorted sets and indexable lists.</p>
-        <ul>
-          <li>Basic structure: sentinels, towers, and moving right or down</li>
-          <li>SkiplistSSet: successor search, insertion, removal, and coin-toss heights</li>
-          <li>SkiplistList: indexed get, set, insertion, and removal with span labels</li>
-          <li>Probabilistic heights and expected logarithmic search performance</li>
-        </ul>
-        <a class="cta" href="skiplist_chapter_4_interactive.html">Open Skiplist Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 5 · Sections 5.1–5.3</span>
-        <h3>Hash Tables — Buckets &amp; Probing</h3>
-        <p>Compare separate chaining and linear probing through animated collisions, search paths, deletion markers, and resizing.</p>
-        <ul>
-          <li>ChainedHashTable: bucket lists, duplicate checks, and rehashing</li>
-          <li>LinearHashTable: consecutive probes, wraparound, and tombstones</li>
-          <li>Step-by-step insertion, search, deletion, and load-factor thresholds</li>
-          <li>Highlighted pseudocode with an explanation directly below each line</li>
-        </ul>
-        <a class="cta" href="hash_tables_chapter_5_interactive.html">Open Hash Tables Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 6 · Before §6.1</span>
-        <h3>Anatomy of a Binary Tree</h3>
-        <p>Learn the vocabulary used throughout the tree chapters by clicking nodes and highlighting relationships.</p>
-        <ul>
-          <li>Root, parent, left/right child, siblings, ancestors and descendants</li>
-          <li>Subtrees, leaves, internal nodes, edges, paths, depth and height</li>
-          <li>Explore node fields and missing (nil) child links</li>
-          <li>Interactive practice questions and a guided vocabulary tour</li>
-        </ul>
-        <a class="cta" href="binary_tree_anatomy_chapter_6_interactive.html">Open Tree Anatomy Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Section 6.1 · BinaryTree</span>
-        <h3>Tree Traversals</h3>
-        <p>Understand how different algorithms visit the same nodes in different orders.</p>
-        <ul>
-          <li>Preorder, inorder, and postorder depth-first search</li>
-          <li>Breadth-first traversal with a queue</li>
-          <li>Parent-pointer traversal without recursion</li>
-          <li>Step-by-step execution, stack and queue views</li>
-        </ul>
-        <a class="cta" href="binary_tree_traversals_6_1_interactive.html">Open Traversal Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Section 6.2 · BinarySearchTree</span>
-        <h3>Binary Search Trees</h3>
-        <p>Trace the decisions made by an unbalanced binary search tree.</p>
-        <ul>
-          <li>Find exact keys or successor candidates</li>
-          <li>Insertion and deletion, including two-child removal</li>
-          <li>Highlighted comparisons and pseudocode</li>
-          <li>Tree height and worst-case performance</li>
-        </ul>
-        <a class="cta" href="bst_section_6_2_interactive.html">Open BST Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 7 · Sections 7.1–7.2</span>
-        <h3>Random Binary Search Trees &amp; Treaps</h3>
-        <p>Compare random insertion orders with Treaps, where randomized priorities and rotations keep expected searches short.</p>
-        <ul>
-          <li>Build sorted, median-first, and random-permutation BSTs</li>
-          <li>Treap insertion, successor search, and deletion</li>
-          <li>Min-heap priorities and left/right rotations</li>
-          <li>Step-by-step code, comparisons and rotation counts</li>
-        </ul>
-        <a class="cta" href="random_binary_search_trees_chapter_7_interactive.html">Open Chapter 7 Lab →</a>
-      </article>
-      <article class="card">
-        <span class="tag">Chapter 8 · Section 8.1</span>
-        <h3>Scapegoat Trees</h3>
-        <p>Find the unbalanced ancestor after deep insertion, then rebuild a subtree around its sorted median.</p>
-        <ul>
-          <li>BST find, insertion and deletion</li>
-          <li>Height bound and 2/3 subtree-size test</li>
-          <li>Partial subtree rebuilding and full rebuilding after deletions</li>
-          <li>Track n, q, packed keys and new tree shape</li>
-        </ul>
-        <a class="cta" href="scapegoat_trees_chapter_8_interactive.html">Open Chapter 8 Lab →</a>
-      </article>
-    </div>
-  </section>
-  <aside class="note"><h3>For instructors and students</h3><p>All ten labs work offline and include playback controls. To keep a local copy, <a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">download the repository ZIP</a>. Read the <a href="README.md">README</a> for details.</p></aside>
-</main>
-<footer><div class="wrap">Independent educational visualizations inspired by <a href="https://opendatastructures.org/">Pat Morin's <em>Open Data Structures</em></a>. Not affiliated with the textbook publisher.</div><p>Original materials: <a href="LICENSE.md">CC BY 4.0</a>; source textbook: <a href="https://creativecommons.org/licenses/by/2.5/ca/">CC BY 2.5 Canada</a>. <a href="ACCESSIBILITY.md">Accessibility statement and outstanding checks</a>.</p></footer>
-</body>
-</html>
+:root{color-scheme:light;--paper:#f6f8f5;--ink:#17323b;--text:#324d57;--teal:#005a50;--rule:#bdd0cb;--cream:#ebf3ef}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--teal);text-underline-offset:.2em}a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid #00483e;outline-offset:3px;box-shadow:0 0 0 7px #f4cb56}
+.skip-link{position:absolute;top:-100px;left:12px;z-index:20;padding:11px 18px;background:white;border:2px solid var(--teal);font-weight:800}.skip-link:focus{top:10px}
+.container{max-width:1160px;margin:auto;padding:0 24px}
+.site-header{background:#fff;border-bottom:1px solid var(--rule)}.nav{display:flex;min-height:76px;align-items:center;justify-content:space-between;gap:20px}
+.brand{text-decoration:none;font-size:21px;letter-spacing:-.05em;font-weight:850;color:var(--ink)}.brand b{color:var(--teal)}
+.navlinks{display:flex;gap:22px;flex-wrap:wrap}.navlinks a{color:#254950;text-decoration:none;font-size:14px;font-weight:740}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(355px,.86fr);gap:clamp(24px,5vw,65px);align-items:center;padding:64px 0 60px}
+.eyebrow{color:var(--teal);font-size:12px;letter-spacing:.085em;text-transform:uppercase;font-weight:820;margin:0}
+h1{font-size:clamp(40px,5.5vw,72px);line-height:1.04;letter-spacing:-.063em;margin:16px 0 24px;max-width:13ch}
+.lead{font-size:clamp(17px,1.65vw,20px);line-height:1.55;max-width:41ch;margin:0;color:var(--text)}
+.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}.cta{display:inline-flex;min-height:48px;padding:9px 17px;align-items:center;justify-content:center;border:2px solid var(--teal);border-radius:8px;font-size:15px;font-weight:760;text-decoration:none}.cta.primary{background:var(--teal);color:white}.cta.secondary{background:white;color:var(--teal)}
+.preview{border:1px solid #a9c1bb;background:white;border-radius:13px;overflow:hidden}
+.preview-head{padding:13px 18px;background:#e8f3ef;display:flex;gap:8px;justify-content:space-between}.preview-head b{font-size:13px}.preview-head small{font-size:12px;color:#31534c;font-weight:700}
+.preview-body{padding:23px 16px}.preview-body h2{font-size:15px;margin:0 0 18px}
+.cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}.cell{text-align:center;min-width:0}.cell b{height:55px;border:2px solid #b0c1bf;background:#f7faf8;border-radius:6px;display:grid;place-items:center;font:800 18px ui-monospace,Consolas,monospace}.cell b.hot{border-color:var(--teal);background:#d8f0e6;color:#004d42}.cell small{font:11px ui-monospace,Consolas,monospace;color:#426068}
+.preview-note{font-size:14px;color:var(--text);min-height:60px;margin:17px 0 8px}
+.preview-code{font:700 13px ui-monospace,Consolas,monospace;border-left:4px solid var(--teal);background:#eef6f2;padding:8px 11px;color:#17423d}
+.preview-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;border-top:1px solid #d0ded9}
+.preview-foot button{min-height:44px;min-width:80px;border:1px solid #9db8ad;background:#fff;border-radius:8px;font-weight:750;color:#184b44;cursor:pointer}
+.preview-foot button:disabled{opacity:.45;cursor:not-allowed}.preview-foot span{font-size:13px;color:#3a5a55;font-weight:730;font-variant-numeric:tabular-nums}
+.sectionhead{padding:27px 0 24px;border-top:2px solid #719d90;display:flex;gap:30px;justify-content:space-between;align-items:end}
+.sectionhead h2{font-size:clamp(29px,3vw,40px);margin:7px 0 0;letter-spacing:-.04em;line-height:1.15}
+.sectionhead>p{max-width:345px;font-size:14px;color:#3f5d67;margin:0}
+.chapter-list{padding:0;margin:0;list-style:none}.chapter{display:grid;grid-template-columns:80px minmax(0,1fr) minmax(270px,.85fr);gap:23px;padding:27px 3px;border-top:1px solid var(--rule);align-items:start}
+.chapter:last-child{border-bottom:1px solid var(--rule)}.number{font:850 36px ui-monospace,Consolas,monospace;color:var(--teal);letter-spacing:-.06em}
+.chapter h3{margin:0 0 7px;font-size:22px;letter-spacing:-.035em;line-height:1.22}.chapter p{margin:0;font-size:14px;line-height:1.55;color:var(--text);max-width:46ch}
+.chlinks{display:grid;gap:8px}.chlinks a{padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:52px;background:#fff;border:1px solid #b5c9c2;border-radius:8px;color:#164c42;text-decoration:none;font-weight:750;font-size:14px}
+.chlinks a:hover{background:#e4f1ec;border-color:#006e60}.chlinks a span{font-size:19px}
+.support{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;margin:32px 0 60px;background:#e7f2ec;padding:24px 28px;border-radius:11px}
+.support h2{font-size:21px;letter-spacing:-.03em;margin:0 0 5px}.support p{margin:0;color:#32574e;font-size:14px;max-width:640px}.support a{font-weight:790}
+.footer{border-top:1px solid var(--rule);background:#fff;padding:28px 0 38px;color:#39545b;font-size:13px}.footinner{display:flex;gap:15px 25px;justify-content:space-between;flex-wrap:wrap}.footinner p{max-width:700px;margin:0}.footlinks{display:flex;gap:15px;flex-wrap:wrap}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:47px 0}.preview{max-width:600px}.chapter{grid-template-columns:66px 1fr;gap:13px}.chlinks{grid-column:2}}
+@media(max-width:600px){.container{padding:0 16px}.nav{align-items:start;flex-direction:column;padding:15px 0;gap:10px}.navlinks{gap:10px 16px}.hero{padding:37px 0 44px;gap:30px}h1{font-size:clamp(37px,11vw,54px)}.preview-body{padding:18px 11px}.preview-head{padding:12px}.cell b{height:48px;font-size:15px}.sectionhead{display:block}.sectionhead>p{margin-top:10px}.chapter{grid-template-columns:45px 1fr;gap:9px}.number{font-size:27px}.chapter h3{font-size:20px}.chlinks{grid-column:1/-1}.support{display:block;padding:19px}.support a{display:inline-block;margin-top:13px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style></head><body>
+<a class="skip-link" href="#primary-content">Skip to main content</a>
+<header class="site-header"><nav class="container nav" aria-label="Main navigation"><a class="brand" href="index.html">Open<b>DS</b> Materials</a><div class="navlinks"><a href="#chapters">All chapters</a><a href="https://opendatastructures.org/">Textbook</a><a href="https://github.com/pentaideas/OpenDS-Materials">Source on GitHub</a></div></nav></header>
+<main id="primary-content" class="container" tabindex="-1"><section class="hero" aria-labelledby="page-title"><div>
+<p class="eyebrow">Pat Morin · Open Data Structures · Chapters 1–8</p><h1 id="page-title">See the structure. Follow the algorithm.</h1>
+<p class="lead">Interactive companions for learning how data structures work—one comparison, pointer change, or rotation at a time.</p>
+<div class="actions"><a class="cta primary" href="introduction_chapter_1_interactive.html">Start with Chapter 1</a><a class="cta secondary" href="#chapters">Browse all 10 labs</a></div></div>
+<div class="preview" aria-labelledby="preview-title"><div class="preview-head"><b id="preview-title">One step at a time</b><small>Array insertion · Chapter 2</small></div>
+<div class="preview-body"><h2>Insert 25 at index 2</h2>
+<div class="cells" id="previewCells"><div class="cell"><b>10</b><small>0</small></div><div class="cell"><b>20</b><small>1</small></div><div class="cell"><b>30</b><small>2</small></div><div class="cell"><b>40</b><small>3</small></div><div class="cell"><b>50</b><small>4</small></div><div class="cell"><b>·</b><small>5</small></div></div>
+<p class="preview-note" id="previewNote" aria-live="polite">Start with five values and one unused array cell.</p><div class="preview-code" id="previewCode">add(2, 25)</div></div>
+<div class="preview-foot"><button type="button" id="previewReset" disabled>Restart</button><span id="previewCount">Step 1 of 5</span><button type="button" id="previewNext">Next step</button></div></div></section>
+<section id="chapters" aria-labelledby="chapter-title"><div class="sectionhead"><div><p class="eyebrow">The learning sequence</p><h2 id="chapter-title">Choose a chapter</h2></div><p>Start at the beginning or jump to a structure. Each lab contains an interactive diagram and explained pseudocode.</p></div>
+<ol class="chapter-list"><li class="chapter" id="chapter-1"><span class="number" aria-label="Chapter 1">01</span><div class="chcopy"><h3>Introduction & complexity</h3><p>Interfaces, asymptotic growth, randomization, and correctness.</p></div><div class="chlinks"><a href="introduction_chapter_1_interactive.html">Explore Chapter 1<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-2"><span class="number" aria-label="Chapter 2">02</span><div class="chcopy"><h3>Array-based lists</h3><p>ArrayStack, ArrayQueue, ArrayDeque, dual arrays, and rootish blocks.</p></div><div class="chlinks"><a href="array_based_lists_chapter_2_interactive.html">Explore Chapter 2<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-3"><span class="number" aria-label="Chapter 3">03</span><div class="chcopy"><h3>Linked lists</h3><p>SLList, DLList, SEList, pointers, and linked blocks.</p></div><div class="chlinks"><a href="linked_lists_chapter_3_interactive.html">Explore Chapter 3<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-4"><span class="number" aria-label="Chapter 4">04</span><div class="chcopy"><h3>Skiplists</h3><p>Randomized towers, sorted sets, indexed lists, and spans.</p></div><div class="chlinks"><a href="skiplist_chapter_4_interactive.html">Explore Chapter 4<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-5"><span class="number" aria-label="Chapter 5">05</span><div class="chcopy"><h3>Hash tables</h3><p>Bucket chaining, linear probing, tombstones, and resizing.</p></div><div class="chlinks"><a href="hash_tables_chapter_5_interactive.html">Explore Chapter 5<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-6"><span class="number" aria-label="Chapter 6">06</span><div class="chcopy"><h3>Binary trees</h3><p>Begin with node vocabulary, then explore traversal and search.</p></div><div class="chlinks"><a href="binary_tree_anatomy_chapter_6_interactive.html">Tree anatomy · Vocabulary<span aria-hidden="true">→</span></a><a href="binary_tree_traversals_6_1_interactive.html">§6.1 · Tree traversals<span aria-hidden="true">→</span></a><a href="bst_section_6_2_interactive.html">§6.2 · Binary search trees<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-7"><span class="number" aria-label="Chapter 7">07</span><div class="chcopy"><h3>Random BSTs & Treaps</h3><p>Insertion-order experiments, randomized priorities, and rotations.</p></div><div class="chlinks"><a href="random_binary_search_trees_chapter_7_interactive.html">Explore Chapter 7<span aria-hidden="true">→</span></a></div></li>
+<li class="chapter" id="chapter-8"><span class="number" aria-label="Chapter 8">08</span><div class="chcopy"><h3>Scapegoat trees</h3><p>Height bounds, scapegoat selection, and subtree rebuilding.</p></div><div class="chlinks"><a href="scapegoat_trees_chapter_8_interactive.html">Explore Chapter 8<span aria-hidden="true">→</span></a></div></li></ol></section>
+<aside class="support"><div><h2>Teaching or studying offline?</h2><p>Every lab is a self-contained HTML file. Download the full set for offline teaching or learning.</p></div><a href="https://github.com/pentaideas/OpenDS-Materials/archive/refs/heads/main.zip">Download all labs</a></aside>
+</main><footer class="footer"><div class="container footinner"><p>Independent educational visualizations based on <a href="https://opendatastructures.org/">Pat Morin's <em>Open Data Structures</em></a>. Not affiliated with the textbook publisher.</p><div class="footlinks"><a href="LICENSE.md">Licensing</a><a href="ACCESSIBILITY.md">Accessibility</a><a href="README.md">Documentation</a></div></div></footer>
+<script>
+(()=>{"use strict";
+const states=[
+ {values:[10,20,30,40,50,null],hot:-1,code:"add(2, 25)",note:"Start with five values and one unused array cell."},
+ {values:[10,20,30,40,50,50],hot:5,code:"a[5] = a[4]",note:"Move 50 right first, so shifting does not overwrite other values."},
+ {values:[10,20,30,40,40,50],hot:4,code:"a[4] = a[3]",note:"Shift 40 one position right."},
+ {values:[10,20,30,30,40,50],hot:3,code:"a[3] = a[2]",note:"Move 30 right. Index 2 is available for insertion."},
+ {values:[10,20,25,30,40,50],hot:2,code:"a[2] = 25",note:"Insert 25. All other values keep their relative order."}
+];let step=0;const $=id=>document.getElementById(id);
+function render(){const s=states[step];$("previewCells").innerHTML=s.values.map((v,i)=>'<div class="cell"><b'+(i===s.hot?' class="hot"':'')+'>'+(v===null?"·":v)+'</b><small>'+i+'</small></div>').join("");$("previewCode").textContent=s.code;$("previewNote").textContent=s.note;$("previewCount").textContent="Step "+(step+1)+" of 5";$("previewReset").disabled=step===0;$("previewNext").disabled=step===4;}
+$("previewReset").addEventListener("click",()=>{step=0;render()});$("previewNext").addEventListener("click",()=>{step=Math.min(4,step+1);render()});
+})();
+</script></body></html>
