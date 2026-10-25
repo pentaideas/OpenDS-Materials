@@ -122,10 +122,10 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 /* WORKBENCH_STYLE_END */
-</style></head><body><div class="shell">
+</style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 7</div><h1>Random BSTs &amp; Treaps.</h1><p class="subtitle">Compare insertion-order effects with randomized priorities, then animate Treap rotations as they restore a minimum-priority heap while keeping the binary-search-tree ordering.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="bst_section_6_2_interactive.html">← §6.2 BST</a><a href="scapegoat_trees_chapter_8_interactive.html">Chapter 8 →</a><a href="https://opendatastructures.org/newhtml/ods/latex2/rbs.html" target="_blank" rel="noopener noreferrer">Read Chapter 7 ↗</a></nav></header>
-<div class="layout"><main class="panel workspace">
-<div class="tabs" role="tablist" aria-label="Chapter 7 section"><button class="tab" data-mode="random" role="tab" aria-selected="false">7.1 · Random binary search trees</button><button class="tab active" data-mode="treap" role="tab" aria-selected="true">7.2 · Treap</button></div>
+<div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace">
+<div class="tabs" role="group" aria-label="Chapter 7 topics"><button type="button" class="tab" data-mode="random" aria-pressed="false">7.1 · Random binary search trees</button><button type="button" class="tab active" data-mode="treap" aria-pressed="true">7.2 · Treap</button></div>
 <div class="toolbar">
 <div class="field"><label for="operation">Operation</label><select id="operation"></select></div>
 <div class="field" id="keyField"><label for="key">Integer key x</label><input id="key" type="number" step="1" value="35"></div>
@@ -137,10 +137,10 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
 <div id="error" class="error" role="alert" hidden></div>
 <div class="note" id="lessonNote">The smaller the priority, the higher the node belongs. Rotations preserve sorted key order.</div>
 <div class="heading"><strong id="diagramName">Keys and priorities</strong><small id="diagramNote">Top label is key; lower label is priority</small></div>
-<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Binary search tree with active nodes highlighted" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Binary search tree with active nodes highlighted" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="sr-only" id="animated-diagram-description" role="status" aria-live="polite">Tree diagram ready.</p>
 <div class="metrics"><div class="metric"><b id="metricN">7</b><small>Stored keys</small></div><div class="metric"><b id="metricH">—</b><small>Height (edges)</small></div><div class="metric"><b id="metricChecks">0</b><small>Comparisons</small></div><div class="metric"><b id="metricRotations">0</b><small>Rotations</small></div></div>
 <div class="trace"><b>Operation trace</b><span id="traceText">Choose an operation or guided example.</span></div>
-<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></span><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
+<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><label class="speed" for="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></label><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
 </main><aside class="panel explain"><div><div class="eyebrow" id="sectionName">§7.2 · Treap</div><h2 id="stepTitle">Choose an operation</h2></div><div class="result"><b>Current result</b><div id="result">Ready.</div></div>
 <div><div class="codehead"><span class="eyebrow">Annotated pseudocode</span><span class="pill" id="codePill">add(x,p)</span></div><div class="code" id="code"></div><div class="explanation" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p id="stepDetail"></p></div></div><div class="asidefoot" id="concept">Every Treap is a BST by key and a min-heap by priority.</div></aside></div>
 <div class="lower"><section class="panel lesson"><div class="eyebrow">§7.1 Random BST</div><h3>Insertion order changes the shape</h3><p>Inserting sorted keys into an ordinary unbalanced BST produces a chain. A uniformly random permutation gives expected logarithmic search paths. That expectation averages over permutations, not over the searched key; individual random trees can still be tall.</p></section><section class="panel lesson"><div class="eyebrow">§7.2 Treap</div><h3>One tree, two properties</h3><p>For every node, <strong>left key &lt; parent key &lt; right key</strong>, and <strong>parent priority &lt; child priority</strong>. Insertion first adds a BST leaf, then rotates it upward until its priority is in the correct place. Deletion rotates a target downward to a leaf, then unlinks it. Random, unique priorities give expected O(log n) operation time.</p></section></div>
@@ -296,7 +296,7 @@ function stop(){if(timer)clearInterval(timer);timer=null;$("play").textContent="
 function setup(){
  $("operation").innerHTML=OPS[mode].map(v=>'<option value="'+v+'">'+(v==="build"?"Build BST":v+"(x)")+'</option>').join("");
  op=OPS[mode][0];$("operation").value=op;
- document.querySelectorAll(".tab").forEach(b=>{const y=b.dataset.mode===mode;b.classList.toggle("active",y);b.setAttribute("aria-selected",String(y))});
+ document.querySelectorAll(".tab").forEach(b=>{const y=b.dataset.mode===mode;b.classList.toggle("active",y);b.setAttribute("aria-pressed",String(y))});
  $("lessonNote").textContent=TIPS[mode];$("sectionName").textContent=mode==="random"?"§7.1 · Random BST":"§7.2 · Treap";
  $("examples").innerHTML=examples[mode].map(e=>'<button type="button" class="chip" data-example="'+e[0]+'">'+e[1]+'</button>').join(" ");
  document.querySelectorAll("[data-example]").forEach(btn=>btn.addEventListener("click",()=>example(btn.dataset.example)));
@@ -310,7 +310,7 @@ function showFields(){
 function ready(){stop();const t=stores[mode];frames=[];frame(frames,t,"Choose an operation","Use Animate or one of the guided examples to see an algorithm step by step.",0,null,[],0,0,"Ready.");cursor=0;render();}
 function example(tag){clearError();if(mode==="random"){if(tag==="random"||tag==="sorted"||tag==="balanced"){op="build";$("order").value=tag==="random"?"random":tag==="balanced"?"balanced":"sorted";$("sampleSize").value="15"}else{op="find";$("key").value=8;stores.random=restoreStoreFromSeed()}}
  else{stores.treap=preset();if(tag==="rotations"){op="add";$("key").value=35;$("priority").value=10}else if(tag==="successor"){op="find";$("key").value=55}else if(tag==="remove"){op="remove";$("key").value=50}else{op="add";$("key").value=30;$("priority").value=5}}
- $("operation").value=op;showFields();ready();run();if($("error").hidden)play();
+ $("operation").value=op;showFields();ready();run();if($("error").hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches)play();
 }
 function restoreStoreFromSeed(){let root=null,t={root};const perm=medOrder(Array.from({length:15},(_,i)=>i));perm.forEach(x=>insertLeaf(t,x,null));return t}
 function run(){
@@ -363,13 +363,14 @@ function render(){
  $("traceText").textContent=f.trail.length?f.trail.join(" · "):"No comparisons yet.";
  $("diagramName").textContent=mode==="treap"?"Treap: BST keys + min-heap priorities":"Ordinary BST: insertion order determines shape";
  $("diagramNote").textContent=mode==="treap"?"Smaller p rises toward root":"Tree height counts edges; a leaf has height zero";
+ $("animated-diagram-description").textContent=(mode==="treap"?"Treap":"Binary search tree")+" with "+count(root)+" keys. Height "+height(root)+" edges. Keys in ascending order: "+(inorder(root).join(", ")||"none")+". "+(f.active===null?"No highlighted node.":"Highlighted key "+f.active+".")+" Current step: "+f.title+". "+f.detail;
  $("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("progress").max=frames.length-1;$("progress").value=cursor;
  $("prev").disabled=cursor===0;$("next").disabled=cursor===frames.length-1;
  draw(f);
 }
 function seek(i){cursor=Math.min(frames.length-1,Math.max(0,i));render()}
 function play(){if(timer){stop();return}if(cursor===frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor===frames.length-1)stop()},delay);$("play").textContent="Ⅱ Pause"}
-$("run").addEventListener("click",()=>{run();if($("error").hidden)play()});
+$("run").addEventListener("click",()=>{run();if($("error").hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches)play()});
 $("reset").addEventListener("click",()=>{stores[mode]=mode==="treap"?preset():{root:null};clearError();ready()});
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{stop();mode=b.dataset.mode;setup()}));
 $("operation").addEventListener("change",e=>{op=e.target.value;showFields();ready()});
