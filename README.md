@@ -17,7 +17,17 @@ Interactive, self-contained teaching materials for **Chapters 1–8** of Pat Mor
 | **7.1–7.2 — Random BSTs & Treaps** | [Random BSTs & Treaps](https://pentaideas.github.io/OpenDS-Materials/random_binary_search_trees_chapter_7_interactive.html) | Random insertion orders, min-heap priority, Treap find/add/remove and rotations |
 | **8.1 — ScapegoatTree** | [Scapegoat Trees](https://pentaideas.github.io/OpenDS-Materials/scapegoat_trees_chapter_8_interactive.html) | Depth bound, 2/3 subtree test, partial/full rebuilding, n and q counters |
 
-Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all ten labs.
+Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) to browse an eight-chapter index linking to all ten labs. The homepage includes a small, keyboard-operable array insertion walkthrough as a preview.
+
+### Design system and maintenance
+
+- The homepage is a compact chapter roadmap; Chapter 6 includes separate links for anatomy, traversal, and BST operations.
+- All labs share the **Workbench** visual tokens and component styles from `styles/workbench.css`.
+- Those styles are **embedded into every lab HTML file**, preserving single-file/offline operation.
+- Run `npm run sync:styles` after editing the shared stylesheet, and `npm run check:styles` to verify that the embedded copies match. CI checks this before the browser tests.
+- Essential explanations and code are larger and more legible, with accessible focus indicators and stable placement across chapters.
+- The browser regression and axe-core accessibility audits cover all ten labs and the homepage. Formal WCAG conformance still requires manual verification.
+
 
 ### Run locally
 
