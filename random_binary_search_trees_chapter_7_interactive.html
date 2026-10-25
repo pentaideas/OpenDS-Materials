@@ -122,6 +122,14 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 /* WORKBENCH_STYLE_END */
+
+/* Chapter 7: AA/AAA-oriented text contrast and keyboard-scrolling. */
+.field label,.examples>b,#diagramNote,.heading small,.codehead .pill,
+#codePill,.result b{color:#214958!important;font-size:13px!important}
+.chip,#reset,.soft{color:#214958!important}
+.result,#result{color:#21463e!important}
+.viewport:focus-visible{outline:3px solid #00483f;outline-offset:-3px}
+
 </style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 7</div><h1>Random BSTs &amp; Treaps.</h1><p class="subtitle">Compare insertion-order effects with randomized priorities, then animate Treap rotations as they restore a minimum-priority heap while keeping the binary-search-tree ordering.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="bst_section_6_2_interactive.html">← §6.2 BST</a><a href="scapegoat_trees_chapter_8_interactive.html">Chapter 8 →</a><a href="https://opendatastructures.org/newhtml/ods/latex2/rbs.html" target="_blank" rel="noopener noreferrer">Read Chapter 7 ↗</a></nav></header>
 <div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace">
@@ -137,7 +145,7 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
 <div id="error" class="error" role="alert" hidden></div>
 <div class="note" id="lessonNote">The smaller the priority, the higher the node belongs. Rotations preserve sorted key order.</div>
 <div class="heading"><strong id="diagramName">Keys and priorities</strong><small id="diagramNote">Top label is key; lower label is priority</small></div>
-<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Binary search tree with active nodes highlighted" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="sr-only" id="animated-diagram-description" role="status" aria-live="polite">Tree diagram ready.</p>
+<div class="viewport" id="viewport" tabindex="0" role="region" aria-label="Scrollable tree diagram"><svg id="tree" role="img" aria-label="Binary search tree with active nodes highlighted" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="sr-only" id="animated-diagram-description" role="status" aria-live="polite">Tree diagram ready.</p>
 <div class="metrics"><div class="metric"><b id="metricN">7</b><small>Stored keys</small></div><div class="metric"><b id="metricH">—</b><small>Height (edges)</small></div><div class="metric"><b id="metricChecks">0</b><small>Comparisons</small></div><div class="metric"><b id="metricRotations">0</b><small>Rotations</small></div></div>
 <div class="trace"><b>Operation trace</b><span id="traceText">Choose an operation or guided example.</span></div>
 <div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><label class="speed" for="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></label><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
