@@ -2,17 +2,20 @@
 
 **Target:** WCAG 2.2 AA for each standalone interactive lab, aiming for AAA enhanced text contrast and other AAA criteria when practicable.
 
-**Status (October 22, 2026):** Source-level improvements are committed, but formal conformance has **not** been established. A site-wide AA or AAA compliance claim should not be made until browser-based automated checks and hands-on assistive-technology testing are complete.
+**Status (October 25, 2026):** Source-level improvements are committed, but formal conformance has **not** been established. A site-wide AA or AAA compliance claim should not be made until browser-based automated checks and hands-on assistive-technology testing are complete.
 
 ## Implemented improvements
 
-- Skip links and a clear main landmark on each page.
+- Skip links and a clear main landmark on every lab and the homepage.
 - Real keyboard-operable toggle buttons rather than incomplete ARIA tab widgets.
 - Enlarged control targets, stronger foreground contrast and visible keyboard focus.
 - Programmatically associated speed labels, updated accessible playback state, and a readable step number for the progress slider.
 - Current-state text descriptions associated with dynamic diagrams.
-- System reduced-motion preference prevents automatic playback on the Animate / guided-example buttons; Play remains available by choice.
+- System reduced-motion preference prevents automatic playback on the Animate / guided-example buttons, including Chapters 7 and 8; Play remains available by choice.
 - Optional prediction prompts without submissions, grading or forced interactions.
+- Shared visual and accessible-control styles are embedded in each standalone lab to retain offline operation. A source-of-truth CSS file and drift checks keep them consistent.
+- All ten labs have automated browser regression coverage and are included in the automated AA audit; AAA is advisory.
+- Chapter 6 anatomy and Chapters 7–8 expose textual descriptions of diagram state. Scrolling regions in the latter two are keyboard-focusable.
 - Single-file, dependency-free labs remain usable offline.
 
 ## Still requiring verification
@@ -26,7 +29,7 @@
 
 ## How to test
 
-Download the repository and run `npm install`, `npx playwright install chromium`, then `npm test` for browser regression checks. Source-code review and browser tests are not substitutes for an assistive-technology audit.
+Download the repository and run `npm install`, `npx playwright install chromium`, then `npm test` for browser regression checks and `npm run audit:a11y` for automated WCAG checks. Use `npm run check:styles` to verify identical shared styles. Source-code review and browser tests are not substitutes for an assistive-technology audit.
 
 Report access barriers in the repository issues: https://github.com/pentaideas/OpenDS-Materials/issues
 
