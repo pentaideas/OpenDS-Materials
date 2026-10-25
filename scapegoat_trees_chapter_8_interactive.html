@@ -1,0 +1,294 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8fb">
+<meta name="description" content="Explore scapegoat trees from Open Data Structures Chapter 8: depth limits, scapegoat detection, subtree rebuilding, deletions and n/q counters."><title>Chapter 8 • Scapegoat Trees • OpenDS</title>
+<style>
+:root{color-scheme:light;--bg:#f7f8fb;--ink:#182b42;--muted:#61788c;--teal:#006c63;--navy:#142942;--line:#dee7ef}*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}a{color:#216b96}
+.shell{max-width:1390px;margin:auto;padding:27px 25px 45px}.top{display:flex;justify-content:space-between;align-items:start;gap:19px;margin-bottom:19px}.eyebrow{letter-spacing:.11em;text-transform:uppercase;color:var(--teal);font-size:11px;font-weight:830}h1{font-size:clamp(27px,3.3vw,43px);letter-spacing:-.053em;margin:8px 0;line-height:1.1}.subtitle{color:var(--muted);margin:0;max-width:850px}.links{display:flex;gap:7px;flex-wrap:wrap;justify-content:end}.links a{white-space:nowrap;background:white;border:1px solid #d6e2ed;border-radius:10px;padding:9px 12px;text-decoration:none;font-size:11.5px;font-weight:750}
+.layout{display:grid;grid-template-columns:minmax(0,1.68fr) minmax(320px,.82fr);gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:18px;min-width:0;box-shadow:0 5px 18px #263b5109}.workspace{overflow:hidden}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;padding:13px 16px;background:#f1f5f8;border-bottom:1px solid var(--line)}.tab{border:0;background:transparent;border-radius:9px;padding:10px 13px;color:#647c90;font-size:12px;font-weight:790}.tab.active{background:var(--navy);color:white}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;padding:14px 17px;border-bottom:1px solid var(--line)}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#748b9d}
+.field input,.field select{border:1px solid #d2dfeb;border-radius:9px;height:38px;padding:0 10px;background:white;color:#29435a;min-width:92px}.field input{width:105px}.primary,.soft{height:38px;padding:0 15px;border-radius:9px;font-size:12px;font-weight:760}.primary{background:var(--teal);border:1px solid var(--teal);color:white}.soft{background:white;border:1px solid #d6e2ed;color:#486279}
+.examples{padding:11px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;flex-wrap:wrap;gap:7px}.examples b{font-size:10px;color:#889cad;text-transform:uppercase;letter-spacing:.07em}.chip{border:1px solid #dce6ed;border-radius:99px;padding:5px 10px;background:#f5f9fb;font-size:11px;font-weight:740;color:#486c80}
+.note{padding:12px 17px;background:#f9fcfd;color:#4e6b7c;border-bottom:1px solid var(--line);font-size:12px}.error{color:#9c3c4b;background:#fff3f4;padding:10px 15px;font-size:12px}
+.heading{padding:13px 19px 2px;display:flex;justify-content:space-between;gap:7px;align-items:center}.heading strong{font-size:13px}.heading small{color:#8d9eaf;font-size:11px}
+.viewport{overflow:auto;min-height:350px;max-height:600px;padding:12px 13px 24px}.viewport svg{display:block;max-width:none}
+.edge{stroke:#b8c9d6;stroke-width:2.8;fill:none}.edge.hot{stroke:#008c80;stroke-width:4.5}.edge.path{stroke:#4e83ba;stroke-width:3.5}
+.node circle{fill:white;stroke:#a4b7c8;stroke-width:2.8}.node text{font-family:system-ui;text-anchor:middle;pointer-events:none}.node .k{fill:#253f54;font-weight:850;font-size:17px}.node .p{fill:#72889b;font-size:10px;font-weight:780}.node.active circle{fill:#006c63;stroke:#006c63}.node.active text{fill:white}.node.mark circle{fill:#fff0d9;stroke:#d6a458}.node.mark .k{fill:#85591c}.node.onpath circle{stroke:#4e86b9;fill:#eaf3fe}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);background:#fcfdff;border-top:1px solid #ebf0f4}.metric{text-align:center;padding:12px 5px}.metric b{font-size:19px;line-height:1.1;display:block}.metric small{font-size:10px;color:#8398aa}
+.trace{padding:12px 17px;border-top:1px solid #ebf0f4;color:#5b7586;font-size:12px}.trace b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#8798a9;display:block;margin-bottom:5px}
+.transport{padding:14px 16px;border-top:1px solid #e8edf2}.buttons{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.control{height:37px;min-width:39px;font-size:18px;font-weight:800;border:1px solid #dbe5ee;border-radius:9px;background:white;color:#355269}.play{background:var(--navy);border-color:var(--navy);color:white;font-size:12px;min-width:85px}.speed{margin-left:auto;color:#8094a6;font-size:11px}.speed select{border:1px solid #dce6ed;border-radius:8px;padding:6px;background:#fff}.counter{font-size:11px;color:#8498a7}.progress{width:100%;margin:14px 0 0;accent-color:var(--teal)}
+.explain{display:flex;flex-direction:column;gap:16px;padding:20px}.explain h2{font-size:22px;letter-spacing:-.037em;line-height:1.17;margin:6px 0}
+.result{background:#eff9f5;border:1px solid #cee8df;border-radius:11px;padding:13px;color:#256d60;font-size:12px}.result b{font-size:10px;text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:4px;color:#418b7e}
+.codehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.pill{background:#e6f5f0;color:#05756a;font-weight:800;font-size:10px;padding:4px 9px;border-radius:99px}
+.code{background:#14283d;border-radius:12px;padding:12px 0;color:#b8cede;overflow:auto}.line{white-space:pre;font:11.4px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;padding:4px 12px}.line.active{border-left:3px solid #4dc5ad;padding-left:9px;background:#2a4a62;color:#e4fff7}
+.explanation{padding:13px;border:1px solid #dceaf0;background:#f8fbfc;margin-top:11px;border-radius:11px}.explanation b{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#538293}#why{font-size:13px;font-weight:770;color:#25475b;line-height:1.58;margin:8px 0}#stepDetail{font-size:12px;color:#5e788a;border-top:1px solid #e2edf1;padding-top:8px;line-height:1.65;margin:8px 0 0}
+.asidefoot{border-top:1px solid #e7edf2;padding-top:12px;color:#627b8e;font-size:12px;line-height:1.67}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.lesson{padding:19px 21px}.lesson h3{font-size:17px;margin:6px 0;letter-spacing:-.025em}.lesson p{color:#657c8f;font-size:12.5px;line-height:1.68}footer{color:#889cac;font-size:11px;margin-top:20px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.explain{display:grid;grid-template-columns:1fr 1fr}.asidefoot{grid-column:1/-1}}@media(max-width:680px){.shell{padding:17px 10px}.top{display:block}.links{justify-content:start;margin-top:13px}.toolbar{padding:11px}.viewport{min-height:260px}.metrics{grid-template-columns:repeat(2,1fr)}.explain{display:flex;padding:15px}.lower{grid-template-columns:1fr}.speed{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.packed{border:1px solid #d8e8ef;padding:10px 13px;background:#f7fbfc;border-radius:10px;font-size:12px;color:#4f6d7d;margin-top:9px}
+.packed b{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#68899a;display:block;margin-bottom:5px}
+.packed span{font:700 12px ui-monospace,Consolas,monospace}
+.node.mark circle{fill:#fff0d9;stroke:#cf9c45}.node.mark .k{fill:#805924}
+.node.candidate circle{fill:#e8f7f3;stroke:#348f83}
+</style></head><body><div class="shell">
+<header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 8</div><h1>Scapegoat Trees.</h1><p class="subtitle">Follow ordinary BST operations, identify an ancestor that is too unbalanced, and rebuild its entire subtree into minimum height. After enough deletions, watch the whole tree rebuild and the counter <code>q</code> reset.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="random_binary_search_trees_chapter_7_interactive.html">← Chapter 7</a><a href="https://opendatastructures.org/newhtml/ods/latex2/scapegoat.html" target="_blank" rel="noopener noreferrer">Read Chapter 8 ↗</a></nav></header>
+<div class="layout"><main class="panel workspace">
+<div class="tabs" role="group" aria-label="Scapegoat tree topics"><span class="tab active" style="cursor:default">§8.1 · Partial rebuilding</span><span class="tab" style="cursor:default">Find · Insert · Remove · Rebuild</span></div>
+<div class="toolbar"><div class="field"><label for="operation">Operation</label><select id="operation"><option value="add">add(x) · insert</option><option value="find">find(x) · successor</option><option value="remove">remove(x) · delete</option><option value="rebuild">rebuild(x) · demonstration</option></select></div>
+<div class="field"><label for="key">Integer key x</label><input id="key" type="number" step="1" value="50"></div>
+<button id="run" class="primary">▶ Animate</button><button id="reset" class="soft">↺ Reset</button></div>
+<div class="examples"><b>Guided examples</b><div id="examples">
+<button class="chip" type="button" data-example="scapegoat">Insert 50 → partial rebuild</button>
+<button class="chip" type="button" data-example="delete">Delete 10 → full rebuild</button>
+<button class="chip" type="button" data-example="rebuild">Rebuild subtree at 20</button>
+<button class="chip" type="button" data-example="search">Find successor of 35</button>
+<button class="chip" type="button" data-example="duplicate">Reject duplicate</button></div></div>
+<div id="error" class="error" role="alert" hidden></div>
+<div class="note" id="lessonNote">A new leaf deeper than floor(log₃⁄₂ q) triggers a search for a scapegoat. Rebuilding restores height without rotations.</div>
+<div class="heading"><strong id="diagramName">BST nodes with subtree sizes</strong><small id="diagramNote">Selected subtree shaded in amber</small></div>
+<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Scapegoat binary search tree" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="metrics"><div class="metric"><b id="metricN">4</b><small>Current nodes n</small></div><div class="metric"><b id="metricQ">4</b><small>Upper bound q</small></div><div class="metric"><b id="metricH">3</b><small>Tree height (edges)</small></div><div class="metric"><b id="metricLimit">3</b><small>Floor log₃⁄₂(q)</small></div></div>
+<div class="trace"><b>Search path / ancestor checks</b><span id="traceText">Choose a guided scenario.</span></div>
+<div class="packed" id="packedBox" hidden><b>Nodes packed by inorder traversal</b><span id="packed"></span></div>
+<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></span><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
+</main><aside class="panel explain"><div><div class="eyebrow" id="sectionName">§8.1 · ScapegoatTree</div><h2 id="stepTitle">Choose an operation</h2></div><div class="result"><b>Current result</b><div id="result">Ready.</div></div><div><div class="codehead"><span class="eyebrow">Annotated pseudocode</span><span class="pill" id="codePill">add(x)</span></div><div class="code" id="code"></div><div class="explanation" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p id="stepDetail"></p></div></div>
+<div class="asidefoot">Scapegoat trees preserve <strong>q/2 ≤ n ≤ q</strong>. Find is <strong>O(log n)</strong> worst-case; insertion and deletion have <strong>O(log n)</strong> amortized update cost. A single rebuild may take linear time in the rebuilt subtree.</div></aside></div>
+<div class="lower"><section class="panel lesson"><div class="eyebrow">The insertion trigger</div><h3>How do we find the scapegoat?</h3><p>After adding a leaf, test its depth against <code>floor(log₃⁄₂ q)</code>. If too deep, walk upward and find a parent whose child on the path contains <strong>more than 2/3</strong> of the parent's subtree nodes. Rebuild that parent's subtree into a balanced BST. The search for a scapegoat examines subtree sizes, not just direct child pointers.</p></section><section class="panel lesson"><div class="eyebrow">Removal and q</div><h3>When does the entire tree rebuild?</h3><p>Deletion uses normal BST removal. The number <code>n</code> decreases, but the historical bound <code>q</code> does not. When <code>q &gt; 2n</code>, rebuild the entire remaining tree and set <code>q = n</code>. This resets the bound. Unlike Treaps, scapegoat trees do not rebalance with rotations.</p></section></div>
+<footer>Educational adaptation of Pat Morin's <a href="https://opendatastructures.org/newhtml/ods/latex2/scapegoat.html">Open Data Structures, Chapter 8</a>. The explicit rebuild operation is a teaching tool rather than an additional public SSet operation. Guided deletion may use a valid post-deletion snapshot with q greater than n.</footer>
+</div>
+<script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id),esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const P={
+find:[
+ ["u = root; successor = null","Search the ordinary BST without performing any rebuilding."],
+ ["while u != null: compare x with u.key","Follow left or right pointers by key comparison."],
+ ["if x <= u.key: save u; go left","Save a candidate and seek a smaller qualifying key."],
+ ["else: go right","Keys in the left subtree are too small."],
+ ["return successor","The least key ≥ x is the SSet find result."]
+],
+add:[
+ ["insert x as a BST leaf","Perform ordinary binary-search-tree insertion and reject duplicates."],
+ ["n++; q++","Both counters increase on successful insertion."],
+ ["if depth(u) > floor(log₃⁄₂ q):","Only an unusually deep new leaf needs rebuilding."],
+ ["walk ancestors; measure subtree sizes","Find the first ancestor where the child on the path has more than two-thirds of that ancestor's nodes."],
+ ["pack subtree nodes into sorted array","An inorder traversal collects the existing nodes by key."],
+ ["rebuild balanced subtree around median","Choose the median as subtree root, recurse on its two halves, then reconnect the parent pointer."],
+ ["return true","The BST order and logarithmic height bound are restored."]
+],
+remove:[
+ ["find exact key x","Use normal BST comparisons to locate the target node."],
+ ["remove x using BST deletion","With two children, copy its successor key and splice out the successor."],
+ ["n-- while q stays unchanged","The historical upper bound is not reduced on each deletion."],
+ ["if 2*n < q:","Only after enough deletions is the tree globally rebuilt."],
+ ["rebuild(root); q = n","Pack all remaining keys and rebuild a minimum-height tree, resetting q."],
+ ["return success","The set has been updated and its height bound retained."]
+],
+rebuild:[
+ ["u = find exact node x","Select the root of the subtree to rebuild; this is a teaching demonstration."],
+ ["packIntoArray(u) in sorted order","An inorder traversal stores all subtree keys from smallest to largest."],
+ ["m = floor(length / 2)","The median key will become the subtree root."],
+ ["recursively build the left and right halves","Every subtree is built from its middle element to achieve minimum height."],
+ ["attach rebuilt subtree to previous parent","Reconnect the rebuilt subtree to the rest of the BST, preserving all keys."]
+]};
+const make=(k,parent=null)=>({k,parent,left:null,right:null});
+const deep=u=>u?{k:u.k,l:deep(u.left),r:deep(u.right)}:null;
+const restore=(s,parent=null)=>{if(!s)return null;const u=make(s.k,parent);u.left=restore(s.l,u);u.right=restore(s.r,u);return u};
+const count=u=>u?1+count(u.left)+count(u.right):0;
+const height=u=>u?1+Math.max(height(u.left),height(u.right)):-1;
+const ordered=u=>u?[...ordered(u.left),u.k,...ordered(u.right)]:[];
+const nodes=u=>u?[u,...nodes(u.left),...nodes(u.right)]:[];
+const depth=u=>{let d=0;while(u?.parent){d++;u=u.parent}return d};
+const limit=q=>q?Math.floor(Math.log(q)/Math.log(1.5)+1e-10):0;
+function attach(t,parent,oldNode,newNode){
+ if(!parent)t.root=newNode;
+ else if(parent.left===oldNode)parent.left=newNode;
+ else if(parent.right===oldNode)parent.right=newNode;
+ else throw Error("Missing parent child link");
+ if(newNode)newNode.parent=parent;
+}
+function insert(t,x,visit){
+ let u=t.root;
+ if(!u){t.root=make(x);return{node:t.root,duplicate:false}};
+ while(u){
+  if(visit)visit(u);
+  if(u.k===x)return{node:u,duplicate:true};
+  const side=x<u.k?"left":"right";
+  if(!u[side]){u[side]=make(x,u);return{node:u[side],duplicate:false}}
+  u=u[side];
+ }
+}
+function balanced(keys,parent=null){
+ if(!keys.length)return null;
+ const i=Math.floor(keys.length/2),root=make(keys[i],parent);
+ root.left=balanced(keys.slice(0,i),root);
+ root.right=balanced(keys.slice(i+1),root);
+ return root;
+}
+function rebuild(t,focus){
+ if(!focus)return[];
+ const keys=ordered(focus),parent=focus.parent,replacement=balanced(keys,parent);
+ attach(t,parent,focus,replacement);
+ return keys;
+}
+function findNode(t,x){let u=t.root;while(u&&u.k!==x)u=x<u.k?u.left:u.right;return u}
+function deleteBST(t,x){
+ const u=findNode(t,x);if(!u)return null;
+ if(u.left&&u.right){
+  let w=u.right;while(w.left)w=w.left;
+  const old=u.k;u.k=w.k;attach(t,w.parent,w,w.right);return{key:old,successor:w.k,two:true};
+ }
+ attach(t,u.parent,u,u.left||u.right);
+ return{key:x,two:false};
+}
+function validate(t){
+ function walk(u,parent,min,max){if(!u)return 0;if(u.parent!==parent||!(u.k>min&&u.k<max))throw Error("Invalid BST order or parent pointer");return 1+walk(u.left,u,min,u.k)+walk(u.right,u,u.k,max)}
+ const n=walk(t.root,null,-Infinity,Infinity);
+ if(n!==t.n||t.q<n||2*n<t.q)throw Error("n/q invariant broken");
+ if(n&&height(t.root)>limit(t.q))throw Error("Height bound violated");
+ return true;
+}
+const fresh=()=>({root:null,n:0,q:0});
+const snapshot=t=>({root:deep(t.root),n:t.n,q:t.q});
+const clone=t=>({root:restore(deep(t.root)),n:t.n,q:t.q});
+function frame(fr,t,title,detail,line,active=null,trail=[],mark=[],packed=[],checks=0,result=""){
+ fr.push({tree:deep(t.root),n:t.n,q:t.q,title,detail,line,active,trail:trail.slice(),mark:mark.slice(),packed:packed.slice(),checks,result});
+}
+function add(t,x){
+ const fr=[],trail=[];let checks=0;
+ frame(fr,t,"Start BST insertion","Search for the correct leaf location for "+x+".",0);
+ const result=insert(t,x,u=>{checks++;trail.push("Compare "+x+" with "+u.k);frame(fr,t,"Compare at "+u.k,(x<u.k?"Go left.":x>u.k?"Go right.":"Duplicate key."),0,u.k,trail,[],[],checks)});
+ if(result.duplicate){frame(fr,t,"Duplicate rejected",x+" is already in the set; neither n nor q changes.",6,x,trail,[],[],checks,"add("+x+") = false");return fr}
+ t.n++;t.q++;const u=result.node;
+ frame(fr,t,"Attach new leaf "+x,"The new leaf has depth "+depth(u)+"; update n = "+t.n+" and q = "+t.q+".",1,x,trail,[],[],checks);
+ const bound=limit(t.q),d=depth(u);
+ frame(fr,t,"Test depth bound","depth(u) = "+d+"; floor(log₃⁄₂("+t.q+")) = "+bound+". "+(d>bound?"Rebuilding is required.":"The height limit is satisfied."),2,x,trail,[],[],checks);
+ if(d>bound){
+  let w=u.parent,found=null;
+  // Match Morin: start with w = u.parent, then find first w whose size(w)/size(parent(w)) > 2/3.
+  while(w&&w.parent){
+   const pw=w.parent,sw=count(w),sp=count(pw),tooHeavy=3*sw>2*sp;
+   trail.push("child "+w.k+" / parent "+pw.k+": "+sw+"/"+sp+(tooHeavy?" > 2/3":" ≤ 2/3"));
+   frame(fr,t,"Check ancestor "+pw.k,"The path child subtree contains "+sw+" of "+sp+" nodes ("+(sw/sp).toFixed(3)+"). "+(tooHeavy?"This exceeds 2/3: "+pw.k+" is the scapegoat.":"Continue toward the root."),3,pw.k,trail,nodes(pw).map(v=>v.k),[],checks);
+   if(tooHeavy){found=pw;break}w=pw;
+  }
+  if(!found)throw Error("No scapegoat found despite depth violation");
+  const keys=ordered(found),anchor=found.k;
+  frame(fr,t,"Pack subtree rooted at "+anchor,"Inorder traversal yields ["+keys.join(", ")+"]. These keys will be reattached using middle elements.",4,anchor,trail,keys,keys,checks);
+  const heightBefore=height(t.root);
+  rebuild(t,found);
+  frame(fr,t,"Rebuild around median","Select median "+keys[Math.floor(keys.length/2)]+" as the local root, recursively balance both halves, and attach the new subtree. Whole-tree height "+heightBefore+" → "+height(t.root)+".",5,keys[Math.floor(keys.length/2)],trail,keys,keys,checks);
+ }
+ frame(fr,t,"Insertion complete","Tree height "+height(t.root)+" ≤ floor(log₃⁄₂ q) = "+limit(t.q)+".",6,x,trail,[],[],checks,"add("+x+") = true");
+ return fr;
+}
+function remove(t,x){
+ const fr=[],trail=[];let checks=0,u=t.root;
+ frame(fr,t,"Locate exact key "+x,"Deletion first searches the BST for an equal key.",0);
+ while(u&&u.k!==x){checks++;trail.push("Compare "+x+" with "+u.k);frame(fr,t,"Compare "+x+" at "+u.k,"Go "+(x<u.k?"left":"right")+".",0,u.k,trail,[],[],checks);u=x<u.k?u.left:u.right}
+ if(!u){frame(fr,t,"Key absent","Nothing is deleted and q remains unchanged.",5,null,trail,[],[],checks,"remove("+x+") = false");return fr}
+ checks++;frame(fr,t,"Found "+x,u.left&&u.right?"Two children: copy the inorder successor key, then splice out that successor.":"Zero or one child: splice the node directly.",1,x,trail,[],[],checks);
+ const removed=deleteBST(t,x);t.n--;
+ frame(fr,t,"Delete "+x,removed.two?"Replaced "+x+" with successor "+removed.successor+" and unlinked the successor node.":"Bypassed the removed node.",1,removed.two?removed.successor:null,trail,[],[],checks);
+ frame(fr,t,"Update n but preserve q","Now n="+t.n+" and q="+t.q+"; q remembers the historical upper bound.",2,null,trail,[],[],checks);
+ const should=2*t.n<t.q;
+ frame(fr,t,"Check global rebuild","2n = "+(2*t.n)+" and q = "+t.q+". "+(should?"Since 2n < q, rebuild the entire remaining tree.":"Since 2n ≥ q, no full rebuild occurs."),3,null,trail,[],[],checks);
+ if(should){
+  const keys=ordered(t.root);frame(fr,t,"Pack whole tree","Collect all remaining keys in sorted order: ["+keys.join(", ")+"].",4,t.root?.k??null,trail,keys,keys,checks);
+  if(t.root)rebuild(t,t.root);t.q=t.n;
+  frame(fr,t,"Rebuild and reset q","The new tree has minimum possible height, and q is reset to n = "+t.n+".",4,t.root?.k??null,trail,keys,keys,checks);
+ }
+ frame(fr,t,"Removal complete","The tree preserves the BST and n/q invariants.",5,null,trail,[],[],checks,"remove("+x+") = true");
+ return fr;
+}
+function find(t,x){
+ const fr=[],trail=[];let u=t.root,candidate=null,checks=0;
+ frame(fr,t,"Begin successor search","Find the smallest key greater than or equal to "+x+".",0);
+ while(u){
+  checks++;trail.push("Check "+u.k);
+  frame(fr,t,"Compare with "+u.k,x<=u.k?"Save this candidate; move left.":"This key is too small; move right.",1,u.k,trail,[],[],checks);
+  if(x<=u.k){candidate=u;frame(fr,t,"Move left","Current successor candidate: "+u.k+".",2,u.k,trail,[],[],checks);u=u.left}
+  else{frame(fr,t,"Move right","The left subtree cannot contain a qualifying key.",3,u.k,trail,[],[],checks);u=u.right}
+ }
+ frame(fr,t,"Find complete",candidate?"Successor is "+candidate.k+".":"No stored key is ≥ "+x+".",4,candidate?.k??null,trail,[],[],checks,"find("+x+") = "+(candidate?.k??"null"));return fr;
+}
+function demonstrate(t,x){
+ const fr=[],trail=[],u=findNode(t,x);
+ frame(fr,t,"Select subtree","Choose key "+x+" as a subtree root.",0,x);
+ if(!u){frame(fr,t,"Key absent","This teaching action requires an existing key.",0,null,trail,[],[],0,"No subtree for "+x);return fr}
+ const keys=ordered(u);
+ frame(fr,t,"Pack inorder keys","Sorted contents: ["+keys.join(", ")+"].",1,u.k,trail,keys,keys);
+ frame(fr,t,"Choose median","The middle element "+keys[Math.floor(keys.length/2)]+" will become the local root.",2,u.k,trail,keys,keys);
+ const before=height(u);rebuild(t,u);
+ frame(fr,t,"Build balanced halves","Recurse on the left and right slices. Local height "+before+" → "+height(findNode(t,keys[Math.floor(keys.length/2)]))+".",3,keys[Math.floor(keys.length/2)],trail,keys,keys);
+ frame(fr,t,"Reattach rebuilt subtree","Rebuild changes node arrangement, not key order or the n/q counters.",4,keys[Math.floor(keys.length/2)],trail,keys,keys,0,"Rebuilt "+keys.length+" nodes");return fr;
+}
+function seedAscending(){const t=fresh();for(const x of [10,20,30,40]){add(t,x)}validate(t);return t}
+function seedDeletion(){// A valid illustrative state after past deletions from a tree with q=13.
+ const keys=[10,20,30,40,50,60,70];const t={root:balanced(keys),n:7,q:13};validate(t);return t;
+}
+let t=seedAscending(),op="add",frames=[],cursor=0,timer=null,delay=1050;
+function clearError(){$("error").hidden=true;$("error").textContent=""}
+function fail(msg){$("error").hidden=false;$("error").textContent=msg}
+function stop(){if(timer)clearInterval(timer);timer=null;$("play").textContent="▶ Play"}
+function ready(){stop();frames=[];frame(frames,t,"Choose an operation","Set a key or choose a guided example to inspect subtree rebuilding.",0,null,[],[],[],0,"Ready.");cursor=0;render()}
+function example(tag){
+ clearError();t=tag==="delete"?seedDeletion():seedAscending();
+ const e={scapegoat:["add",50],delete:["remove",10],rebuild:["rebuild",20],search:["find",35],duplicate:["add",20]}[tag];if(!e)return;
+ op=e[0];$("operation").value=op;$("key").value=e[1];ready();run();if($("error").hidden)play();
+}
+function run(){
+ clearError();stop();
+ const raw=$("key").value.trim(),x=Number(raw);if(!raw||!Number.isInteger(x)||x<-999||x>999)return fail("Enter an integer key between −999 and 999.");
+ if(op==="add"&&t.n>=18)return fail("This demo limits the tree to 18 nodes; delete a key first.");
+ const work=clone(t);
+ try{
+  const fr=op==="add"?add(work,x):op==="find"?find(work,x):op==="remove"?remove(work,x):demonstrate(work,x);
+  validate(work);
+  t=work;frames=fr;cursor=0;render();
+ }catch(e){fail("Operation failed: "+e.message);}
+}
+function coord(root){
+ const coords={};let x=0,maxDepth=0;const step=85;
+ function walk(u,d){if(!u)return;walk(u.left,d+1);coords[u.k]={x:75+(++x)*step,y:68+d*99};maxDepth=Math.max(maxDepth,d);walk(u.right,d+1)}
+ walk(root,0);return{coords,width:Math.max(720,(x+2)*step+75),height:Math.max(310,130+(maxDepth+1)*99)};
+}
+function draw(f){
+ const root=restore(f.tree),out=$("tree"),lay=coord(root),coords=lay.coords;
+ out.setAttribute("width",lay.width);out.setAttribute("height",lay.height);out.setAttribute("viewBox","0 0 "+lay.width+" "+lay.height);
+ let html="",marked=new Set(f.mark);
+ for(const u of nodes(root)){const a=coords[u.k];for(const c of [u.left,u.right])if(c){const b=coords[c.k];html+='<line class="edge'+(c.k===f.active||u.k===f.active?" hot":"")+'" x1="'+a.x+'" y1="'+(a.y+27)+'" x2="'+b.x+'" y2="'+(b.y-27)+'"/>'}}
+ for(const u of nodes(root)){
+  const a=coords[u.k],cls=u.k===f.active?"active":marked.has(u.k)?"mark":"";
+  html+='<g class="node '+cls+'"><title>Key '+u.k+'; subtree size '+count(u)+'</title><circle cx="'+a.x+'" cy="'+a.y+'" r="26"/><text class="k" x="'+a.x+'" y="'+(a.y+3)+'">'+u.k+'</text><text class="p" x="'+a.x+'" y="'+(a.y+45)+'">size '+count(u)+'</text></g>';
+ }
+ if(!root)html='<text x="90" y="97" font-size="15" fill="#8095a7">Empty tree</text>';
+ out.innerHTML=html;
+}
+function render(){
+ const f=frames[cursor],p=P[op],root=restore(f.tree),active=Math.max(0,Math.min(p.length-1,f.line));
+ $("stepTitle").textContent=f.title;$("result").textContent=f.result||"Follow the highlighted line and tree structure.";
+ $("code").innerHTML=p.map((z,i)=>'<div class="line'+(active===i?" active":"")+'">'+esc(z[0])+'</div>').join("");
+ $("why").textContent=p[active][1];$("stepDetail").textContent=f.detail;$("codePill").textContent=op+"(x)";
+ $("metricN").textContent=f.n;$("metricQ").textContent=f.q;$("metricH").textContent=height(root);$("metricLimit").textContent=limit(f.q);
+ $("traceText").textContent=f.trail.length?f.trail.join(" · "):"No comparisons yet.";
+ $("packedBox").hidden=f.packed.length===0;$("packed").textContent="["+f.packed.join(", ")+"]";
+ $("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("progress").max=frames.length-1;$("progress").value=cursor;
+ $("prev").disabled=cursor===0;$("next").disabled=cursor===frames.length-1;draw(f);
+}
+function seek(i){cursor=Math.max(0,Math.min(frames.length-1,i));render()}
+function play(){if(timer){stop();return}if(cursor===frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor===frames.length-1)stop()},delay);$("play").textContent="Ⅱ Pause"}
+$("run").addEventListener("click",()=>{run();if($("error").hidden)play()});
+$("reset").addEventListener("click",()=>{t=seedAscending();op="add";$("operation").value=op;$("key").value=50;clearError();ready()});
+$("operation").addEventListener("change",e=>{op=e.target.value;ready()});
+document.querySelectorAll("[data-example]").forEach(b=>b.addEventListener("click",()=>example(b.dataset.example)));
+$("prev").addEventListener("click",()=>{stop();seek(cursor-1)});$("next").addEventListener("click",()=>{stop();seek(cursor+1)});$("restart").addEventListener("click",()=>{stop();seek(0)});$("play").addEventListener("click",play);
+$("progress").addEventListener("input",e=>{stop();seek(Number(e.target.value))});$("speed").addEventListener("change",e=>{delay=Number(e.target.value);if(timer){stop();play()}});
+document.addEventListener("keydown",e=>{if(["BUTTON","INPUT","SELECT"].includes(document.activeElement.tagName))return;if(e.key==="ArrowRight"){stop();seek(cursor+1)}else if(e.key==="ArrowLeft"){stop();seek(cursor-1)}else if(e.key===" "){e.preventDefault();play()}});
+ready();
+})();
+</script></body></html>
