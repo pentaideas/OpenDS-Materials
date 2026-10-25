@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8fb"><meta name="description" content="Open Data Structures chapter 7: random binary search trees, treaps, min-heap priorities, rotations, search, insertion and deletion.">
+<title>Chapter 7 • Random BSTs &amp; Treaps • OpenDS</title>
+<style>
+:root{color-scheme:light;--bg:#f7f8fb;--ink:#182b42;--muted:#61788c;--teal:#006c63;--navy:#142942;--line:#dee7ef}*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}a{color:#216b96}
+.shell{max-width:1390px;margin:auto;padding:27px 25px 45px}.top{display:flex;justify-content:space-between;align-items:start;gap:19px;margin-bottom:19px}.eyebrow{letter-spacing:.11em;text-transform:uppercase;color:var(--teal);font-size:11px;font-weight:830}h1{font-size:clamp(27px,3.3vw,43px);letter-spacing:-.053em;margin:8px 0;line-height:1.1}.subtitle{color:var(--muted);margin:0;max-width:850px}.links{display:flex;gap:7px;flex-wrap:wrap;justify-content:end}.links a{white-space:nowrap;background:white;border:1px solid #d6e2ed;border-radius:10px;padding:9px 12px;text-decoration:none;font-size:11.5px;font-weight:750}
+.layout{display:grid;grid-template-columns:minmax(0,1.68fr) minmax(320px,.82fr);gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:18px;min-width:0;box-shadow:0 5px 18px #263b5109}.workspace{overflow:hidden}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;padding:13px 16px;background:#f1f5f8;border-bottom:1px solid var(--line)}.tab{border:0;background:transparent;border-radius:9px;padding:10px 13px;color:#647c90;font-size:12px;font-weight:790}.tab.active{background:var(--navy);color:white}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;padding:14px 17px;border-bottom:1px solid var(--line)}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#748b9d}
+.field input,.field select{border:1px solid #d2dfeb;border-radius:9px;height:38px;padding:0 10px;background:white;color:#29435a;min-width:92px}.field input{width:105px}.primary,.soft{height:38px;padding:0 15px;border-radius:9px;font-size:12px;font-weight:760}.primary{background:var(--teal);border:1px solid var(--teal);color:white}.soft{background:white;border:1px solid #d6e2ed;color:#486279}
+.examples{padding:11px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;flex-wrap:wrap;gap:7px}.examples b{font-size:10px;color:#889cad;text-transform:uppercase;letter-spacing:.07em}.chip{border:1px solid #dce6ed;border-radius:99px;padding:5px 10px;background:#f5f9fb;font-size:11px;font-weight:740;color:#486c80}
+.note{padding:12px 17px;background:#f9fcfd;color:#4e6b7c;border-bottom:1px solid var(--line);font-size:12px}.error{color:#9c3c4b;background:#fff3f4;padding:10px 15px;font-size:12px}
+.heading{padding:13px 19px 2px;display:flex;justify-content:space-between;gap:7px;align-items:center}.heading strong{font-size:13px}.heading small{color:#8d9eaf;font-size:11px}
+.viewport{overflow:auto;min-height:350px;max-height:600px;padding:12px 13px 24px}.viewport svg{display:block;max-width:none}
+.edge{stroke:#b8c9d6;stroke-width:2.8;fill:none}.edge.hot{stroke:#008c80;stroke-width:4.5}.edge.path{stroke:#4e83ba;stroke-width:3.5}
+.node circle{fill:white;stroke:#a4b7c8;stroke-width:2.8}.node text{font-family:system-ui;text-anchor:middle;pointer-events:none}.node .k{fill:#253f54;font-weight:850;font-size:17px}.node .p{fill:#72889b;font-size:10px;font-weight:780}.node.active circle{fill:#006c63;stroke:#006c63}.node.active text{fill:white}.node.mark circle{fill:#fff0d9;stroke:#d6a458}.node.mark .k{fill:#85591c}.node.onpath circle{stroke:#4e86b9;fill:#eaf3fe}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);background:#fcfdff;border-top:1px solid #ebf0f4}.metric{text-align:center;padding:12px 5px}.metric b{font-size:19px;line-height:1.1;display:block}.metric small{font-size:10px;color:#8398aa}
+.trace{padding:12px 17px;border-top:1px solid #ebf0f4;color:#5b7586;font-size:12px}.trace b{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#8798a9;display:block;margin-bottom:5px}
+.transport{padding:14px 16px;border-top:1px solid #e8edf2}.buttons{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.control{height:37px;min-width:39px;font-size:18px;font-weight:800;border:1px solid #dbe5ee;border-radius:9px;background:white;color:#355269}.play{background:var(--navy);border-color:var(--navy);color:white;font-size:12px;min-width:85px}.speed{margin-left:auto;color:#8094a6;font-size:11px}.speed select{border:1px solid #dce6ed;border-radius:8px;padding:6px;background:#fff}.counter{font-size:11px;color:#8498a7}.progress{width:100%;margin:14px 0 0;accent-color:var(--teal)}
+.explain{display:flex;flex-direction:column;gap:16px;padding:20px}.explain h2{font-size:22px;letter-spacing:-.037em;line-height:1.17;margin:6px 0}
+.result{background:#eff9f5;border:1px solid #cee8df;border-radius:11px;padding:13px;color:#256d60;font-size:12px}.result b{font-size:10px;text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:4px;color:#418b7e}
+.codehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.pill{background:#e6f5f0;color:#05756a;font-weight:800;font-size:10px;padding:4px 9px;border-radius:99px}
+.code{background:#14283d;border-radius:12px;padding:12px 0;color:#b8cede;overflow:auto}.line{white-space:pre;font:11.4px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;padding:4px 12px}.line.active{border-left:3px solid #4dc5ad;padding-left:9px;background:#2a4a62;color:#e4fff7}
+.explanation{padding:13px;border:1px solid #dceaf0;background:#f8fbfc;margin-top:11px;border-radius:11px}.explanation b{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#538293}#why{font-size:13px;font-weight:770;color:#25475b;line-height:1.58;margin:8px 0}#stepDetail{font-size:12px;color:#5e788a;border-top:1px solid #e2edf1;padding-top:8px;line-height:1.65;margin:8px 0 0}
+.asidefoot{border-top:1px solid #e7edf2;padding-top:12px;color:#627b8e;font-size:12px;line-height:1.67}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.lesson{padding:19px 21px}.lesson h3{font-size:17px;margin:6px 0;letter-spacing:-.025em}.lesson p{color:#657c8f;font-size:12.5px;line-height:1.68}footer{color:#889cac;font-size:11px;margin-top:20px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.explain{display:grid;grid-template-columns:1fr 1fr}.asidefoot{grid-column:1/-1}}@media(max-width:680px){.shell{padding:17px 10px}.top{display:block}.links{justify-content:start;margin-top:13px}.toolbar{padding:11px}.viewport{min-height:260px}.metrics{grid-template-columns:repeat(2,1fr)}.explain{display:flex;padding:15px}.lower{grid-template-columns:1fr}.speed{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body><div class="shell">
+<header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 7</div><h1>Random BSTs &amp; Treaps.</h1><p class="subtitle">Compare insertion-order effects with randomized priorities, then animate Treap rotations as they restore a minimum-priority heap while keeping the binary-search-tree ordering.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="bst_section_6_2_interactive.html">← §6.2 BST</a><a href="scapegoat_trees_chapter_8_interactive.html">Chapter 8 →</a><a href="https://opendatastructures.org/newhtml/ods/latex2/rbs.html" target="_blank" rel="noopener noreferrer">Read Chapter 7 ↗</a></nav></header>
+<div class="layout"><main class="panel workspace">
+<div class="tabs" role="tablist" aria-label="Chapter 7 section"><button class="tab" data-mode="random" role="tab" aria-selected="false">7.1 · Random binary search trees</button><button class="tab active" data-mode="treap" role="tab" aria-selected="true">7.2 · Treap</button></div>
+<div class="toolbar">
+<div class="field"><label for="operation">Operation</label><select id="operation"></select></div>
+<div class="field" id="keyField"><label for="key">Integer key x</label><input id="key" type="number" step="1" value="35"></div>
+<div class="field" id="priorityField"><label for="priority">Priority p</label><input id="priority" type="number" step="1" placeholder="Random" value="10"></div>
+<div class="field" id="sizeField" hidden><label for="sampleSize">Keys to insert</label><select id="sampleSize"><option value="7">7</option><option value="10">10</option><option value="15" selected>15</option></select></div>
+<div class="field" id="orderField" hidden><label for="order">Insertion order</label><select id="order"><option value="random">Uniform random permutation</option><option value="sorted">Ascending sorted</option><option value="balanced">Median-first</option></select></div>
+<button id="run" class="primary">▶ Animate</button><button id="reset" class="soft">↺ Reset</button></div>
+<div class="examples"><b>Try a scenario</b><div id="examples"></div></div>
+<div id="error" class="error" role="alert" hidden></div>
+<div class="note" id="lessonNote">The smaller the priority, the higher the node belongs. Rotations preserve sorted key order.</div>
+<div class="heading"><strong id="diagramName">Keys and priorities</strong><small id="diagramNote">Top label is key; lower label is priority</small></div>
+<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Binary search tree with active nodes highlighted" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="metrics"><div class="metric"><b id="metricN">7</b><small>Stored keys</small></div><div class="metric"><b id="metricH">—</b><small>Height (edges)</small></div><div class="metric"><b id="metricChecks">0</b><small>Comparisons</small></div><div class="metric"><b id="metricRotations">0</b><small>Rotations</small></div></div>
+<div class="trace"><b>Operation trace</b><span id="traceText">Choose an operation or guided example.</span></div>
+<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></span><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
+</main><aside class="panel explain"><div><div class="eyebrow" id="sectionName">§7.2 · Treap</div><h2 id="stepTitle">Choose an operation</h2></div><div class="result"><b>Current result</b><div id="result">Ready.</div></div>
+<div><div class="codehead"><span class="eyebrow">Annotated pseudocode</span><span class="pill" id="codePill">add(x,p)</span></div><div class="code" id="code"></div><div class="explanation" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p id="stepDetail"></p></div></div><div class="asidefoot" id="concept">Every Treap is a BST by key and a min-heap by priority.</div></aside></div>
+<div class="lower"><section class="panel lesson"><div class="eyebrow">§7.1 Random BST</div><h3>Insertion order changes the shape</h3><p>Inserting sorted keys into an ordinary unbalanced BST produces a chain. A uniformly random permutation gives expected logarithmic search paths. That expectation averages over permutations, not over the searched key; individual random trees can still be tall.</p></section><section class="panel lesson"><div class="eyebrow">§7.2 Treap</div><h3>One tree, two properties</h3><p>For every node, <strong>left key &lt; parent key &lt; right key</strong>, and <strong>parent priority &lt; child priority</strong>. Insertion first adds a BST leaf, then rotates it upward until its priority is in the correct place. Deletion rotates a target downward to a leaf, then unlinks it. Random, unique priorities give expected O(log n) operation time.</p></section></div>
+<footer>Original interactive supplementary material for Pat Morin’s <a href="https://opendatastructures.org/newhtml/ods/latex2/rbs.html">Open Data Structures, Chapter 7</a>. Priority inputs permit deterministic demonstrations; random priority mode samples distinct integers. Pseudocode is abbreviated for teaching.</footer>
+</div>
+<script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id),esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const P={
+ random:{build:[
+ ["keys = a permutation of 0..n−1","Choose an insertion order. Uniform shuffling generates one random permutation."],
+ ["for x in keys:","Insert each key into a plain, unbalanced BST."],
+ ["  if x < u.key: go left","Smaller keys enter the left subtree."],
+ ["  else if x > u.key: go right","Larger keys enter the right subtree."],
+ ["  attach new leaf","The new item becomes a leaf. No rotations are used."],
+ ["inspect the final tree height","Sorted order can produce height n−1, while random order has expected logarithmic search paths."]
+ ],find:[
+ ["u = root; successor = null","Start at the root and track a possible least key ≥ x."],
+ ["while u != null:","Keep comparing until you find the key or reach a missing child."],
+ ["  if x <= u.key: save u; go left","This node can be the successor; explore smaller qualifying keys."],
+ ["  else: go right","This node and its left subtree are too small."],
+ ["return successor or null","Return the least stored key ≥ x, or null if none exists."]
+ ]},
+ treap:{find:[
+ ["u = root; successor = null","A Treap is still a BST when comparing keys."],
+ ["while u != null:","Walk through nodes, one comparison at a time."],
+ ["  if x <= u.key: save u; go left","Save this candidate and continue toward smaller matching keys."],
+ ["  else: go right","Discard smaller keys and enter the right subtree."],
+ ["return successor or null","Return the least stored key ≥ x."]
+ ],add:[
+ ["u = new Node(key=x, priority=p)","Assign a random unique priority (or a teaching override). Lower priority numbers rank higher."],
+ ["insert u as a normal BST leaf","Search on the key only, ignoring priority during placement."],
+ ["if key exists: reject duplicate","Treap is an SSet: every key appears at most once."],
+ ["while u.parent.p > u.p:","The new node violates the min-heap rule when its parent has a larger priority."],
+ ["  rotateLeft/rotateRight(parent)","Rotate u above its parent without changing inorder key order."],
+ ["return true","The resulting tree satisfies both the BST order and min-priority heap property."]
+ ],remove:[
+ ["u = find exact key x","First locate the exact node to delete."],
+ ["while u has children:","Keep rotating u downward until it becomes a leaf."],
+ ["  choose child with smaller priority","The lower-priority child must move up to preserve the min-heap rule."],
+ ["  rotate chosen child above u","A left or right rotation moves the target one level lower."],
+ ["unlink leaf u","The target is now a leaf and can be removed directly."],
+ ["return success / failure","The remaining keys and priorities satisfy both invariants."]
+ ]}
+};
+const presetPairs=[[50,15],[30,30],[70,60],[20,55],[40,45],[60,70],[80,85]];
+const make=(k,p=null,parent=null)=>({k,p,left:null,right:null,parent});
+const deep=node=>node?{k:node.k,p:node.p,l:deep(node.left),r:deep(node.right)}:null;
+const restore=(x,parent=null)=>{if(!x)return null;const u=make(x.k,x.p,parent);u.left=restore(x.l,u);u.right=restore(x.r,u);return u};
+const count=u=>u?1+count(u.left)+count(u.right):0;
+const height=u=>u?1+Math.max(height(u.left),height(u.right)):-1;
+const inorder=u=>u?[...inorder(u.left),u.k,...inorder(u.right)]:[];
+const all=u=>u?[u,...all(u.left),...all(u.right)]:[];
+const findExact=(root,x)=>{let u=root;while(u&&u.k!==x)u=x<u.k?u.left:u.right;return u};
+function link(t,parent,oldNode,newNode){
+ if(!parent)t.root=newNode;
+ else if(parent.left===oldNode)parent.left=newNode;
+ else if(parent.right===oldNode)parent.right=newNode;
+ else throw Error("Invalid parent link");
+ if(newNode)newNode.parent=parent;
+}
+function rotateLeft(t,u){if(!u.right)throw Error("Missing right child");const w=u.right,p=u.parent;u.right=w.left;if(u.right)u.right.parent=u;link(t,p,u,w);w.left=u;u.parent=w;}
+function rotateRight(t,u){if(!u.left)throw Error("Missing left child");const w=u.left,p=u.parent;u.left=w.right;if(u.left)u.left.parent=u;link(t,p,u,w);w.right=u;u.parent=w;}
+function insertLeaf(t,x,p,trace){
+ if(!t.root){t.root=make(x,p);if(trace)trace(t.root,0);return{node:t.root,duplicate:false}}
+ let u=t.root,depth=0;
+ while(true){
+  if(trace)trace(u,depth);
+  if(x===u.k)return{node:u,duplicate:true};
+  const side=x<u.k?"left":"right";
+  if(!u[side]){u[side]=make(x,p,u);return{node:u[side],duplicate:false}};
+  u=u[side];depth++;
+ }
+}
+function preset(){let t={root:null};for(const [k,p] of presetPairs){const r=insertLeaf(t,k,p);let u=r.node;while(u.parent&&u.parent.p>u.p){if(u.parent.right===u)rotateLeft(t,u.parent);else rotateRight(t,u.parent)}}return t}
+function frame(fr,t,title,detail,code,active=null,trail=[],checks=0,rotations=0,result=""){
+ fr.push({tree:deep(t.root),title,detail,code,active,trail:trail.slice(),checks,rotations,result});
+}
+function validate(t,treap=true){
+ function walk(u,parent,lo,hi){if(!u)return; if(u.parent!==parent||!(u.k>lo&&u.k<hi))throw Error("BST/parent invariant");
+ if(treap&&parent&&parent.p>=u.p)throw Error("Treap priority invariant");walk(u.left,u,lo,u.k);walk(u.right,u,u.k,hi);
+ }walk(t.root,null,-Infinity,Infinity);return true;
+}
+function successor(t,x,mode){
+ const fr=[],trail=[];let u=t.root,seen=null,checks=0;
+ frame(fr,t,"Begin successor search","Return the least key ≥ "+x+".",0,null,trail);
+ while(u){
+  checks++;trail.push("Compare "+x+" with "+u.k);
+  frame(fr,t,"Compare at "+u.k,x===u.k?"Exact match; this node is a successor. Continue left in case there is a smaller qualifying key.":x<u.k?"This key qualifies. Save it and follow left.":"This key is too small; follow right.",1,u.k,trail,checks);
+  if(x<=u.k){seen=u;frame(fr,t,"Go left from "+u.k,"Save "+u.k+" as the candidate and try to find a smaller qualifying key.",2,u.k,trail,checks);u=u.left}
+  else {frame(fr,t,"Go right from "+u.k,"All keys in this node's left subtree are smaller than "+x+".",3,u.k,trail,checks);u=u.right}
+ }
+ frame(fr,t,"Search complete",seen?"The least key ≥ "+x+" is "+seen.k+".":"There is no stored key ≥ "+x+".",4,seen?.k??null,trail,checks,0,"find("+x+") = "+(seen?.k??"null"));
+ return fr;
+}
+function addTreap(t,x,p){
+ let fr=[],trail=[],checks=0,rot=0;
+ frame(fr,t,"Choose priority","Key "+x+" receives distinct priority "+p+". Smaller p rises toward the root.",0,null,trail,0,0);
+ const added=insertLeaf(t,x,p,(u,d)=>{checks++;trail.push("Compare "+x+" with "+u.k);frame(fr,t,"Search from "+u.k,x<u.k?"Descend left.":x>u.k?"Descend right.":"Duplicate key found.",1,u.k,trail,checks,rot)});
+ if(added.duplicate){frame(fr,t,"Duplicate rejected","This key already exists; the table of keys and priorities is unchanged.",2,x,trail,checks,rot,"add("+x+") = false");return fr}
+ let u=added.node;frame(fr,t,"Insert BST leaf "+x,"The new node is in sorted key order, but its priority might be too small for its parent.",1,x,trail,checks,rot);
+ while(u.parent&&u.parent.p>u.p){
+  const old=u.parent,orientation=old.left===u?"right":"left";
+  frame(fr,t,"Heap violation at "+u.k,"Parent "+old.k+" has p="+old.p+", greater than child p="+u.p+". Rotate "+orientation+".",3,u.k,trail,checks,rot);
+  if(orientation==="left")rotateLeft(t,old);else rotateRight(t,old);
+  rot++;trail.push("Rotate "+orientation+" at "+old.k);
+  frame(fr,t,"Rotate "+orientation+" at "+old.k,"The node "+u.k+" moves up one edge, and inorder key order remains unchanged.",4,u.k,trail,checks,rot);
+ }
+ frame(fr,t,"Treap insertion complete","Every parent now has a smaller priority than its children; the BST key ordering still holds.",5,x,trail,checks,rot,"add("+x+") = true");
+ return fr;
+}
+function removeTreap(t,x){
+ let fr=[],trail=[],checks=0,rot=0,u=t.root;
+ frame(fr,t,"Find exact key","A Treap removal requires equality, not successor search.",0,null,trail);
+ while(u&&u.k!==x){checks++;trail.push("Compare "+x+" with "+u.k);frame(fr,t,"Search through "+u.k,"Follow the "+(x<u.k?"left":"right")+" subtree toward "+x+".",0,u.k,trail,checks);u=x<u.k?u.left:u.right}
+ if(!u){frame(fr,t,"Key absent","No key equals "+x+". Nothing changes.",5,null,trail,checks,rot,"remove("+x+") = false");return fr}
+ checks++;frame(fr,t,"Found key "+x,"Rotate the selected node downward until it has no children.",0,u.k,trail,checks);
+ while(u.left||u.right){
+  const child= !u.left?u.right:!u.right?u.left:u.left.p<u.right.p?u.left:u.right;
+  const direct=child===u.left?"right":"left";
+  frame(fr,t,"Choose child with smaller priority","Promote child "+child.k+" (p="+child.p+") past target "+x+".",2,child.k,trail,checks,rot);
+  if(direct==="right")rotateRight(t,u);else rotateLeft(t,u);
+  rot++;trail.push("Rotate "+direct+" at "+x);
+  frame(fr,t,"Trickle "+x+" downward","Rotating "+direct+" makes "+child.k+" the parent of "+x+".",3,x,trail,checks,rot);
+ }
+ link(t,u.parent,u,null);frame(fr,t,"Unlink leaf "+x,"The target is a leaf; disconnect its last parent pointer.",4,null,trail,checks,rot);
+ frame(fr,t,"Removal complete","All remaining keys satisfy BST order and min-priority heap order.",5,null,trail,checks,rot,"remove("+x+") = true");
+ return fr;
+}
+const randomPerm=n=>{const a=Array.from({length:n},(_,i)=>i);for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function medOrder(a){if(!a.length)return[];const m=Math.floor(a.length/2);return[a[m],...medOrder(a.slice(0,m)),...medOrder(a.slice(m+1))]}
+function buildBST(n,order){
+ const t={root:null},fr=[],trail=[],keys=order==="sorted"?Array.from({length:n},(_,i)=>i):order==="balanced"?medOrder(Array.from({length:n},(_,i)=>i)):randomPerm(n);
+ let checks=0;
+ frame(fr,t,"Choose insertion order","Sequence: "+keys.join(", ")+". A random permutation is uniformly shuffled; sorted/median-first are deliberate controls.",0);
+ for(const x of keys){
+  frame(fr,t,"Insert next key "+x,"Insert this key into the ordinary BST without rotations.",1,x,trail,checks);
+  const found=insertLeaf(t,x,null,(u)=>{checks++;trail.push("Compare "+x+" to "+u.k);frame(fr,t,"Compare "+x+" with "+u.k,"Follow "+(x<u.k?"left":"right")+" to maintain BST order.",x<u.k?2:3,u.k,trail,checks)});
+  frame(fr,t,"Attach leaf "+x,"Node "+x+" is now inserted; current tree height = "+height(t.root)+".",4,x,trail,checks);
+ }
+ frame(fr,t,"Tree complete","Insertion sequence: "+keys.join(", ")+". Tree height = "+height(t.root)+" edges; maximum possible = "+(n-1)+".",5,null,trail,checks,0,"Built "+n+" keys; height "+height(t.root));
+ return fr;
+}
+const OPS={random:["build","find"],treap:["add","find","remove"]};
+const TIPS={random:"Random BSTs are built from a uniformly shuffled insertion order. No rotations keep later edits balanced, so the experiment rebuilds a fresh tree each time.",treap:"Treap combines two invariants: key order is a BST and priority order is a min-heap. A lower number means a higher-priority node."};
+const examples={random:[["random","Build random permutation","build"],["sorted","Build ascending chain","build"],["balanced","Build median-first","build"],["search","Successor of 8","find"]],treap:[["rotations","Insert 35 with p=10","add",35,10],["successor","Find successor of 55","find",55],["remove","Delete key 50","remove",50],["duplicate","Reject duplicate 30","add",30,5]]};
+const stores={random:{root:null},treap:preset()};
+let mode="treap",op="add",frames=[],cursor=0,timer=null,delay=1050;
+function clearError(){$("error").hidden=true;$("error").textContent=""}
+function fail(msg){$("error").hidden=false;$("error").textContent=msg}
+function stop(){if(timer)clearInterval(timer);timer=null;$("play").textContent="▶ Play"}
+function setup(){
+ $("operation").innerHTML=OPS[mode].map(v=>'<option value="'+v+'">'+(v==="build"?"Build BST":v+"(x)")+'</option>').join("");
+ op=OPS[mode][0];$("operation").value=op;
+ document.querySelectorAll(".tab").forEach(b=>{const y=b.dataset.mode===mode;b.classList.toggle("active",y);b.setAttribute("aria-selected",String(y))});
+ $("lessonNote").textContent=TIPS[mode];$("sectionName").textContent=mode==="random"?"§7.1 · Random BST":"§7.2 · Treap";
+ $("examples").innerHTML=examples[mode].map(e=>'<button type="button" class="chip" data-example="'+e[0]+'">'+e[1]+'</button>').join(" ");
+ document.querySelectorAll("[data-example]").forEach(btn=>btn.addEventListener("click",()=>example(btn.dataset.example)));
+ showFields();ready();
+}
+function showFields(){
+ const build=mode==="random"&&op==="build";
+ $("keyField").hidden=build;$("priorityField").hidden=mode!=="treap"||op!=="add";$("sizeField").hidden=!build;$("orderField").hidden=!build;
+ $("codePill").textContent=mode==="random"?(build?"buildBST()":"find(x)"):(op==="add"?"add(x,p)":op+"(x)");
+}
+function ready(){stop();const t=stores[mode];frames=[];frame(frames,t,"Choose an operation","Use Animate or one of the guided examples to see an algorithm step by step.",0,null,[],0,0,"Ready.");cursor=0;render();}
+function example(tag){clearError();if(mode==="random"){if(tag==="random"||tag==="sorted"||tag==="balanced"){op="build";$("order").value=tag==="random"?"random":tag==="balanced"?"balanced":"sorted";$("sampleSize").value="15"}else{op="find";$("key").value=8;stores.random=restoreStoreFromSeed()}}
+ else{stores.treap=preset();if(tag==="rotations"){op="add";$("key").value=35;$("priority").value=10}else if(tag==="successor"){op="find";$("key").value=55}else if(tag==="remove"){op="remove";$("key").value=50}else{op="add";$("key").value=30;$("priority").value=5}}
+ $("operation").value=op;showFields();ready();run();if($("error").hidden)play();
+}
+function restoreStoreFromSeed(){let root=null,t={root};const perm=medOrder(Array.from({length:15},(_,i)=>i));perm.forEach(x=>insertLeaf(t,x,null));return t}
+function run(){
+ clearError();stop();let fr;
+ if(mode==="random"&&op==="build"){fr=buildBST(Number($("sampleSize").value),$("order").value)}
+ else{const raw=$("key").value.trim(),x=Number(raw);
+  if(!raw||!Number.isInteger(x)||x<-999||x>999)return fail("Enter an integer key between −999 and 999.");
+  const t={root:restore(deep(stores[mode].root))};
+  if(op==="find")fr=successor(t,x,mode);
+  else if(op==="add"){
+   if(count(t.root)>=18)return fail("This visual demo limits Treaps to 18 nodes; remove one first.");
+   let p,rawP=$("priority").value.trim();
+   if(rawP===""){p=Math.floor(Math.random()*1000000);const priorities=new Set(all(t.root).map(z=>z.p));while(priorities.has(p))p=Math.floor(Math.random()*1000000)}
+   else{p=Number(rawP);if(!Number.isInteger(p)||p<-999999||p>999999)return fail("Priority must be an integer from −999999 to 999999.");
+     if(!findExact(t.root,x)&&all(t.root).some(u=>u.p===p))return fail("Priority must be unique. Choose another priority or clear the field for random.");
+   }
+   fr=addTreap(t,x,p);
+  }else fr=removeTreap(t,x);
+ }
+ if(!fr||!fr.length)return fail("No animation steps could be generated.");
+ const last=fr.at(-1);const next={root:restore(last.tree)};
+ validate(next,mode==="treap");
+ stores[mode]=next;frames=fr;cursor=0;render();
+}
+function coord(root){
+ const nodes=all(root),positions={},xStep=84;let i=0,maxDepth=0;
+ function walk(u,d){if(!u)return;walk(u.left,d+1);positions[u.k]={x:75+(++i)*xStep,y:67+d*101};maxDepth=Math.max(d,maxDepth);walk(u.right,d+1)}
+ walk(root,0);return{positions,width:Math.max(720,(i+2)*xStep+85),height:Math.max(310,130+(maxDepth+1)*101)};
+}
+function draw(f){
+ const root=restore(f.tree),el=$("tree");el.replaceChildren();
+ const lay=coord(root);el.setAttribute("width",lay.width);el.setAttribute("height",lay.height);el.setAttribute("viewBox","0 0 "+lay.width+" "+lay.height);
+ const path=new Set(f.trail.flatMap(s=>[...(s.matchAll(/-?\d+/g))].map(z=>Number(z[0]))));
+ let out="";
+ for(const u of all(root)){const a=lay.positions[u.k];for(const child of [u.left,u.right])if(child){const b=lay.positions[child.k];out+='<line class="edge'+(f.active===child.k||f.active===u.k?" hot":"")+'" x1="'+a.x+'" y1="'+(a.y+27)+'" x2="'+b.x+'" y2="'+(b.y-27)+'"/>'}}
+ for(const u of all(root)){
+ const a=lay.positions[u.k],cls=u.k===f.active?"active":path.has(u.k)?"onpath":"";
+ out+='<g class="node '+cls+'"><title>Key '+u.k+(u.p!==null?", priority "+u.p:"")+'</title><circle cx="'+a.x+'" cy="'+a.y+'" r="'+(mode==="treap"?29:25)+'"/><text class="k" x="'+a.x+'" y="'+(a.y+(mode==="treap"?-2:5))+'">'+u.k+'</text>'+(mode==="treap"?'<text class="p" x="'+a.x+'" y="'+(a.y+15)+'">p='+u.p+'</text>':"")+'</g>';
+ }
+ if(!root)out='<text x="90" y="95" fill="#8499aa" font-size="15">Empty tree — choose an operation</text>';
+ el.innerHTML=out;
+}
+function render(){
+ const f=frames[cursor],root=restore(f.tree);
+ const p=P[mode][op],activeLine=Math.max(0,Math.min(p.length-1,f.code));
+ $("stepTitle").textContent=f.title;$("result").textContent=f.result||"Follow the highlighted pseudocode and tree change.";
+ $("code").innerHTML=p.map((z,i)=>'<div class="line'+(i===activeLine?" active":"")+'">'+esc(z[0])+'</div>').join("");
+ $("why").textContent=p[activeLine][1];$("stepDetail").textContent=f.detail;
+ $("metricN").textContent=count(root);$("metricH").textContent=height(root);$("metricChecks").textContent=f.checks;$("metricRotations").textContent=f.rotations;
+ $("traceText").textContent=f.trail.length?f.trail.join(" · "):"No comparisons yet.";
+ $("diagramName").textContent=mode==="treap"?"Treap: BST keys + min-heap priorities":"Ordinary BST: insertion order determines shape";
+ $("diagramNote").textContent=mode==="treap"?"Smaller p rises toward root":"Tree height counts edges; a leaf has height zero";
+ $("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("progress").max=frames.length-1;$("progress").value=cursor;
+ $("prev").disabled=cursor===0;$("next").disabled=cursor===frames.length-1;
+ draw(f);
+}
+function seek(i){cursor=Math.min(frames.length-1,Math.max(0,i));render()}
+function play(){if(timer){stop();return}if(cursor===frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor===frames.length-1)stop()},delay);$("play").textContent="Ⅱ Pause"}
+$("run").addEventListener("click",()=>{run();if($("error").hidden)play()});
+$("reset").addEventListener("click",()=>{stores[mode]=mode==="treap"?preset():{root:null};clearError();ready()});
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{stop();mode=b.dataset.mode;setup()}));
+$("operation").addEventListener("change",e=>{op=e.target.value;showFields();ready()});
+$("prev").addEventListener("click",()=>{stop();seek(cursor-1)});$("next").addEventListener("click",()=>{stop();seek(cursor+1)});$("restart").addEventListener("click",()=>{stop();seek(0)});
+$("play").addEventListener("click",play);$("progress").addEventListener("input",e=>{stop();seek(Number(e.target.value))});$("speed").addEventListener("change",e=>{delay=Number(e.target.value);if(timer){stop();play()}});
+document.addEventListener("keydown",e=>{if(["BUTTON","INPUT","SELECT"].includes(document.activeElement.tagName))return;if(e.key==="ArrowRight"){stop();seek(cursor+1)}else if(e.key==="ArrowLeft"){stop();seek(cursor-1)}else if(e.key===" "){e.preventDefault();play()}});
+setup();
+})();
+</script></body></html>
