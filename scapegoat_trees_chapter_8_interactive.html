@@ -126,6 +126,14 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 /* WORKBENCH_STYLE_END */
+
+/* Chapter 8: AA/AAA-oriented text contrast and keyboard-scrolling. */
+.field label,.examples>b,#diagramNote,.heading small,.result>b,
+#codePill,.codehead .pill{color:#214958!important;font-size:13px!important}
+.chip,#reset,.soft{color:#214958!important}
+.result,#result{color:#21463e!important}
+.viewport:focus-visible{outline:3px solid #00483f;outline-offset:-3px}
+
 </style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 8</div><h1>Scapegoat Trees.</h1><p class="subtitle">Follow ordinary BST operations, identify an ancestor that is too unbalanced, and rebuild its entire subtree into minimum height. After enough deletions, watch the whole tree rebuild and the counter <code>q</code> reset.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="random_binary_search_trees_chapter_7_interactive.html">← Chapter 7</a><a href="https://opendatastructures.org/newhtml/ods/latex2/scapegoat.html" target="_blank" rel="noopener noreferrer">Read Chapter 8 ↗</a></nav></header>
 <div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace">
@@ -142,7 +150,7 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
 <div id="error" class="error" role="alert" hidden></div>
 <div class="note" id="lessonNote">A new leaf deeper than floor(log₃⁄₂ q) triggers a search for a scapegoat. Rebuilding restores height without rotations.</div>
 <div class="heading"><strong id="diagramName">BST nodes with subtree sizes</strong><small id="diagramNote">Selected subtree shaded in amber</small></div>
-<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Scapegoat binary search tree" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p id="animated-diagram-description" class="sr-only" role="status" aria-live="polite">Tree diagram ready.</p>
+<div class="viewport" id="viewport" tabindex="0" role="region" aria-label="Scrollable tree diagram"><svg id="tree" role="img" aria-label="Scapegoat binary search tree" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p id="animated-diagram-description" class="sr-only" role="status" aria-live="polite">Tree diagram ready.</p>
 <div class="metrics"><div class="metric"><b id="metricN">4</b><small>Current nodes n</small></div><div class="metric"><b id="metricQ">4</b><small>Upper bound q</small></div><div class="metric"><b id="metricH">3</b><small>Tree height (edges)</small></div><div class="metric"><b id="metricLimit">3</b><small>Floor log₃⁄₂(q)</small></div></div>
 <div class="trace"><b>Search path / ancestor checks</b><span id="traceText">Choose a guided scenario.</span></div>
 <div class="packed" id="packedBox" hidden><b>Nodes packed by inorder traversal</b><span id="packed"></span></div>
