@@ -14,7 +14,10 @@ const files=[
   'skiplist_chapter_4_interactive.html',
   'hash_tables_chapter_5_interactive.html',
   'binary_tree_traversals_6_1_interactive.html',
-  'bst_section_6_2_interactive.html'
+  'bst_section_6_2_interactive.html',
+  'binary_tree_anatomy_chapter_6_interactive.html',
+  'random_binary_search_trees_chapter_7_interactive.html',
+  'scapegoat_trees_chapter_8_interactive.html'
 ];
 const browser=await chromium.launch({headless:true});
 let failures=0,aaa=0;
