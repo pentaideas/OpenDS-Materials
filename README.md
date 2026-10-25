@@ -1,6 +1,6 @@
 # OpenDS Materials
 
-Interactive, self-contained teaching materials for **Chapters 1–6** of Pat Morin's *Open Data Structures*.
+Interactive, self-contained teaching materials for **Chapters 1–8** of Pat Morin's *Open Data Structures*.
 
 ## Launch the labs
 
@@ -14,8 +14,10 @@ Interactive, self-contained teaching materials for **Chapters 1–6** of Pat Mor
 | **6 — Binary Tree Anatomy** | [Tree Anatomy & Vocabulary](https://pentaideas.github.io/OpenDS-Materials/binary_tree_anatomy_chapter_6_interactive.html) | Clickable root/parent/child/sibling/ancestor/subtree relationships, depth/height, nil pointers, practice questions |
 | **6.1 — BinaryTree** | [Tree Traversals](https://pentaideas.github.io/OpenDS-Materials/binary_tree_traversals_6_1_interactive.html) | Preorder, inorder, postorder, breadth-first traversal, and traversal with parent pointers |
 | **6.2 — BinarySearchTree** | [BST Operations](https://pentaideas.github.io/OpenDS-Materials/bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
+| **7.1–7.2 — Random BSTs & Treaps** | [Random BSTs & Treaps](https://pentaideas.github.io/OpenDS-Materials/random_binary_search_trees_chapter_7_interactive.html) | Random insertion orders, min-heap priority, Treap find/add/remove and rotations |
+| **8.1 — ScapegoatTree** | [Scapegoat Trees](https://pentaideas.github.io/OpenDS-Materials/scapegoat_trees_chapter_8_interactive.html) | Depth bound, 2/3 subtree test, partial/full rebuilding, n and q counters |
 
-Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all eight labs.
+Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) for a landing page linking to all ten labs.
 
 ### Run locally
 
@@ -89,6 +91,21 @@ Each lab is a single HTML file with its CSS and JavaScript embedded. You can als
 - Explore unbalanced-tree behavior and how height affects running time.
 - Control playback and use examples or custom values.
 
+### Lab 7.1–7.2 — Random binary search trees and Treaps
+
+- Compare ordinary BSTs built from uniformly shuffled keys, sorted keys, and median-first order.
+- Animate Treap `find(x)`, `add(x,p)`, and `remove(x)`.
+- See min-heap priority violations and exact left/right rotations.
+- Use random priorities or a manual teaching value; inspect rotation counts and tree height.
+
+### Lab 8.1 — Scapegoat trees
+
+- Trace ordinary BST insertion and test `depth(u) > floor(log₃⁄₂ q)`.
+- Climb ancestors to identify a child subtree larger than two-thirds of its parent.
+- Watch an inorder traversal pack keys and rebuild a balanced subtree.
+- Remove keys, retain the historical `q`, and rebuild the full tree when `2n < q`.
+- Explore `rebuild(u)` as an explicit instructional demonstration.
+
 ## Accessibility and quality checks
 
 The labs target **WCAG 2.2 Level AA**, with enhanced contrast, clear focus indicators, keyboard-accessible transport controls, reduced-motion support, and text descriptions supplementing diagrams. AAA criteria are pursued where feasible; a full AAA or AA conformance claim requires manual testing and is **not yet made**. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for known verification work.
@@ -111,7 +128,7 @@ The labs are published at [https://pentaideas.github.io/OpenDS-Materials/](https
 
 The explanations and visualizations are original teaching materials that follow concepts from:
 
-Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 1–6, including §§2.1–2.6, 3.1–3.3, 4.1–4.4, 5.1–5.3, and 6.1–6.2).
+Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 1–8, including §§2.1–2.6, 3.1–3.3, 4.1–4.4, 5.1–5.3, 6.1–6.2, 7.1–7.2, and 8.1).
 
 These are supplementary interactive exercises, not an official edition or reproduction of the textbook.
 
@@ -128,5 +145,7 @@ OpenDS-Materials/
 ├── hash_tables_chapter_5_interactive.html
 ├── binary_tree_anatomy_chapter_6_interactive.html
 ├── binary_tree_traversals_6_1_interactive.html
-└── bst_section_6_2_interactive.html
+├── bst_section_6_2_interactive.html
+├── random_binary_search_trees_chapter_7_interactive.html
+└── scapegoat_trees_chapter_8_interactive.html
 ```
