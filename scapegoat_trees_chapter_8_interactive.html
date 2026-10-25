@@ -126,10 +126,10 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 /* WORKBENCH_STYLE_END */
-</style></head><body><div class="shell">
+</style></head><body><a class="skip-link" href="#primary-content">Skip to main content</a><div class="shell">
 <header class="top"><div><div class="eyebrow">Interactive algorithm lab · Chapter 8</div><h1>Scapegoat Trees.</h1><p class="subtitle">Follow ordinary BST operations, identify an ancestor that is too unbalanced, and rebuild its entire subtree into minimum height. After enough deletions, watch the whole tree rebuild and the counter <code>q</code> reset.</p></div><nav class="links" aria-label="Other chapters"><a href="index.html">← All labs</a><a href="random_binary_search_trees_chapter_7_interactive.html">← Chapter 7</a><a href="https://opendatastructures.org/newhtml/ods/latex2/scapegoat.html" target="_blank" rel="noopener noreferrer">Read Chapter 8 ↗</a></nav></header>
-<div class="layout"><main class="panel workspace">
-<div class="tabs" role="group" aria-label="Scapegoat tree topics"><span class="tab active" style="cursor:default">§8.1 · Partial rebuilding</span><span class="tab" style="cursor:default">Find · Insert · Remove · Rebuild</span></div>
+<div class="layout"><main id="primary-content" tabindex="-1" class="panel workspace">
+<div class="tabs" aria-label="Scapegoat tree lesson"><strong class="eyebrow" style="padding:10px 12px">§8.1 · Partial rebuilding</strong><span class="subtitle" style="padding:10px 12px">Find · Insert · Remove · Rebuild</span></div>
 <div class="toolbar"><div class="field"><label for="operation">Operation</label><select id="operation"><option value="add">add(x) · insert</option><option value="find">find(x) · successor</option><option value="remove">remove(x) · delete</option><option value="rebuild">rebuild(x) · demonstration</option></select></div>
 <div class="field"><label for="key">Integer key x</label><input id="key" type="number" step="1" value="50"></div>
 <button id="run" class="primary">▶ Animate</button><button id="reset" class="soft">↺ Reset</button></div>
@@ -142,11 +142,11 @@ button,input,select,textarea,summary{font-size:15px;min-height:44px}
 <div id="error" class="error" role="alert" hidden></div>
 <div class="note" id="lessonNote">A new leaf deeper than floor(log₃⁄₂ q) triggers a search for a scapegoat. Rebuilding restores height without rotations.</div>
 <div class="heading"><strong id="diagramName">BST nodes with subtree sizes</strong><small id="diagramNote">Selected subtree shaded in amber</small></div>
-<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Scapegoat binary search tree" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="viewport" id="viewport"><svg id="tree" role="img" aria-label="Scapegoat binary search tree" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div><p id="animated-diagram-description" class="sr-only" role="status" aria-live="polite">Tree diagram ready.</p>
 <div class="metrics"><div class="metric"><b id="metricN">4</b><small>Current nodes n</small></div><div class="metric"><b id="metricQ">4</b><small>Upper bound q</small></div><div class="metric"><b id="metricH">3</b><small>Tree height (edges)</small></div><div class="metric"><b id="metricLimit">3</b><small>Floor log₃⁄₂(q)</small></div></div>
 <div class="trace"><b>Search path / ancestor checks</b><span id="traceText">Choose a guided scenario.</span></div>
 <div class="packed" id="packedBox" hidden><b>Nodes packed by inorder traversal</b><span id="packed"></span></div>
-<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><span class="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></span><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
+<div class="transport"><div class="buttons"><button id="prev" class="control" aria-label="Previous step" title="Previous">‹</button><button id="play" class="control play">▶ Play</button><button id="next" class="control" aria-label="Next step" title="Next">›</button><button id="restart" class="control" aria-label="Restart operation" title="Restart">↺</button><label class="speed" for="speed">Speed <select id="speed"><option value="1750">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></label><span id="counter" class="counter">Step 1 of 1</span></div><input id="progress" class="progress" type="range" min="0" max="0" value="0" aria-label="Animation step"></div>
 </main><aside class="panel explain"><div><div class="eyebrow" id="sectionName">§8.1 · ScapegoatTree</div><h2 id="stepTitle">Choose an operation</h2></div><div class="result"><b>Current result</b><div id="result">Ready.</div></div><div><div class="codehead"><span class="eyebrow">Annotated pseudocode</span><span class="pill" id="codePill">add(x)</span></div><div class="code" id="code"></div><div class="explanation" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p id="stepDetail"></p></div></div>
 <div class="asidefoot">Scapegoat trees preserve <strong>q/2 ≤ n ≤ q</strong>. Find is <strong>O(log n)</strong> worst-case; insertion and deletion have <strong>O(log n)</strong> amortized update cost. A single rebuild may take linear time in the rebuilt subtree.</div></aside></div>
 <div class="lower"><section class="panel lesson"><div class="eyebrow">The insertion trigger</div><h3>How do we find the scapegoat?</h3><p>After adding a leaf, test its depth against <code>floor(log₃⁄₂ q)</code>. If too deep, walk upward and find a parent whose child on the path contains <strong>more than 2/3</strong> of the parent's subtree nodes. Rebuild that parent's subtree into a balanced BST. The search for a scapegoat examines subtree sizes, not just direct child pointers.</p></section><section class="panel lesson"><div class="eyebrow">Removal and q</div><h3>When does the entire tree rebuild?</h3><p>Deletion uses normal BST removal. The number <code>n</code> decreases, but the historical bound <code>q</code> does not. When <code>q &gt; 2n</code>, rebuild the entire remaining tree and set <code>q = n</code>. This resets the bound. Unlike Treaps, scapegoat trees do not rebalance with rotations.</p></section></div>
@@ -332,7 +332,7 @@ function ready(){stop();frames=[];frame(frames,t,"Choose an operation","Set a ke
 function example(tag){
  clearError();t=tag==="delete"?seedDeletion():seedAscending();
  const e={scapegoat:["add",50],delete:["remove",10],rebuild:["rebuild",20],search:["find",35],duplicate:["add",20]}[tag];if(!e)return;
- op=e[0];$("operation").value=op;$("key").value=e[1];ready();run();if($("error").hidden)play();
+ op=e[0];$("operation").value=op;$("key").value=e[1];ready();run();if($("error").hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches)play();
 }
 function run(){
  clearError();stop();
@@ -370,12 +370,13 @@ function render(){
  $("metricN").textContent=f.n;$("metricQ").textContent=f.q;$("metricH").textContent=height(root);$("metricLimit").textContent=limit(f.q);
  $("traceText").textContent=f.trail.length?f.trail.join(" · "):"No comparisons yet.";
  $("packedBox").hidden=f.packed.length===0;$("packed").textContent="["+f.packed.join(", ")+"]";
+ $("animated-diagram-description").textContent="Scapegoat tree with "+f.n+" keys. Height "+height(root)+" edges; n="+f.n+", q="+f.q+". Keys in ascending order: "+(ordered(root).join(", ")||"none")+". "+(f.active===null?"No highlighted node.":"Highlighted key "+f.active+".")+" Current step: "+f.title+". "+f.detail;
  $("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("progress").max=frames.length-1;$("progress").value=cursor;
  $("prev").disabled=cursor===0;$("next").disabled=cursor===frames.length-1;draw(f);
 }
 function seek(i){cursor=Math.max(0,Math.min(frames.length-1,i));render()}
 function play(){if(timer){stop();return}if(cursor===frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor===frames.length-1)stop()},delay);$("play").textContent="Ⅱ Pause"}
-$("run").addEventListener("click",()=>{run();if($("error").hidden)play()});
+$("run").addEventListener("click",()=>{run();if($("error").hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches)play()});
 $("reset").addEventListener("click",()=>{t=seedAscending();op="add";$("operation").value=op;$("key").value=50;clearError();ready()});
 $("operation").addEventListener("change",e=>{op=e.target.value;ready()});
 document.querySelectorAll("[data-example]").forEach(b=>b.addEventListener("click",()=>example(b.dataset.example)));
