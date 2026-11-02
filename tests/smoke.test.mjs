@@ -207,3 +207,47 @@ for(const [name,index] of [['Chapter 7',8],['Chapter 8',9]]) {
   } finally {await page.close();}
  });
 }
+
+
+test('Chapter 9 contracts red links into 2–4 nodes',async()=>{
+ const {page,errors}=await open(labs[10]);
+ try{
+  await page.locator('[data-example="four"]').click();
+  assert.match(await page.locator('#mapSvg').textContent(),/20 · 40 · 60/);
+  assert.match(await page.locator('#audit').textContent(),/PASS/);
+  assert.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
+
+test('Chapter 9 shows insert flip and complete red-black invariants',async()=>{
+ const {page,errors}=await open(labs[10]);
+ try{
+  await page.locator('[data-mode="ops"]').click();
+  await page.locator('[data-example="flipLeft"]').click();
+  await finish(page);
+  assert.match(await page.locator('#result').textContent(),/add\(30\) = true/);
+  assert.match(await page.locator('#audit').textContent(),/PASS/);
+  assert.equal(await page.locator('#metricN').textContent(),'2');
+  assert.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
+
+test('Chapter 9 follows Morin deletion fixup and restores invariants',async()=>{
+ const {page,errors}=await open(labs[10]);
+ try{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.locator('[data-mode="ops"]').click();
+  await page.locator('[data-example="case3"]').click();
+  assert.match(await page.locator('#play').textContent(),/Play/);
+  const limit=Number(await page.locator('#progress').getAttribute('max'));
+  let found=false;
+  for(let i=0;i<=limit;i++){
+   await page.locator('#progress').evaluate((el,n)=>{el.value=String(n);el.dispatchEvent(new Event('input',{bubbles:true}))},i);
+   if((await page.locator('#stepTitle').textContent()).includes('Case 3'))found=true;
+  }
+  assert.equal(found,true);
+  assert.match(await page.locator('#result').textContent(),/remove\(38\) = true/);
+  assert.match(await page.locator('#audit').textContent(),/PASS/);
+  assert.deepEqual(errors,[]);
+ }finally{await page.close();}
+});
