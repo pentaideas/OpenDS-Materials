@@ -147,11 +147,11 @@ test('reduced-motion preference prevents automatic playback',async()=>{
 });
 
 
-test('Homepage lists all ten labs in chapter order and updates the live algorithm preview', async()=>{
+test('Homepage lists all eleven labs in chapter order and updates the live algorithm preview', async()=>{
  const {page,errors}=await open('index.html');
  try {
-  assert.equal(await page.locator('.chapter').count(),8);
-  assert.equal(await page.locator('.chlinks a').count(),10);
+  assert.equal(await page.locator('.chapter').count(),9);
+  assert.equal(await page.locator('.chlinks a').count(),11);
   assert.equal(await page.locator('#previewCount').textContent(),'Step 1 of 5');
   await page.locator('#previewNext').click();
   assert.equal(await page.locator('#previewCount').textContent(),'Step 2 of 5');
