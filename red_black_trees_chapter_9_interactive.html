@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f8f5"><meta name="description" content="Interactive Chapter 9 red-black tree lab based on Pat Morin's Open Data Structures: 2-4 trees, red-black invariants, and insert/delete fixups.">
+<title>Chapter 9 • Red-Black Trees • OpenDS Materials</title>
+<style>
+:root{--ink:#183541;--muted:#365767;--navy:#182e44;--teal:#005a50;--line:#bed0cf}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:#f6f8f5;color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}a{color:#00594f}
+.shell{max-width:1390px;margin:0 auto;padding:26px 24px 46px}
+.header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:19px}
+.eyebrow{font-size:12px;font-weight:850;color:#005a50;text-transform:uppercase;letter-spacing:.07em}
+h1{font-size:clamp(32px,3.9vw,49px);letter-spacing:-.055em;line-height:1.1;margin:7px 0 11px}
+.subtitle{font-size:15px;color:#35535e;max-width:850px;margin:0}
+.links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.links a{white-space:nowrap;font-size:13px;font-weight:750;border:1px solid #b8cbc7;background:white;text-decoration:none;border-radius:9px;padding:9px 12px}
+.layout{display:grid;grid-template-columns:minmax(0,1.66fr) minmax(320px,.84fr);gap:17px}
+.panel{background:#fff;border:1px solid #bdccca;border-radius:16px;min-width:0;overflow:hidden}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:13px 15px;background:#eaf1ef;border-bottom:1px solid #c8d8d3}
+.tab{border:1px solid transparent;border-radius:8px;background:transparent;color:#294a52;font-size:14px;font-weight:770;padding:9px 12px}
+.tab.active{background:#005a50;border-color:#005a50;color:#fff}
+.toolbar{padding:13px 16px;border-bottom:1px solid #d6e3df;display:flex;gap:11px;align-items:end;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:13px;font-weight:750;color:#294b55}
+.field input,.field select{height:44px;border-radius:8px;border:1px solid #a6bfb9;background:#fff;color:#183944;padding:0 10px;min-width:100px}
+.field input{max-width:116px}.primary,.secondary{height:44px;padding:0 15px;border-radius:8px;font-size:14px;font-weight:800}
+.primary{background:#005a50;border:1px solid #005a50;color:white}.secondary{background:white;border:1px solid #a5bcb7;color:#21483e}
+.presets{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 15px;border-bottom:1px solid #d8e5e1}
+.presets b{font-size:12px;color:#365767}.chip{border-radius:99px;padding:6px 11px;background:#f3f8f6;border:1px solid #b7ccc4;color:#264d46;font-size:13px;font-weight:720}
+.intro{font-size:14px;line-height:1.55;color:#365762;background:#f4f8f7;padding:11px 17px;border-bottom:1px solid #d9e6e2}
+.error{color:#8c2937;background:#fff0f1;padding:10px 16px;font-size:13px}
+.diagram-title{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:15px 17px 2px}
+.diagram-title strong{font-size:14px}.diagram-title small{font-size:12px;color:#3c5d68}
+.viewport{overflow:auto;max-height:570px;min-height:340px;padding:8px 14px 21px}
+.viewport svg{display:block;max-width:none}
+.edge{stroke:#9eb6be;stroke-width:3;fill:none}.edge.marked{stroke:#087f72;stroke-width:4.6}
+.rb circle.disc{stroke:#354959;stroke-width:2.7}.rb.red circle.disc{fill:#9a2436}.rb.black circle.disc{fill:#1b3345}.rb.double circle.disc{fill:#60379a;stroke:#382276;stroke-width:4}
+.rb text.key{fill:#fff;font:850 17px system-ui;dominant-baseline:central;text-anchor:middle}
+.rb text.colour{fill:#fff;font:750 10px system-ui;text-anchor:middle}
+.rb .halo{fill:none;stroke:transparent;stroke-width:4}.rb.marked .halo{stroke:#0b826f}.rb:focus-visible .halo{stroke:#e9ad47;stroke-width:5}
+.nil-box{fill:#fff;stroke:#728a91;stroke-width:1.5;stroke-dasharray:3 3}.nil-text{font:750 10px system-ui;fill:#304d55;text-anchor:middle}
+.group-node{fill:#e3f3ec;stroke:#006b5e;stroke-width:2}.group-text{font:850 14px ui-monospace,Consolas,monospace;fill:#173c39;text-anchor:middle;dominant-baseline:central}
+.group-edge{fill:none;stroke:#85a49d;stroke-width:2.4}
+.maparea{border-top:1px solid #d8e4df;padding:12px 17px}
+.maparea summary{font-size:14px;font-weight:800;cursor:pointer;color:#244c46}
+.maparea p{font-size:13px;color:#325963;margin:9px 0}
+.mapview{overflow:auto;padding:3px 0;max-height:310px}
+.mapview svg{display:block;max-width:none}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);background:#f8fbf9;border-top:1px solid #dbe7e2}
+.metric{text-align:center;padding:12px 5px}.metric b{font-size:21px;font-weight:870;line-height:1.2;display:block;font-variant-numeric:tabular-nums}.metric small{font-size:12px;color:#3c5d67}
+.audit{padding:12px 17px;color:#2d5059;border-top:1px solid #e0e9e5;background:#fbfcfc;font-size:13px}
+.audit strong{font-size:12px;text-transform:uppercase;display:block;color:#30535a;letter-spacing:.04em}
+.audit p{margin:5px 0 0}.case-audit{font-variant-numeric:tabular-nums}
+.transport{border-top:1px solid #dce5e2;padding:14px 17px}.controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.control{height:44px;min-width:44px;border:1px solid #abc1bb;border-radius:8px;background:#fff;color:#244a45;font-weight:850;font-size:19px}
+.control.play{background:#005a50;border-color:#005a50;color:white;min-width:94px;font-size:14px}
+.speed{margin-left:auto;color:#355b63;font-size:13px;font-weight:650}.speed select{height:38px;border:1px solid #b5cac2;border-radius:7px;padding:6px}
+.counter{color:#345763;font-size:13px;font-weight:750}.progress{width:100%;accent-color:#005a50;margin-top:9px}
+.explain{padding:20px;display:flex;flex-direction:column;gap:15px}
+.explain h2{font-size:23px;letter-spacing:-.04em;line-height:1.2;margin:5px 0}
+.definition{padding:13px;border:1px solid #a5c6ba;background:#eaf6f0;border-radius:11px;color:#22483f;font-size:14px}
+.definition b{font-size:12px;text-transform:uppercase;color:#275d51;display:block;margin-bottom:5px}
+.definition p{margin:0}
+.codehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.pill{border-radius:99px;padding:4px 9px;background:#dcefe6;color:#17483e;font-size:12px;font-weight:850}
+.code{background:#172f42;border-radius:11px;padding:11px 0;overflow:auto;color:#deebf2}
+.line{font:13.5px/1.7 ui-monospace,Consolas,monospace;padding:4px 13px;white-space:pre;color:#d7e5ed}
+.line.active{background:#25586a;border-left:4px solid #70ddbc;padding-left:9px;color:#fff}
+.why{border:1px solid #c0d5d4;background:#f7faf9;border-radius:9px;padding:12px;margin-top:10px}
+.why b{display:block;color:#31555b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.why p{font-size:15px;margin:8px 0;line-height:1.57}.detail{border-top:1px solid #dbe6e3;padding-top:9px;color:#365763}
+.concept{font-size:14px;color:#305560;line-height:1.6;border-top:1px solid #d8e6e2;padding-top:13px}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}
+.lesson{padding:18px 20px}.lesson h3{font-size:18px;letter-spacing:-.02em;margin:5px 0 8px}.lesson p{font-size:14px;color:#345661;line-height:1.62}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#32515a;padding:9px 17px;border-bottom:1px solid #d8e6e1}
+.dot{display:inline-block;border-radius:50%;width:11px;height:11px;vertical-align:middle;margin-right:5px;border:1px solid #3b5661}
+footer{font-size:13px;line-height:1.55;color:#365661;margin-top:17px}
+@media(max-width:970px){.layout{grid-template-columns:1fr}.explain{display:grid;grid-template-columns:1fr 1fr}.concept{grid-column:1/-1}}
+@media(max-width:660px){.shell{padding:17px 11px}.header{display:block}.links{justify-content:start;margin-top:12px}.tabs{padding:10px}.tab{font-size:13px}.toolbar{padding:10px}.metrics{grid-template-columns:repeat(2,1fr)}.viewport{min-height:250px}.explain{display:flex;padding:15px}.lower{grid-template-columns:1fr}.speed{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* WORKBENCH_STYLE_START */
+/* OpenDS Workbench shared layer.
+   Source of truth: styles/workbench.css.
+   Embedded in each standalone HTML lab by scripts/sync-workbench-style.mjs.
+   All colors have stronger foreground contrast; diagrams retain individual lesson meaning.
+*/
+:root{
+  --workbench-bg:#f6f8f5;
+  --workbench-ink:#183541;
+  --workbench-muted:#365767;
+  --workbench-primary:#005a50;
+  --workbench-line:#b8cac8;
+  --workbench-focus:#f4cc59;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--workbench-bg);color:var(--workbench-ink);font-size:16px!important;line-height:1.56}
+p{line-height:1.6}
+a{color:#00594f;text-underline-offset:.18em}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:3px solid #00483f!important;
+  outline-offset:3px!important;
+  box-shadow:0 0 0 6px var(--workbench-focus)!important;
+}
+.skip-link{
+  position:absolute!important;left:12px!important;top:-100px!important;
+  z-index:999!important;display:block!important;
+  padding:12px 17px!important;background:#fff!important;
+  border:2px solid #005a50!important;color:#183541!important;
+  font-size:16px!important;font-weight:800!important;
+}
+.skip-link:focus{top:10px!important}
+.sr-only{
+ position:absolute!important;width:1px!important;height:1px!important;
+ padding:0!important;margin:-1px!important;overflow:hidden!important;
+ clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important
+}
+.panel{box-shadow:none!important;border-color:var(--workbench-line)!important}
+.eyebrow,.kicker,.section-label{color:var(--workbench-primary)!important}
+.subtitle,.modeNote,.note,.help,.tips,.footrule,.footnote,.asidefoot,
+.lesson p,.lesson small,.legend,.legendtext,.concept small,
+.gridnote,.visualnote,.diagfoot,.diagramkey,.trace,.trace b,
+.counter,.step-counter,.speed,.tabsnote,.cell-index,.cell-tag,
+.block-title,.slotindex,.barname,.barval,.metric span,.metric small,
+.sectionhead p,.sectionhead small,.viz-title small{
+ color:var(--workbench-muted)!important
+}
+.note,.modeNote,.tips,.help,.lesson p,.asidefoot,.footnote,.footrule,.gridnote,.visualnote{
+ font-size:15px!important;line-height:1.6!important
+}
+button,input,select,textarea,summary{font-size:15px;min-height:44px}
+.tab,.chip,.navbtn,.square,.btn,.soft,.secondary,.control,.ctrlbtn,
+.primary,.play,.quizbtn,.topic,.navlink{min-height:44px}
+.tab,.chip,.quizbtn,.topic{font-size:14px!important}
+.tab:not(.active){color:#2e4d5d!important}
+.tab.active,[aria-pressed="true"].tab,[aria-pressed="true"].topic{
+ color:white!important;background:#005a50!important;border-color:#005a50!important
+}
+.primary,.btn.primary,.play,.navbtn.play,.control.play,.ctrlbtn.play,
+.square.play,.cta{
+ background:#005a50!important;color:white!important;border-color:#005a50!important
+}
+.primary:hover,.cta:hover{background:#00443d!important}
+.code,.codebox,.codecard,.code-card,.codebox,.codeline,.line,.code-line{
+ font-size:14px!important
+}
+.line,.codeline,.code-line{
+ font-size:14px!important;line-height:1.66!important
+}
+#stepBody,#stepDetail,#why,#codeWhy,#lineExplain,#codeExplain,#bodyText,
+#codeRule,#walkthrough,#termDefinition,.under,.below,.under-code,.explanation,.code-explanation{
+ font-size:15px!important;line-height:1.6!important
+}
+.field label,.metric span,.metric small,.counter,.speed,.legend,.viz-title small,
+.section-label,.eyebrow,.example-label,.gridnote,.diagramkey,.concept small{
+ font-size:13px!important;letter-spacing:normal
+}
+.progress{min-height:34px;accent-color:#005a50}
+.tabs,.tabstrip{max-width:100%;overflow-x:auto}
+.viewport,.viz,.visual,.tree-viewport{max-width:100%}
+.result,.under,.below,.under-code,.explanation,.code-explanation{
+ border-color:#99b3b4!important
+}
+@media(max-width:680px){
+ .shell{padding-left:14px!important;padding-right:14px!important}
+ .tabs,.tabstrip{gap:7px}
+ .tab{padding:9px 12px!important}
+ .transportrow,.transportbar,.buttons,.actions{row-gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+/* WORKBENCH_STYLE_END */
+</style></head><body>
+<a class="skip-link" href="#primary-content">Skip to main content</a>
+<div class="shell"><header class="header"><div>
+<div class="eyebrow">Interactive algorithm lab · Chapter 9</div><h1>Red-black trees, visualized.</h1>
+<p class="subtitle">Explore how Morin’s left-leaning red-black tree simulates a 2–4 tree. Follow colours, rotations, black height, and the full insertion and deletion fix-up cases.</p>
+</div><nav class="links" aria-label="Chapter navigation"><a href="index.html">← All chapters</a><a href="scapegoat_trees_chapter_8_interactive.html">← Chapter 8</a><a href="https://opendatastructures.org/newhtml/ods/latex2/redblack.html" target="_blank" rel="noopener noreferrer">Read Chapter 9 ↗</a></nav></header>
+<div class="layout">
+<main class="panel" id="primary-content" tabindex="-1">
+<div class="tabs" role="group" aria-label="Chapter 9 topics">
+<button type="button" class="tab active" data-mode="map" aria-pressed="true">9.1 · 2–4 tree connection</button>
+<button type="button" class="tab" data-mode="rules" aria-pressed="false">9.2 · Properties</button>
+<button type="button" class="tab" data-mode="ops" aria-pressed="false">9.2 · Find / Add / Remove</button>
+</div>
+<div class="toolbar">
+<div class="field" id="opField" hidden><label for="operation">Operation</label><select id="operation"><option value="add">add(x) · insert</option><option value="find">find(x) · successor</option><option value="remove">remove(x) · delete</option></select></div>
+<div class="field" id="keyField" hidden><label for="key">Key x</label><input id="key" type="number" min="-999" max="999" step="1" value="35"></div>
+<button type="button" class="primary" id="animate">▶ Animate</button>
+<button type="button" class="secondary" id="reset">↺ Reset tree</button>
+<label class="speed" style="margin-left:0"><input id="showNil" type="checkbox"> Show black nil leaves</label>
+</div>
+<div class="presets"><b>Guided examples</b><span id="examples"></span></div>
+<div class="error" id="error" role="alert" hidden></div>
+<p class="intro" id="intro">Each red node combines with its black parent to represent one node of a 2–4 tree. Select an example to see 2-, 3-, and 4-nodes.</p>
+<div class="legend"><span><i class="dot" style="background:#9a2436"></i> Red (0)</span><span><i class="dot" style="background:#1b3345"></i> Black (1)</span><span><i class="dot" style="background:#60379a"></i> Double black (2) during deletion</span><span><i class="dot" style="border:3px solid #087f72;background:white"></i> Inspected node</span></div>
+<div class="diagram-title"><strong id="diagramTitle">Binary representation</strong><small id="diagramNote">Key above R/B colour label</small></div>
+<div class="viewport" id="viewport" role="region" tabindex="0" aria-label="Scrollable red-black tree diagram">
+<svg id="tree" role="img" aria-label="Binary search tree with red and black nodes" aria-describedby="animated-diagram-description" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<p class="sr-only" role="status" aria-live="polite" id="animated-diagram-description">Red-black tree diagram ready.</p>
+<details class="maparea" id="mapping" open><summary>Equivalent 2–4 tree</summary><p>Each light-green box represents one 2–4 tree node. Its keys come from a black node and any directly attached red children.</p>
+<div class="mapview" id="mapView"><svg id="mapSvg" role="img" aria-label="Corresponding 2–4 tree" xmlns="http://www.w3.org/2000/svg"></svg></div></details>
+<div class="metrics"><div class="metric"><b id="metricN">0</b><small>Keys</small></div><div class="metric"><b id="metricHeight">0</b><small>Height (edges)</small></div><div class="metric"><b id="metricBlack">0</b><small>Black height</small></div><div class="metric"><b id="metricFix">0</b><small>Rotations / flips</small></div></div>
+<div class="audit"><strong>Invariant check (completed operations)</strong><p id="audit">Root black · no red-red edge · equal black-height · left leaning.</p><p id="trace" class="case-audit"></p></div>
+<div class="transport"><div class="controls"><button class="control" type="button" id="prev" aria-label="Previous step">‹</button><button class="control play" type="button" id="play">▶ Play</button><button class="control" type="button" id="next" aria-label="Next step">›</button><button class="control" type="button" id="restart" aria-label="Restart animation">↺</button><label class="speed" for="speed">Speed <select id="speed"><option value="1700">Slow</option><option value="1050" selected>Normal</option><option value="470">Fast</option></select></label><span id="counter" class="counter">Step 1 of 1</span></div><input type="range" class="progress" id="progress" min="0" max="0" value="0" aria-label="Animation step"></div>
+</main>
+<aside class="panel explain">
+<div><div class="eyebrow" id="sectionName">§9.1 · 2–4 trees</div><h2 id="stepTitle">From 2–4 to red-black</h2></div>
+<div class="definition"><b id="resultLabel">Lesson focus</b><p id="result">Red links group keys into a 2–4 tree node.</p></div>
+<div><div class="codehead"><span class="eyebrow">Annotated textbook-aligned pseudocode</span><span class="pill" id="codePill">2–4 mapping</span></div><div class="code" id="code"></div>
+<div class="why" role="status" aria-live="polite" aria-atomic="true"><b>Explanation of highlighted line</b><p id="why"></p><p class="detail" id="detail"></p></div></div>
+<div class="concept" id="concept">The left-leaning version is the one implemented in Morin's Chapter 9, not a generic symmetric red-black tree.</div>
+</aside></div>
+<div class="lower"><section class="panel lesson"><div class="eyebrow">§9.1 · 2–4 tree intuition</div><h3>What does red represent?</h3><p>Contract every red node into its black parent. A black node with no red children represents a 2-node, with one red child a 3-node, and with two red children a 4-node. The resulting 2–4 tree has every external leaf at the same depth.</p></section>
+<section class="panel lesson"><div class="eyebrow">§9.2 · What must hold?</div><h3>Three tree invariants</h3><p><strong>Black height:</strong> every root-to-nil path has the same number of black nodes. <strong>No red edge:</strong> a red node never has a red child. <strong>Left-leaning:</strong> a red right child requires a red left child too. These properties hold after each completed operation; intermediate repair steps can violate them temporarily.</p></section></div>
+<footer>Original, accessible, self-contained educational companion aligned with <a href="https://opendatastructures.org/newhtml/ods/latex2/redblack.html">Pat Morin, <em>Open Data Structures</em>, Chapter 9</a>. The code fragments are simplified instructional summaries; the rotation/colour and deletion case structure follows Morin's <code>RedBlackTree</code> implementation. The deletion animation includes temporary double-black states.</footer>
+</div><script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id),esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const NIL={k:null,c:1,left:null,right:null,parent:null};NIL.left=NIL;NIL.right=NIL;NIL.parent=NIL;
+const RED=0,BLACK=1;
+const make=(k,c=RED,parent=NIL)=>({k,c,parent,left:NIL,right:NIL});
+const newTree=()=>({root:NIL,n:0});
+const plain=u=>u===NIL?null:{k:u.k,c:u.c,l:plain(u.left),r:plain(u.right)};
+function fromPlain(o,parent=NIL){if(!o)return NIL;const u=make(o.k,o.c,parent);u.left=fromPlain(o.l,u);u.right=fromPlain(o.r,u);return u}
+const clone=t=>({root:fromPlain(plain(t.root)),n:t.n});
+const size=u=>u===NIL?0:1+size(u.left)+size(u.right);
+const high=u=>u===NIL?-1:1+Math.max(high(u.left),high(u.right));
+const keys=u=>u===NIL?[]:[...keys(u.left),u.k,...keys(u.right)];
+const arr=u=>u===NIL?[]:[u,...arr(u.left),...arr(u.right)];
+function pathBH(u){if(u===NIL)return[1];const l=pathBH(u.left),r=pathBH(u.right);return[...l,...r].map(v=>v+u.c)}
+function check(t){const faults=[],seen=new Set();if(t.root!==NIL && t.root.c!==BLACK)faults.push("root is not black");
+function rec(u,p,lo,hi){if(u===NIL)return;if(seen.has(u)){faults.push("cycle");return}seen.add(u);
+if(u.parent!==p||!(u.k>lo&&u.k<hi))faults.push("parent/BST order at "+u.k);
+if(u.c!==RED&&u.c!==BLACK)faults.push("invalid colour at "+u.k);
+if(u.c===RED&&(u.left.c===RED||u.right.c===RED))faults.push("adjacent reds at "+u.k);
+if(u.left.c===BLACK&&u.right.c===RED)faults.push("right-leaning red at "+u.k);
+rec(u.left,u,lo,u.k);rec(u.right,u,u.k,hi)}
+rec(t.root,NIL,-Infinity,Infinity);
+const paths=pathBH(t.root);
+if(new Set(paths).size>1)faults.push("different black heights");
+if(seen.size!==t.n)faults.push("n does not match node count");
+return{ok:faults.length===0,faults,paths,bh:paths[0]??1}}
+function link(t,p,oldChild,newChild){
+if(p===NIL)t.root=newChild;
+else if(p.left===oldChild)p.left=newChild;
+else if(p.right===oldChild)p.right=newChild;
+else throw Error("Invalid parent during link");
+if(newChild!==NIL)newChild.parent=p;
+}
+function rotateLeft(t,u){const w=u.right;if(w===NIL)throw Error("rotateLeft missing right child");u.right=w.left;if(u.right!==NIL)u.right.parent=u;link(t,u.parent,u,w);w.left=u;u.parent=w}
+function rotateRight(t,u){const w=u.left;if(w===NIL)throw Error("rotateRight missing left child");u.left=w.right;if(u.left!==NIL)u.left.parent=u;link(t,u.parent,u,w);w.right=u;u.parent=w}
+function flipLeft(t,u){const w=u.right;[u.c,w.c]=[w.c,u.c];rotateLeft(t,u)}
+function flipRight(t,u){const w=u.left;[u.c,w.c]=[w.c,u.c];rotateRight(t,u)}
+function pushBlack(u){u.c--;u.left.c++;u.right.c++}
+function pullBlack(u){u.c++;u.left.c--;u.right.c--}
+function findExact(t,x,visit){let u=t.root;while(u!==NIL){if(visit)visit(u);if(x===u.k)return u;u=x<u.k?u.left:u.right}return NIL}
+function successor(t,x,emit){
+let u=t.root,seen=NIL;emit("Begin successor search","Find the smallest key at least "+x+".","search",0,null);
+while(u!==NIL){emit("Compare at "+u.k,(x<=u.k?"Save a possible successor and move left.":"Key is too small: move right."),"search",1,u.k);
+if(x<=u.k){seen=u;emit("Save candidate "+u.k,"This node could be the least qualifying key.","search",2,u.k);u=u.left}
+else{emit("Follow right child","Smaller keys are excluded.","search",3,u.k);u=u.right}}
+emit("Successor search complete",seen===NIL?"No key is ≥ "+x+".":"Found least key ≥ "+x+": "+seen.k+".","search",4,seen===NIL?null:seen.k,"find("+x+") = "+(seen===NIL?"null":seen.k));return seen===NIL?null:seen.k}
+const CODES={
+ map:[
+ ["black parent + red children","Start with each black node and inspect its directly attached red children."],
+ ["contract each red link","Combine the red key into its black parent's 2–4 node."],
+ ["red children count = 0, 1 or 2","The group is a 2-node, 3-node, or 4-node, respectively."],
+ ["connect the external subtrees","Each 2–4 group has degree 2, 3 or 4 unless it is a leaf."],
+ ["all leaves have equal depth","Equal red-black black-height becomes the 2–4 tree height property."]
+ ],
+ rules:[
+ ["root.colour = black","Colour the root black after an operation."],
+ ["every nil leaf is black","Treat missing child pointers as black external leaves."],
+ ["no red parent has a red child","Red-red adjacency is not allowed after repair."],
+ ["all root-to-nil paths have equal black count","Count black nodes, including nil, along every complete path."],
+ ["if left is black, right must be black","A lone red right child would violate Morin's left-leaning rule."],
+ ["tree height ≤ 2 log₂(n), for n≥1","The rules bound root-to-real-node path length in the final tree."]
+ ],
+ search:[
+ ["u = root; successor = nil","Track the best qualifying key during a BST search."],
+ ["while u ≠ nil: compare u.key with x","Use the usual BST comparisons regardless of colours."],
+ ["if x ≤ u.key: save u; go left","Search for a smaller stored key that still qualifies."],
+ ["else: go right","No key here or to the left can qualify."],
+ ["return successor or null","Return the least stored key ≥ x."]
+ ],
+ add:[
+ ["u = new red Node(x)","A new red leaf does not increase black height."],
+ ["insert u as an ordinary BST leaf","Compare keys and attach the new node."],
+ ["if u is root: colour it black","Root must be black after the operation."],
+ ["if parent.left is black: flipLeft(parent)","Eliminate a lone right-leaning red child by swapping colours and rotating left."],
+ ["if parent is black: stop","The new red node has a black parent, so no red-red violation exists."],
+ ["if grandparent.right is black: flipRight(grandparent)","Use a colour-swapping right rotation when the outer red-red pair has no red uncle."],
+ ["otherwise pushBlack(grandparent); repeat","Make both children black and grandparent red; continue upward."],
+ ["return added","BST order, black height, and left-leaning must hold on completion."]
+ ],
+ remove:[
+ ["locate x; choose splice node w","If two children exist, splice the inorder successor and copy its key."],
+ ["splice(w); successor.colour += w.colour","Preserve black count with a temporary double-black node when needed."],
+ ["if double black at root: set black","A double-black root can be safely recoloured."],
+ ["case 1: red left sibling → flipRight(parent)","Move a red left sibling upward, preparing another fixup case."],
+ ["case 2: double black on left → pull/flip left","Pull black from the parent, then repair with flips and rotations."],
+ ["case 3: double black on right → pull/flip right","Mirror the previous repair, respecting left-leaning."],
+ ["if right red, left black: flipLeft","Restore the final left-leaning property."],
+ ["return removed","The completed operation again satisfies all invariants."]
+ ]
+};
+const WHY={map:"Red links are internal connections inside one 2–4 tree node.",rules:"These constraints are maintained after each completed update; intermediate repair frames can be temporarily invalid.",ops:"The operation follows Morin's left-leaning RedBlackTree, including a temporary double-black colour during deletion."};
+function frame(fr,t,title,detail,line,active=null,result="",ghost=null,phase=""){
+const c=check(t);fr.push({tree:plain(t.root),n:t.n,title,detail,line,active,result,ghost,phase,bh:c.bh,valid:c.ok})}
+function makeRecorder(fr,t,which){let comparisons=0,fixes=0;
+const emit=(title,detail,phase,line,active=null,result="",ghost=null)=>{if(phase==="search")comparisons++;frame(fr,t,title,detail,line,active,result,ghost,phase)};
+return{emit,counts:()=>({comparisons,fixes}),fix:()=>{fixes++}}}
+function insert(t,x){
+const fr=[],rec=makeRecorder(fr,t,"add"),emit=rec.emit;
+emit("Begin adding "+x,"First locate the BST insertion position.","search",0);
+let parent=NIL,u=t.root;
+while(u!==NIL){emit("Compare "+x+" with "+u.k,x<u.k?"Continue left.":x>u.k?"Continue right.":"Duplicate detected; no change.","search",1,u.k);
+if(x===u.k){emit("Duplicate rejected","The ordered set already contains "+x+".","finish",7,u.k,"add("+x+") = false");return fr}
+parent=u;u=x<u.k?u.left:u.right}
+u=make(x,RED,parent);if(parent===NIL)t.root=u;else if(x<parent.k)parent.left=u;else parent.right=u;t.n++;
+emit("Attach red leaf "+x,"New red node is attached under "+(parent===NIL?"the empty root.":parent.k+"."),"insert",1,x);
+while(u.c===RED){
+if(u===t.root){u.c=BLACK;emit("Colour root black","A newly inserted root can safely become black.","fix",2,u.k);break}
+let w=u.parent;
+if(w.left.c===BLACK){const old=w.k;flipLeft(t,w);rec.fix();emit("flipLeft("+old+")","A right-leaning red edge is corrected with a colour-swap and left rotation.","fix",3,u.k);
+u=w;w=u.parent}
+if(w.c===BLACK){emit("Red parent check finished","The current red node has a black parent, so there is no red-red edge.","fix",4,u.k);break}
+const g=w.parent;if(g===NIL)throw Error("Red parent without a grandparent");
+if(g.right.c===BLACK){const old=g.k;flipRight(t,g);rec.fix();emit("flipRight("+old+")","Promote the red left child, recolouring during a right rotation.","fix",5,w.k);break}
+const old=g.k;pushBlack(g);rec.fix();emit("pushBlack("+old+")","Darken both red children; lighten grandparent and repeat upward.","fix",6,g.k);u=g;
+}
+const result=check(t);if(!result.ok)throw Error("Insertion broke invariants: "+result.faults.join("; "));
+emit("Addition complete","All red-black properties are restored; keys remain in sorted order.","finish",7,x,"add("+x+") = true");
+return fr;
+}
+function remove(t,x){
+const fr=[],rec=makeRecorder(fr,t,"remove"),emit=rec.emit;
+emit("Locate key "+x,"Use an exact-key search before deletion.","search",0);
+let w=findExact(t,x,u=>emit("Compare "+x+" with "+u.k,x===u.k?"Matching key found.":x<u.k?"Follow left.":"Follow right.","search",0,u.k));
+if(w===NIL){emit("Key absent","There is no matching key, so the tree is unchanged.","finish",7,null,"remove("+x+") = false");return fr}
+let target=w,child;
+if(w.right===NIL){child=w.left;}
+else{w=w.right;while(w.left!==NIL)w=w.left;
+const value=w.k;target.k=value;emit("Copy inorder successor "+value,"The original target takes the successor's key; splice its successor node.","search",0,target.k);
+child=w.right;
+}
+const parent=w.parent,wasLeft=parent!==NIL&&parent.left===w;
+link(t,parent,w,child);
+if(child===NIL){NIL.parent=parent}
+child.c+=w.c;t.n--;
+const ghost=()=>child===NIL&&NIL.c===2?{parent:parent===NIL?null:parent.k,side:wasLeft?"left":"right",colour:2}:null;
+emit("Splice node "+w.k,"Black colour is added to its replacement. A value of 2 is temporarily double black.","fix",1,child===NIL?null:child.k,"",ghost());
+let u=child;
+let cycles=0;
+while(u.c>BLACK){
+if(++cycles>30)throw Error("Deletion fixup did not converge");
+if(u===t.root){u.c=BLACK;emit("Case 0: double-black root","Colour the root black and stop the deficit from propagating.","fix",2,u===NIL?null:u.k);break}
+if(u.parent.left.c===RED){
+const old=u.parent.k;flipRight(t,u.parent);rec.fix();
+emit("Case 1: flipRight("+old+")","A red left sibling rises, converting the configuration to a subsequent case.","fix",3,u===NIL?null:u.k,"",ghost());
+continue;
+}
+if(u===u.parent.left){
+let w=u.parent,v=w.right;
+pullBlack(w);rec.fix();emit("Case 2: pullBlack("+w.k+")","Move one unit of black down to both children; the parent becomes darker.","fix",4,w.k,"",ghost());
+flipLeft(t,w);rec.fix();emit("Case 2: flipLeft("+w.k+")","Restore the left-leaning orientation after the pull.","fix",4,v.k,"",ghost());
+let q=w.right;
+if(q.c===RED){
+rotateLeft(t,w);rec.fix();emit("Case 2: rotateLeft("+w.k+")","Resolve the extra red-red edge in the restructured subtree.","fix",4,q.k,"",ghost());
+flipRight(t,v);rec.fix();pushBlack(q);rec.fix();
+emit("Case 2: flipRight and pushBlack","Finish recolouring the restructured subtree.","fix",4,q.k,"",ghost());
+if(v.right.c===RED){flipLeft(t,v);rec.fix();emit("Case 2: final flipLeft","Correct a remaining right-leaning red link.","fix",4,v.k,"",ghost())}
+u=q;
+}else{u=v;emit("Case 2: propagate","Continue with the new subtree root if it remains double black.","fix",4,u.k,"",ghost())}
+}else{
+let w=u.parent,v=w.left;
+pullBlack(w);rec.fix();emit("Case 3: pullBlack("+w.k+")","Move one unit of black down to both children.","fix",5,w.k,"",ghost());
+flipRight(t,w);rec.fix();emit("Case 3: flipRight("+w.k+")","Promote the black sibling on the left.","fix",5,v.k,"",ghost());
+let q=w.left;
+if(q.c===RED){
+rotateRight(t,w);rec.fix();flipLeft(t,v);rec.fix();pushBlack(q);rec.fix();u=q;
+emit("Case 3: rotate, flip, push","Resolve red-red adjacency and distribute black height.","fix",5,u.k,"",ghost());
+}else if(v.left.c===RED){pushBlack(v);rec.fix();u=v;emit("Case 3: pushBlack("+v.k+")","Two red children absorb the extra black; the branch is complete.","fix",5,u.k,"",ghost())}
+else{flipLeft(t,v);rec.fix();u=w;emit("Case 3: flipLeft("+v.k+")","Restore left leaning and continue with the parent-side subtree.","fix",5,u.k,"",ghost())}
+}
+}
+if(u!==t.root){const w=u.parent;if(w!==NIL&&w.right.c===RED&&w.left.c===BLACK){const old=w.k;flipLeft(t,w);rec.fix();emit("Final flipLeft("+old+")","Correct the remaining right-leaning red link.","fix",6,old)}}
+if(NIL.c!==BLACK)throw Error("Sentinel colour not restored: "+NIL.c);
+const verified=check(t);if(!verified.ok)throw Error("Deletion broke invariants: "+verified.faults.join("; "));
+emit("Removal complete","Black-height, no-red-edge, and left-leaning properties are restored.","finish",7,null,"remove("+x+") = true");
+return fr;
+}
+function groupTree(root){
+if(root===NIL)return null;
+if(root.c!==BLACK)throw Error("2–4 grouping expects black root");
+const redL=root.left!==NIL&&root.left.c===RED,redR=root.right!==NIL&&root.right.c===RED;
+const list=[...redL?[root.left.k]:[],root.k,...redR?[root.right.k]:[]];
+const next=[...redL?[root.left.left,root.left.right]:[root.left],...redR?[root.right.left,root.right.right]:[root.right]].filter(x=>x!==NIL);
+return{list,kids:next.map(groupTree)};
+}
+function groupLevels(g){if(!g)return[];const rows=[];function walk(n,d){(rows[d]??=[]).push(n.list.join(" · "));n.kids.forEach(c=>walk(c,d+1))}walk(g,0);return rows}
+function baseline(vals=[40,20,60,10,30,50,70,25,35]){NIL.c=BLACK;NIL.parent=NIL;const t=newTree();for(const x of vals)insert(t,x);return t}
+const EX={
+map:[["two","2-node (1 key)"],["three","3-node (2 keys)"],["four","4-node (3 keys)"],["mixed","Mixed 2–4 tree"]],
+rules:[["balanced","Black heights"],["redlinks","Red links"],["chain","Balanced shape"]],
+ops:[["flipLeft","Insert 30 · flipLeft"],["flipRight","Insert 10 · flipRight"],["pushBlack","Insert 40 · pushBlack"],["removeCase","Deletion fix-up"],["successor","Find successor 35"]]
+};
+const exampleSeed={
+two:[40],three:[40,20],four:[40,20,60],mixed:[40,20,60,10,30,50,70,25,35],
+balanced:[40,20,60,10,30,50,70],redlinks:[40,20,60],chain:[10,20,30,40,50,60,70],
+flipLeft:[20],flipRight:[30,20],pushBlack:[20,10,30],removeCase:[10,20,30,40,50,60,70,80,90,100,110],successor:[40,20,60,10,30,50,70]
+};
+let mode="map",op="add",current=baseline(),frames=[],cursor=0,timer=null,delay=1050,showNil=false;
+function pause(){if(timer)clearInterval(timer);timer=null;$("play").textContent="▶ Play"}
+function fail(s){$("error").hidden=!s;$("error").textContent=s||""}
+function tutorial(){
+const fr=[];const code=mode==="map"?"map":"rules";const t=current;
+const steps=mode==="map"?[
+ ["Observe black nodes","Black keys form the structural nodes of the corresponding 2–4 tree."],
+ ["Contract red links","Any red child contributes its key to the same light-green group as its black parent."],
+ ["Count keys per group","One key is a 2-node, two keys a 3-node, three keys a 4-node."],
+ ["Reconnect groups","Only black-to-black external group links remain after contraction."],
+ ["Compare black heights","Every black-to-nil path has the same count, so 2–4 external leaves share a depth."]
+ ]:[
+ ["The root is black","A valid finished red-black tree always has a black root."],
+ ["Nil is black","Missing children count as black external leaves."],
+ ["No adjacent red nodes","A red parent with a red child would violate the no-red-edge property."],
+ ["Equal black height","All root-to-nil paths must have the same black-node count."],
+ ["Only left-leaning single reds","A red right child is permitted only if the left child is also red."],
+ ["Logarithmic height","These rules guarantee worst-case O(log n) height."]
+ ];
+steps.forEach(([title,detail],i)=>frame(fr,t,title,detail,i,mode==="map"?null:t.root===NIL?null:t.root.k,mode==="map"?"2–4 correspondence":"Properties verified"));
+return fr;
+}
+function ready(){pause();frames=tutorial();cursor=0;render()}
+function showTab(next){pause();mode=next;document.querySelectorAll("[data-mode]").forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on))});
+$("opField").hidden=mode!=="ops";$("keyField").hidden=mode!=="ops";$("animate").textContent=mode==="ops"?"▶ Animate":"▶ Guided tour";
+$("intro").textContent=mode==="map"?"9.1 · Each red child contracts into its black parent. Open the equivalent 2–4 tree view below the binary drawing.":mode==="rules"?"9.2 · Check black height, red-red edges, and Morin's left-leaning property; black nil leaves are included in black height.":"9.2 · Insert a red BST leaf, then fix violations with Morin's rotations and colour operations. Deletions may temporarily create double black.";
+$("mapping").open=mode==="map";$("mapping").hidden=false;
+$("sectionName").textContent=mode==="map"?"§9.1 · 2–4 correspondence":mode==="rules"?"§9.2 · Invariants":"§9.2 · Updates";
+$("resultLabel").textContent=mode==="ops"?"Operation result":"Lesson focus";
+$("concept").textContent=WHY[mode];
+$("examples").innerHTML=EX[mode].map(([id,label])=>'<button type="button" class="chip" data-example="'+id+'">'+esc(label)+'</button>').join(" ");
+document.querySelectorAll("[data-example]").forEach(b=>b.addEventListener("click",()=>example(b.dataset.example)));
+ready();
+}
+function example(tag){
+pause();fail("");
+const seq=exampleSeed[tag];if(!seq)return;
+current=baseline(seq);
+if(mode==="ops"){
+if(tag==="flipLeft"){op="add";$("key").value=30}
+else if(tag==="flipRight"){op="add";$("key").value=10}
+else if(tag==="pushBlack"){op="add";$("key").value=40}
+else if(tag==="removeCase"){op="remove";$("key").value=30}
+else{op="find";$("key").value=35}
+$("operation").value=op;perform();if($("error").hidden&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)play()
+}else ready();
+}
+function perform(){
+pause();fail("");
+if(mode!=="ops"){ready();return}
+const raw=$("key").value.trim(),x=Number(raw);
+if(!raw||!Number.isInteger(x)||x<-999||x>999)return fail("Enter an integer between −999 and 999.");
+if(op==="add"&&current.n>=20)return fail("For readability, the teaching tree is limited to 20 keys.");
+const t=clone(current);NIL.c=BLACK;NIL.parent=NIL;
+try{
+ let fr;
+ if(op==="add")fr=insert(t,x);else if(op==="remove")fr=remove(t,x);
+ else{fr=[];const emit=(title,detail,phase,line,active,result)=>frame(fr,t,title,detail,line,active,result,null,phase);successor(t,x,emit)}
+ const checked=check(t);if(!checked.ok)throw Error(checked.faults.join(", "));
+ current=t;frames=fr;cursor=0;render();
+}catch(e){NIL.c=BLACK;fail("Unable to complete that demonstration: "+e.message)}
+}
+function layout(root){
+const coords={},positions=[];let i=0,maximum=0;
+function walk(n,d){if(!n)return;walk(n.l,d+1);coords[n.k]={x:76+(++i)*84,y:69+d*104};positions.push(n);maximum=Math.max(maximum,d);walk(n.r,d+1)}
+walk(root,0);return{coords,width:Math.max(730,(i+2)*84+60),height:Math.max(310,125+(maximum+1)*104),nodes:positions};
+}
+function draw(f){
+const svg=$("tree"),t=f.tree,geo=layout(t),hit=f.active;svg.setAttribute("viewBox","0 0 "+geo.width+" "+geo.height);svg.setAttribute("width",geo.width);svg.setAttribute("height",geo.height);
+svg.setAttribute("aria-label","Red-black tree with "+f.n+" nodes, "+(f.ghost?"one double-black nil placeholder":"red and black nodes")+".");
+let bits="";
+function edges(u){if(!u)return;const a=geo.coords[u.k];for(const c of [u.l,u.r])if(c){const b=geo.coords[c.k];bits+='<path class="edge'+((hit===u.k||hit===c.k)?" marked":"")+'" d="M '+a.x+' '+(a.y+26)+' L '+b.x+' '+(b.y-27)+'"/>';edges(c)}}
+edges(t);
+for(const u of geo.nodes){const p=geo.coords[u.k],c=u.c===RED?"red":u.c===BLACK?"black":"double";
+bits+='<g class="rb '+c+(u.k===hit?" marked":"")+'"><circle class="halo" cx="'+p.x+'" cy="'+p.y+'" r="31"/><circle class="disc" cx="'+p.x+'" cy="'+p.y+'" r="26"/><text class="key" x="'+p.x+'" y="'+(p.y-4)+'">'+u.k+'</text><text class="colour" x="'+p.x+'" y="'+(p.y+17)+'">'+(c==="red"?"R":c==="black"?"B":"2")+'</text></g>'}
+if(showNil){
+function nils(u){if(!u)return;for(const side of ["l","r"]){const c=u[side];if(c){nils(c);continue}const p=geo.coords[u.k],x=p.x+(side==="l"?-35:35),y=p.y+52;bits+='<path class="edge" stroke-dasharray="3 4" d="M '+p.x+' '+(p.y+26)+' L '+x+' '+(y-12)+'"/><rect class="nil-box" x="'+(x-14)+'" y="'+(y-12)+'" width="28" height="24" rx="4"/><text class="nil-text" x="'+x+'" y="'+(y+4)+'">nil</text>'}}
+nils(t)}
+if(f.ghost){
+const gp=f.ghost.parent,spot=geo.coords[gp];if(spot){const x=spot.x+(f.ghost.side==="left"?-39:39),y=spot.y+66;bits+='<rect x="'+(x-26)+'" y="'+(y-17)+'" width="52" height="34" rx="8" fill="#60379a" stroke="#412b77" stroke-width="2"/><text x="'+x+'" y="'+(y+5)+'" fill="white" font-size="11" font-weight="800" text-anchor="middle">2·nil</text>'}}
+if(!t)bits='<text x="80" y="110" fill="#365767" font-size="16">Empty red-black tree</text>';
+svg.innerHTML=bits;
+}
+function drawMapping(f){
+const holder=$("mapSvg"),root=fromPlain(f.tree);
+let grouped;try{grouped=groupTree(root)}catch(e){holder.innerHTML='<text x="20" y="35">2–4 grouping is temporarily unavailable during fix-up.</text>';return}
+if(!grouped){holder.innerHTML='<text x="20" y="38">No groups in an empty tree.</text>';holder.setAttribute("width","700");holder.setAttribute("height","80");return}
+let leaf=0,maxDepth=0;const pos=[];
+function measure(node,d){maxDepth=Math.max(d,maxDepth);if(node.kids.length===0){node.x=65+(++leaf)*108}else{node.kids.forEach(c=>measure(c,d+1));node.x=(node.kids[0].x+node.kids.at(-1).x)/2}node.y=48+d*88;pos.push(node)}
+measure(grouped,0);
+const width=Math.max(600,(leaf+2)*108+60),height=105+(maxDepth+1)*88;
+holder.setAttribute("viewBox","0 0 "+width+" "+height);holder.setAttribute("width",width);holder.setAttribute("height",height);
+let svg="";for(const g of pos)for(const c of g.kids)svg+='<path class="group-edge" d="M '+g.x+' '+(g.y+21)+' L '+c.x+' '+(c.y-21)+'"/>';
+for(const g of pos){const text=g.list.join(" · "),w=Math.max(64,g.list.length*43);svg+='<rect class="group-node" x="'+(g.x-w/2)+'" y="'+(g.y-20)+'" rx="9" width="'+w+'" height="40"/><text class="group-text" x="'+g.x+'" y="'+g.y+'">'+esc(text)+'</text>'}
+holder.innerHTML=svg;
+}
+function render(){
+const f=frames[cursor],codeKey=mode==="ops"?op:mode,rows=CODES[codeKey]||CODES.rules;
+const selected=Math.min(rows.length-1,Math.max(0,f.line));
+$("stepTitle").textContent=f.title;$("result").textContent=f.result||f.detail;$("codePill").textContent=mode==="ops"?op+"(x)":mode==="map"?"2–4 grouping":"Tree properties";
+$("code").innerHTML=rows.map((row,i)=>'<div class="line'+(i===selected?" active":"")+'">'+esc(row[0])+'</div>').join("");
+$("why").textContent=rows[selected][1];$("detail").textContent=f.detail;
+$("diagramTitle").textContent=mode==="map"?"Left-leaning red-black representation":mode==="rules"?"Verify the structural invariants":mode==="ops"?"Trace the actual colour and pointer changes":"Red-black tree";
+$("metricN").textContent=f.n;$("metricHeight").textContent=high(fromPlain(f.tree));$("metricBlack").textContent=f.bh;
+$("metricFix").textContent=frames.slice(0,cursor+1).filter(z=>/flip|rotate|pushBlack|pullBlack/i.test(z.title)).length;
+$("counter").textContent="Step "+(cursor+1)+" of "+frames.length;$("prev").disabled=cursor===0;$("next").disabled=cursor===frames.length-1;$("progress").max=frames.length-1;$("progress").value=cursor;
+const stable=mode!=="ops"||cursor===frames.length-1||f.phase==="finish";
+const source=stable?fromPlain(f.tree):current.root,expected=stable?check({root:source,n:f.n}):check(current);
+$("audit").textContent=stable?(expected.ok?"PASS · root black · equal black heights · no red-red · left-leaning.":"CHECK FAILED · "+expected.faults.join("; ")):"Intermediate repair frame: invariants may be temporarily violated. The completed operation is verified.";
+$("trace").textContent="Inorder keys: ["+keys(source).join(", ")+"] · "+(f.ghost?"Double-black nil shown in purple.":"Nil leaves count as black.");
+$("animated-diagram-description").textContent="Step "+(cursor+1)+" of "+frames.length+": "+f.title+". "+f.detail+" The tree contains "+f.n+" keys: "+keys(fromPlain(f.tree)).join(", ")+". "+(f.ghost?"Double-black nil child of "+f.ghost.parent+". ":"")+ (stable?$("audit").textContent:"");
+draw(f);drawMapping(f);
+}
+function seek(i){cursor=Math.max(0,Math.min(frames.length-1,i));render()}
+function play(){if(timer){pause();return}if(cursor>=frames.length-1)seek(0);timer=setInterval(()=>{seek(cursor+1);if(cursor>=frames.length-1)pause()},delay);$("play").textContent="Ⅱ Pause"}
+$("animate").addEventListener("click",()=>{perform();if($("error").hidden&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)play()});
+$("reset").addEventListener("click",()=>{NIL.c=BLACK;NIL.parent=NIL;current=baseline();fail("");ready()});
+$("operation").addEventListener("change",e=>{op=e.target.value;ready()});
+$("showNil").addEventListener("change",e=>{showNil=e.target.checked;render()});
+document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.mode)));
+$("prev").addEventListener("click",()=>{pause();seek(cursor-1)});$("next").addEventListener("click",()=>{pause();seek(cursor+1)});$("restart").addEventListener("click",()=>{pause();seek(0)});
+$("play").addEventListener("click",play);$("progress").addEventListener("input",e=>{pause();seek(Number(e.target.value))});
+$("speed").addEventListener("change",e=>{delay=Number(e.target.value);if(timer){pause();play()}});
+document.addEventListener("keydown",e=>{if(["BUTTON","INPUT","SELECT"].includes(document.activeElement.tagName))return;if(e.key==="ArrowRight"){pause();seek(cursor+1)}else if(e.key==="ArrowLeft"){pause();seek(cursor-1)}else if(e.key===" "){e.preventDefault();play()}});
+current=baseline();showTab("map");
+})();
+</script></body></html>
