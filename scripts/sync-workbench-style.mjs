@@ -11,7 +11,8 @@ const names = [
   'binary_tree_traversals_6_1_interactive.html',
   'bst_section_6_2_interactive.html',
   'random_binary_search_trees_chapter_7_interactive.html',
-  'scapegoat_trees_chapter_8_interactive.html'
+  'scapegoat_trees_chapter_8_interactive.html',
+  'red_black_trees_chapter_9_interactive.html'
 ];
 const css = readFileSync(resolve(repo, 'styles/workbench.css'), 'utf8').trimEnd();
 const start = '/* WORKBENCH_STYLE_START */';
