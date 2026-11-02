@@ -2,7 +2,7 @@
 
 **Target:** WCAG 2.2 AA for each standalone interactive lab, aiming for AAA enhanced text contrast and other AAA criteria when practicable.
 
-**Status (October 25, 2026):** Source-level improvements are committed, but formal conformance has **not** been established. A site-wide AA or AAA compliance claim should not be made until browser-based automated checks and hands-on assistive-technology testing are complete.
+**Status (November 1, 2026):** Source-level improvements are committed, but formal conformance has **not** been established. A site-wide AA or AAA compliance claim should not be made until browser-based automated checks and hands-on assistive-technology testing are complete.
 
 ## Implemented improvements
 
@@ -11,11 +11,12 @@
 - Enlarged control targets, stronger foreground contrast and visible keyboard focus.
 - Programmatically associated speed labels, updated accessible playback state, and a readable step number for the progress slider.
 - Current-state text descriptions associated with dynamic diagrams.
-- System reduced-motion preference prevents automatic playback on the Animate / guided-example buttons, including Chapters 7 and 8; Play remains available by choice.
+- System reduced-motion preference prevents automatic playback on the Animate / guided-example buttons, including Chapters 7–9; Play remains available by choice.
 - Optional prediction prompts without submissions, grading or forced interactions.
 - Shared visual and accessible-control styles are embedded in each standalone lab to retain offline operation. A source-of-truth CSS file and drift checks keep them consistent.
-- All ten labs have automated browser regression coverage and are included in the automated AA audit; AAA is advisory.
-- Chapter 6 anatomy and Chapters 7–8 expose textual descriptions of diagram state. Scrolling regions in the latter two are keyboard-focusable.
+- All eleven labs have automated browser regression coverage and are included in the automated AA audit; AAA is advisory.
+- Chapter 6 anatomy and Chapters 7–9 expose textual descriptions of diagram state. Scrolling regions in the latter two are keyboard-focusable.
+- The Chapter 9 red-black tree lab includes keyboard-accessible diagrams and pseudocode, live invariant text, and an alternative 2–4 tree representation.
 - Single-file, dependency-free labs remain usable offline.
 
 ## Still requiring verification
