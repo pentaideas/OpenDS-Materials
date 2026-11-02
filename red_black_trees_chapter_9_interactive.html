@@ -341,7 +341,7 @@ if(w===NIL){emit("Key absent","There is no matching key, so the tree is unchange
 let target=w,child;
 if(w.right===NIL){child=w.left;}
 else{w=w.right;while(w.left!==NIL)w=w.left;
-const value=w.k;target.k=value;emit("Copy inorder successor "+value,"The original target takes the successor's key; splice its successor node.","search",0,target.k);
+const value=w.k;emit("Identify inorder successor "+value,"The successor will replace the target key when its node is spliced.","search",0,target.k);target.k=value;
 child=w.right;
 }
 const parent=w.parent,wasLeft=parent!==NIL&&parent.left===w;
@@ -403,18 +403,19 @@ function baseline(vals=[40,20,60,10,30,50,70,25,35]){NIL.c=BLACK;NIL.parent=NIL;
 const EX={
 map:[["two","2-node (1 key)"],["three","3-node (2 keys)"],["four","4-node (3 keys)"],["mixed","Mixed 2–4 tree"]],
 rules:[["balanced","Black heights"],["redlinks","Red links"],["chain","Balanced shape"]],
-ops:[["flipLeft","Insert 30 · flipLeft"],["flipRight","Insert 10 · flipRight"],["pushBlack","Insert 40 · pushBlack"],["removeCase","Deletion fix-up"],["successor","Find successor 35"]]
+ops:[["flipLeft","Insert 30 · flipLeft"],["flipRight","Insert 10 · flipRight"],["pushBlack","Insert 40 · pushBlack"],["case0","Delete single root · case 0"],["case1","Red sibling · case 1"],["case2","Double black on left · case 2"],["case3","Double black on right · case 3"],["successor","Find successor 35"]]
 };
 const exampleSeed={
 two:[40],three:[40,20],four:[40,20,60],mixed:[40,20,60,10,30,50,70,25,35],
 balanced:[40,20,60,10,30,50,70],redlinks:[40,20,60],chain:[10,20,30,40,50,60,70],
-flipLeft:[20],flipRight:[30,20],pushBlack:[20,10,30],removeCase:[10,20,30,40,50,60,70,80,90,100,110],successor:[40,20,60,10,30,50,70]
+flipLeft:[20],flipRight:[30,20],pushBlack:[20,10,30],case0:[10],case1:[5,63,2,62,6,48,29,28,21,42,11,20],case2:[5,63,2,62,6,48,29,28,21,42,11,20],case3:[5,63,2,62,6,48,29,28,21,42,11,20],successor:[40,20,60,10,30,50,70]
 };
 let mode="map",op="add",current=baseline(),frames=[],cursor=0,timer=null,delay=1050,showNil=false;
 function pause(){if(timer)clearInterval(timer);timer=null;$("play").textContent="▶ Play"}
 function fail(s){$("error").hidden=!s;$("error").textContent=s||""}
 function tutorial(){
 const fr=[];const code=mode==="map"?"map":"rules";const t=current;
+if(mode==="ops"){frame(fr,t,"Choose an operation","Enter a key or select a guided insertion or deletion case. Each operation starts from the completed tree state.",0,null,"Ready.");return fr;}
 const steps=mode==="map"?[
  ["Observe black nodes","Black keys form the structural nodes of the corresponding 2–4 tree."],
  ["Contract red links","Any red child contributes its key to the same light-green group as its black parent."],
@@ -452,7 +453,9 @@ if(mode==="ops"){
 if(tag==="flipLeft"){op="add";$("key").value=30}
 else if(tag==="flipRight"){op="add";$("key").value=10}
 else if(tag==="pushBlack"){op="add";$("key").value=40}
-else if(tag==="removeCase"){op="remove";$("key").value=30}
+else if(tag==="case0"){op="remove";$("key").value=10}
+else if(tag==="case1"||tag==="case3"){op="remove";$("key").value=21}
+else if(tag==="case2"){op="remove";$("key").value=2}
 else{op="find";$("key").value=35}
 $("operation").value=op;perform();if($("error").hidden&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)play()
 }else ready();
