@@ -1,6 +1,6 @@
 # OpenDS Materials
 
-Interactive, self-contained teaching materials for **Chapters 1–8** of Pat Morin's *Open Data Structures*.
+Interactive, self-contained teaching materials for **Chapters 1–9** of Pat Morin's *Open Data Structures*.
 
 ## Launch the labs
 
@@ -16,8 +16,9 @@ Interactive, self-contained teaching materials for **Chapters 1–8** of Pat Mor
 | **6.2 — BinarySearchTree** | [BST Operations](https://pentaideas.github.io/OpenDS-Materials/bst_section_6_2_interactive.html) | Search, successor search, insertion, deletion, tree height, and degenerate trees |
 | **7.1–7.2 — Random BSTs & Treaps** | [Random BSTs & Treaps](https://pentaideas.github.io/OpenDS-Materials/random_binary_search_trees_chapter_7_interactive.html) | Random insertion orders, min-heap priority, Treap find/add/remove and rotations |
 | **8.1 — ScapegoatTree** | [Scapegoat Trees](https://pentaideas.github.io/OpenDS-Materials/scapegoat_trees_chapter_8_interactive.html) | Depth bound, 2/3 subtree test, partial/full rebuilding, n and q counters |
+| **9.1–9.3 — Red-Black Trees** | [Interactive Red-Black Trees Lab](https://pentaideas.github.io/OpenDS-Materials/red_black_trees_chapter_9_interactive.html) | 2–4 correspondence, black-height/left-leaning rules, find/add/remove, colour flips, and double-black deletion |
 
-Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) to browse an eight-chapter index linking to all ten labs. The homepage includes a small, keyboard-operable array insertion walkthrough as a preview.
+Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Materials/) to browse a nine-chapter index linking to all eleven labs. The homepage includes a small, keyboard-operable array insertion walkthrough as a preview.
 
 ### Design system and maintenance
 
@@ -26,7 +27,7 @@ Open the [**GitHub Pages website**](https://pentaideas.github.io/OpenDS-Material
 - Those styles are **embedded into every lab HTML file**, preserving single-file/offline operation.
 - Run `npm run sync:styles` after editing the shared stylesheet, and `npm run check:styles` to verify that the embedded copies match. CI checks this before the browser tests.
 - Essential explanations and code are larger and more legible, with accessible focus indicators and stable placement across chapters.
-- The browser regression and axe-core accessibility audits cover all ten labs and the homepage. Formal WCAG conformance still requires manual verification.
+- The browser regression and axe-core accessibility audits cover all eleven labs and the homepage. Formal WCAG conformance still requires manual verification.
 
 
 ### Run locally
@@ -116,6 +117,15 @@ Each lab is a single HTML file with its CSS and JavaScript embedded. You can als
 - Remove keys, retain the historical `q`, and rebuild the full tree when `2n < q`.
 - Explore `rebuild(u)` as an explicit instructional demonstration.
 
+### Lab 9.1–9.3 — Red-black trees
+
+- Compare the left-leaning red-black representation against the corresponding 2–4 tree.
+- Inspect equal black-height, no red-red edge, left-leaning, and black nil leaves.
+- Animate Morin-style `find(x)`, `add(x)`, and `remove(x)`, including `flipLeft`, `flipRight`, `pushBlack`, `pullBlack`, and temporary double-black states.
+- Practice insertion cases and the book's deletion-fixup cases 0–3.
+- Show invariants, sorted keys, and plain-language explanations beneath the highlighted pseudocode.
+
+
 ## Accessibility and quality checks
 
 The labs target **WCAG 2.2 Level AA**, with enhanced contrast, clear focus indicators, keyboard-accessible transport controls, reduced-motion support, and text descriptions supplementing diagrams. AAA criteria are pursued where feasible; a full AAA or AA conformance claim requires manual testing and is **not yet made**. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for known verification work.
@@ -138,7 +148,7 @@ The labs are published at [https://pentaideas.github.io/OpenDS-Materials/](https
 
 The explanations and visualizations are original teaching materials that follow concepts from:
 
-Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 1–8, including §§2.1–2.6, 3.1–3.3, 4.1–4.4, 5.1–5.3, 6.1–6.2, 7.1–7.2, and 8.1).
+Pat Morin, *Open Data Structures* — [official online textbook](https://opendatastructures.org/) (Chapters 1–9, including §§2.1–2.6, 3.1–3.3, 4.1–4.4, 5.1–5.3, 6.1–6.2, 7.1–7.2, 8.1, and 9.1–9.3).
 
 These are supplementary interactive exercises, not an official edition or reproduction of the textbook.
 
@@ -157,5 +167,6 @@ OpenDS-Materials/
 ├── binary_tree_traversals_6_1_interactive.html
 ├── bst_section_6_2_interactive.html
 ├── random_binary_search_trees_chapter_7_interactive.html
-└── scapegoat_trees_chapter_8_interactive.html
+├── scapegoat_trees_chapter_8_interactive.html
+└── red_black_trees_chapter_9_interactive.html
 ```
